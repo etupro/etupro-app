@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'etupro-app';
+  protected readonly console = console;
 }
