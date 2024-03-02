@@ -8,13 +8,13 @@ import {Router} from "@angular/router";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  redirect = ['/home'];
+  redirect = ['/posts'];
 
   constructor(@Optional() private auth: Auth, private router: Router) {
   }
 
   async loginAnonymously() {
-    await signInAnonymously(this.auth);
-    await this.router.navigate(this.redirect);
+    signInAnonymously(this.auth)
+      .then(() => this.router.navigate(this.redirect));
   }
 }

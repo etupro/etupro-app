@@ -1,0 +1,26 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+
+  mat-card {
+    width: 480px;
+
+    mat-card-title {
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+    }
+
+    mat-card-content {
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

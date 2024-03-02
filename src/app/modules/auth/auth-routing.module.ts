@@ -4,7 +4,7 @@ import {LoginComponent} from "./login/login.component";
 import {LogoutComponent} from "./logout/logout.component";
 import {canActivate, redirectLoggedInTo, redirectUnauthorizedTo} from "@angular/fire/auth-guard";
 
-const redirectLoggedInToHome = () => redirectLoggedInTo(['/home']);
+const redirectLoggedInToHome = () => redirectLoggedInTo(['/posts']);
 const redirectLogoutToLogin = () => redirectUnauthorizedTo(['/login']);
 
 const routes: Routes = [

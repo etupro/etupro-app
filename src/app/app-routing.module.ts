@@ -10,8 +10,8 @@ const routes: Routes = [
     loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule),
   },
   {
-    path: 'home',
-    loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule),
+    path: 'posts',
+    loadChildren: () => import('./modules/post/post.module').then(m => m.PostModule),
     ...canActivate(redirectUnauthorizedToLogin),
   },
 ];

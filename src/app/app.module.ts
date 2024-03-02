@@ -8,6 +8,7 @@ import {FirebaseOptions} from "firebase/app";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {getAuth, provideAuth} from "@angular/fire/auth";
 import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
+import {getFirestore, provideFirestore} from "@angular/fire/firestore";
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: AppProperties.FIREBASE_CONFIG.API_KEY,
@@ -28,6 +29,7 @@ const firebaseConfig: FirebaseOptions = {
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
     BrowserAnimationsModule,
   ],
   providers: [],
