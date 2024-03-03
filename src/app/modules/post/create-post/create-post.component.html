@@ -7,16 +7,22 @@
     <mat-form-field class="title-form-field">
       <mat-label>Titre</mat-label>
       <input matInput [formControl]="postForm.controls.title">
+      <mat-error *ngIf="postForm.controls.title.hasError('required')">
+        Le titre est <strong>requis</strong>
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="content-form-field">
       <mat-label>Description</mat-label>
       <textarea matInput [formControl]="postForm.controls.content"></textarea>
+      <mat-error *ngIf="postForm.controls.content.hasError('required')">
+        La description est <strong>requise</strong>
+      </mat-error>
     </mat-form-field>
 
     <app-tags-input [control]="postForm.controls.tags"></app-tags-input>
 
   </form>
 
-  <button mat-raised-button>Publier</button>
+  <button mat-raised-button (click)="createPost()">Publier</button>
 </div>

@@ -21,12 +21,12 @@ export class TagsInputComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   tags: string[] = [];
   filteredTags: Observable<string[]>;
-  allTags: string[] = []
+  allTags: Set<string> = new Set();
 
   constructor(private referencesService: ReferencesService) {
     this.filteredTags = this.tagControl.valueChanges.pipe(
       startWith(null),
-      map((tag: string | null) => (tag ? this._filter(tag) : this.allTags.slice())),
+      map((tag: string | null) => (tag ? this._filter(tag) : Array.from(this.allTags))),
     );
   }
 
@@ -59,7 +59,7 @@ export class TagsInputComponent implements OnInit {
       this.tags.splice(index, 1);
     }
 
-    this.allTags.push(tag)
+    this.allTags.add(tag)
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -71,6 +71,6 @@ export class TagsInputComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue));
+    return Array.from(this.allTags).filter(tag => tag.toLowerCase().includes(filterValue));
   }
 }

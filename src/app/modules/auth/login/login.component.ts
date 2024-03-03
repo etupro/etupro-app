@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
 export class LoginComponent {
   redirect = ['/posts'];
 
-  constructor(@Optional() private auth: Auth, private router: Router) {
+  constructor(private auth: Auth, private router: Router) {
   }
 
   async loginAnonymously() {
