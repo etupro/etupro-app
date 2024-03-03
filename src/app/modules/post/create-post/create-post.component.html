@@ -6,34 +6,15 @@
   <form [formGroup]="postForm">
     <mat-form-field class="title-form-field">
       <mat-label>Titre</mat-label>
-      <input matInput formControlName="title">
+      <input matInput [formControl]="postForm.controls.title">
     </mat-form-field>
 
     <mat-form-field class="content-form-field">
       <mat-label>Description</mat-label>
-      <textarea matInput formControlName="content"></textarea>
+      <textarea matInput [formControl]="postForm.controls.content"></textarea>
     </mat-form-field>
 
-    <mat-form-field class="tags-form-field">
-      <mat-label>Tags</mat-label>
-      <mat-chip-grid #chipGrid aria-label="Séléction des tags">
-        <mat-chip-row *ngFor="let tag of tags" (removed)="remove(tag)">
-          {{tag}}
-          <button matChipRemove [attr.aria-label]="'supprimer  ' + tag">
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip-row>
-      </mat-chip-grid>
-      <input placeholder="Nouveau Tag..." #tagInput formControlName="tag"
-             [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
-             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-             (matChipInputTokenEnd)="add($event)"/>
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-        <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-          {{tag}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    <app-tags-input [control]="postForm.controls.tags"></app-tags-input>
 
   </form>
 
