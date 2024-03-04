@@ -11,11 +11,15 @@ export class HeaderComponent {
   constructor(private router: Router) {
   }
 
+  home() {
+    this.router.navigate(['/']);
+  }
+
   createPost() {
-    this.router.navigate(['/posts/create']);
+    this.router.navigate(['/', 'posts', 'create']);
   }
 
   logout() {
-    this.router.navigate(['/logout']);
+    this.router.navigate(['/', 'logout']);
   }
 }
