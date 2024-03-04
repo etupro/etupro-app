@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {PostsService} from "../../../shared/services/posts.service";
 import {Post} from "../../../shared/models/post.model";
 import {Auth} from "@angular/fire/auth";
+import {ReferencesService} from "../../../shared/services/references.service";
 
 @Component({
   selector: 'app-create-post',
@@ -18,12 +19,14 @@ export class CreatePostComponent {
   })
 
   constructor(private auth: Auth,
-              private postsService: PostsService) {}
+              private postsService: PostsService,
+              private referencesService: ReferencesService) {}
 
   createPost() {
     const userUid = this.auth.currentUser?.uid;
 
     if (!this.postForm.valid || !userUid) {
+      this.postForm.markAllAsTouched();
       return;
     }
 
@@ -31,13 +34,14 @@ export class CreatePostComponent {
     const content = this.postForm.value.content!;
     const tags = this.postForm.value.tags ?? [];
 
-    const post = Post.newBuilder()
-      .withAuthor(userUid)
-      .withTitle(title)
-      .withContent(content)
-      .withTags(tags)
-      .build();
+    const post = new Post({
+      author: userUid,
+      title,
+      content,
+      tags: new Set(tags)
+    });
 
     this.postsService.create(post);
+    this.referencesService.updateTags(new Set(tags));
   }
 }

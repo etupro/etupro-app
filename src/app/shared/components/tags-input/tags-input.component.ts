@@ -31,7 +31,7 @@ export class TagsInputComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.referencesService.getTags().subscribe(allTags => this.allTags = allTags);
+    this.referencesService.references$.subscribe(references => this.allTags = references?.tags ?? new Set());
     this.tags = this.tagsControl.value ?? [];
     this.tagsControl.valueChanges.subscribe(modules => {
       this.tags = modules ?? [];

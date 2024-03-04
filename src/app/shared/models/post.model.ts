@@ -6,41 +6,34 @@ export class Post {
   readonly author: string;
   readonly title: string;
   readonly content: string;
-  readonly tags: string[];
+  readonly tags: Set<string>;
 
-  constructor(builder: Post.Builder) {
-    this.id = builder.id;
-    this.author = builder.author;
-    this.title = builder.title;
-    this.content = builder.content;
-    this.tags = builder.tags;
+  constructor({
+                id,
+                author,
+                title,
+                content,
+                tags = new Set()
+              }: Post.Builder) {
+    this.id = id;
+    this.author = author;
+    this.title = title;
+    this.content = content;
+    this.tags = tags;
   }
 
-  static newBuilder(): Post.Builder {
-    return new Post.Builder();
-  }
-
-  static empty(): Post {
-    return Post.newBuilder().build();
-  }
-
-  static copy(copy: Post): Post.Builder {
-    return Post.newBuilder()
-      .withId(copy.id)
-      .withAuthor(copy.author)
-      .withTitle(copy.title)
-      .withContent(copy.content)
-      .withTags(copy.tags);
+  copy(partial: Partial<Post.Builder>): Post {
+    return new Post({...this, ...partial});
   }
 
   static fromDocumentData(data: DocumentData): Post {
-    return this.newBuilder()
-      .withId(data['id'])
-      .withAuthor(data['author'])
-      .withTitle(data['title'])
-      .withContent(data['content'])
-      .withTags(data['tags'])
-      .build();
+    return new Post({
+      id: data['id'],
+      author: data['author'],
+      title: data['title'],
+      content: data['content'],
+      tags: new Set(data['tags'])
+    });
   }
 
   toDocumentData(): DocumentData {
@@ -48,7 +41,7 @@ export class Post {
       author: this.author,
       title: this.title,
       content: this.content,
-      tags: this.tags,
+      tags: Array.from(this.tags),
     }
   }
 }
@@ -65,47 +58,11 @@ export namespace Post {
     }
   }
 
-  export class Builder {
-    id?: string;
-    author: string;
-    title: string;
-    content: string;
-    tags: string[];
-
-    constructor() {
-      this.author = '';
-      this.title = '';
-      this.content = '';
-      this.tags = []
-    }
-
-    withId(id?: string): Builder {
-      this.id = id;
-      return this;
-    }
-
-    withAuthor(author: string): Builder {
-      this.author = author;
-      return this;
-    }
-
-    withTitle(title: string): Builder {
-      this.title = title;
-      return this;
-    }
-
-    withContent(content: string): Builder {
-      this.content = content;
-      return this;
-    }
-
-    withTags(tags: string[]): Builder {
-      this.tags = tags;
-      return this;
-    }
-
-    build(): Post {
-      return new Post(this);
-    }
+  export interface Builder {
+    readonly id?: string;
+    readonly author: string;
+    readonly title: string;
+    readonly content: string;
+    readonly tags: Set<string>;
   }
 }
