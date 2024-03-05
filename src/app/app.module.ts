@@ -12,13 +12,13 @@ import {getFirestore, provideFirestore} from "@angular/fire/firestore";
 import {environment} from "../environments/environment";
 
 const firebaseConfig: FirebaseOptions = {
-  apiKey: environment.API_KEY,
-  authDomain: environment.AUTH_DOMAIN,
-  projectId: environment.PROJECT_ID,
-  storageBucket: environment.STORAGE_BUCKET,
-  messagingSenderId: environment.MESSAGING_SENDER_ID,
-  appId: environment.APP_ID,
-  measurementId: environment.MEASUREMENT_ID,
+  apiKey: environment.FIREBASE.API_KEY,
+  authDomain: environment.FIREBASE.AUTH_DOMAIN,
+  projectId: environment.FIREBASE.PROJECT_ID,
+  storageBucket: environment.FIREBASE.STORAGE_BUCKET,
+  messagingSenderId: environment.FIREBASE.MESSAGING_SENDER_ID,
+  appId: environment.FIREBASE.APP_ID,
+  measurementId: environment.FIREBASE.MEASUREMENT_ID,
 };
 
 @NgModule({
@@ -36,15 +36,4 @@ const firebaseConfig: FirebaseOptions = {
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule implements OnInit {
-  constructor() {
-    console.log('AppModule constructor')
-    console.log('environment: ', environment)
-  }
-
-  ngOnInit() {
-    console.log('AppModule ngOnInit')
-    console.log('environment: ', environment)
-    console.log('environment.ZSH: ', process.env.KEY_TO_READ)
-  }
-}
+export class AppModule {}

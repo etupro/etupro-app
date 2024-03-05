@@ -1,5 +1,5 @@
 export const environment = {
-  isProduction: true,
+  isProduction: false,
   FIREBASE: {
     API_KEY: "",
     AUTH_DOMAIN: "",
