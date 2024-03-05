@@ -10,6 +10,8 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
 import {ReactiveFormsModule} from "@angular/forms";
+import { PostCardComponent } from './post-card/post-card.component';
+import {MatCardModule} from "@angular/material/card";
 
 
 
@@ -17,10 +19,12 @@ import {ReactiveFormsModule} from "@angular/forms";
   declarations: [
     HeaderComponent,
     TagsInputComponent,
+    PostCardComponent,
   ],
   exports: [
     HeaderComponent,
     TagsInputComponent,
+    PostCardComponent,
   ],
   imports: [
     CommonModule,
@@ -31,7 +35,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     MatChipsModule,
     MatFormFieldModule,
     MatOptionModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule
   ]
 })
 export class ComponentsModule { }

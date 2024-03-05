@@ -21,16 +21,17 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     PostComponent,
     PostsComponent,
   ],
-  imports: [
-    CommonModule,
-    PostRoutingModule,
-    ComponentsModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatChipsModule,
-    MatIconModule,
-    MatAutocompleteModule,
-  ]
+    imports: [
+        CommonModule,
+        PostRoutingModule,
+        ComponentsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatChipsModule,
+        MatIconModule,
+        MatAutocompleteModule,
+        MatCardModule,
+    ]
 })
 export class PostModule { }
