@@ -1,9 +1,8 @@
-import {NgModule, OnInit} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {AppProperties} from "./app.properties";
 import {FirebaseOptions} from "firebase/app";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {getAuth, provideAuth} from "@angular/fire/auth";
