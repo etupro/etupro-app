@@ -43,3 +43,4 @@ Thumbs.db
 
 # Project
 app.properties.ts
+environment.development.ts

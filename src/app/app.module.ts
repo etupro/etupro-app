@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, OnInit} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -9,15 +9,16 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {getAuth, provideAuth} from "@angular/fire/auth";
 import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
 import {getFirestore, provideFirestore} from "@angular/fire/firestore";
+import {environment} from "../environments/environment";
 
 const firebaseConfig: FirebaseOptions = {
-  apiKey: AppProperties.FIREBASE_CONFIG.API_KEY,
-  authDomain: AppProperties.FIREBASE_CONFIG.AUTH_DOMAIN,
-  projectId: AppProperties.FIREBASE_CONFIG.PROJECT_ID,
-  storageBucket: AppProperties.FIREBASE_CONFIG.STORAGE_BUCKET,
-  messagingSenderId: AppProperties.FIREBASE_CONFIG.MESSAGING_SENDER_ID,
-  appId: AppProperties.FIREBASE_CONFIG.APP_ID,
-  measurementId: AppProperties.FIREBASE_CONFIG.MEASUREMENT_ID,
+  apiKey: environment.API_KEY,
+  authDomain: environment.AUTH_DOMAIN,
+  projectId: environment.PROJECT_ID,
+  storageBucket: environment.STORAGE_BUCKET,
+  messagingSenderId: environment.MESSAGING_SENDER_ID,
+  appId: environment.APP_ID,
+  measurementId: environment.MEASUREMENT_ID,
 };
 
 @NgModule({
@@ -35,4 +36,15 @@ const firebaseConfig: FirebaseOptions = {
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule implements OnInit {
+  constructor() {
+    console.log('AppModule constructor')
+    console.log('environment: ', environment)
+  }
+
+  ngOnInit() {
+    console.log('AppModule ngOnInit')
+    console.log('environment: ', environment)
+    console.log('environment.ZSH: ', process.env.KEY_TO_READ)
+  }
+}
