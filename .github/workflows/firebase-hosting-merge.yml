@@ -31,3 +31,5 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ETUPRO_8E99F }}'
           channelId: live
           projectId: etupro-8e99f
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
