@@ -1,5 +1,6 @@
 import {DocumentData, QueryDocumentSnapshot, SnapshotOptions} from "@angular/fire/firestore";
 import {FirestoreDataConverter} from "@firebase/firestore";
+import {DateTime} from "luxon";
 
 export class Post {
   readonly id?: string;
@@ -7,19 +8,17 @@ export class Post {
   readonly title: string;
   readonly content: string;
   readonly tags: Set<string>;
+  readonly createdAt: DateTime
+  readonly updatedAt: DateTime
 
-  constructor({
-                id,
-                author,
-                title,
-                content,
-                tags = new Set()
-              }: Post.Builder) {
-    this.id = id;
-    this.author = author;
-    this.title = title;
-    this.content = content;
-    this.tags = tags;
+  constructor(builder: Post.Builder) {
+    this.id = builder.id;
+    this.author = builder.author;
+    this.title = builder.title;
+    this.content = builder.content;
+    this.tags = builder.tags ?? new Set();
+    this.createdAt = builder.createdAt ?? DateTime.now();
+    this.updatedAt = builder.updatedAt ?? DateTime.now();
   }
 
   copy(partial: Partial<Post.Builder>): Post {
@@ -32,7 +31,9 @@ export class Post {
       author: data['author'],
       title: data['title'],
       content: data['content'],
-      tags: new Set(data['tags'])
+      tags: new Set(data['tags']),
+      createdAt: DateTime.fromMillis(data['createdAt']),
+      updatedAt: DateTime.fromMillis(data['updatedAt']),
     });
   }
 
@@ -42,6 +43,8 @@ export class Post {
       title: this.title,
       content: this.content,
       tags: Array.from(this.tags),
+      createdAt: this.createdAt.toMillis(),
+      updatedAt: this.updatedAt.toMillis(),
     }
   }
 }
@@ -63,6 +66,8 @@ export namespace Post {
     readonly author: string;
     readonly title: string;
     readonly content: string;
-    readonly tags: Set<string>;
+    readonly tags?: Set<string>;
+    readonly createdAt?: DateTime;
+    readonly updatedAt?: DateTime;
   }
 }

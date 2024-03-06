@@ -6,7 +6,8 @@ import {
   CollectionReference,
   doc,
   docData,
-  Firestore
+  Firestore, orderBy,
+  query,
 } from "@angular/fire/firestore";
 import {from, Observable} from "rxjs";
 import {Post} from "../models/post.model";
@@ -18,11 +19,13 @@ export class PostsService {
   postsCollection: CollectionReference<Post>;
 
   constructor(private firestore: Firestore) {
-    this.postsCollection = collection(firestore, 'posts').withConverter(new Post.Converter());
+    this.postsCollection = collection(this.firestore, 'posts').withConverter(new Post.Converter());
   }
 
   getAll(): Observable<Post[]> {
-    return collectionData(this.postsCollection, {idField: 'id'});
+    const c = collection(this.firestore, 'posts').withConverter(new Post.Converter());
+    const q = query(c, orderBy('createdAt', 'desc'))
+    return collectionData(q, {idField: 'id'});
   }
 
   get(id: string): Observable<Post | undefined> {
