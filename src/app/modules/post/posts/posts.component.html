@@ -1,5 +1,5 @@
 <app-header></app-header>
 
 <div class="post-cards-container">
-  <app-post-card *ngFor="let post of posts" [post]="post"/>
+  <app-post-card (click)="postClick(post)" *ngFor="let post of posts" [post]="post"/>
 </div>

@@ -18,14 +18,20 @@ export class ReferencesService {
     this.references$.subscribe(reference => this.references = reference);
   }
 
-  updateTags(newTags: Set<string>) {
+  async updateTags(newTags: Set<string>): Promise<void> {
     const tags = this.references?.tags ?? new Set();
     const mergedTags = new Set([...tags, ...newTags])
 
     const tagsChanged = tags.size !== mergedTags.size || ![...tags].every((x) => mergedTags.has(x))
     if (tagsChanged && this.references) {
       const copy = this.references.copy({tags: mergedTags});
-      setDoc(this.referencesDocument, copy)
+      await this.updateReferences(copy);
     }
+  }
+
+  async updateReferences(references: References): Promise<void> {
+    const postsCollection = collection(this.firestore, 'references');
+    this.referencesDocument = doc(postsCollection, 'RqZZRXeZpuBEEd8vAr8Y').withConverter(new References.Converter());
+    await setDoc(this.referencesDocument, references);
   }
 }

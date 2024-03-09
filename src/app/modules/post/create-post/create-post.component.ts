@@ -4,6 +4,7 @@ import {PostsService} from "../../../shared/services/posts.service";
 import {Post} from "../../../shared/models/post.model";
 import {Auth} from "@angular/fire/auth";
 import {ReferencesService} from "../../../shared/services/references.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-post',
@@ -19,13 +20,15 @@ export class CreatePostComponent {
   })
 
   constructor(private auth: Auth,
+              private router: Router,
               private postsService: PostsService,
               private referencesService: ReferencesService) {}
 
-  createPost() {
-    const userUid = this.auth.currentUser?.uid;
+  async createPost() {
+    const authorId = this.auth.currentUser?.uid;
+    const authorName = this.auth.currentUser?.displayName ?? 'Anonyme';
 
-    if (!this.postForm.valid || !userUid) {
+    if (!this.postForm.valid || !authorId || !authorName) {
       this.postForm.markAllAsTouched();
       return;
     }
@@ -35,13 +38,16 @@ export class CreatePostComponent {
     const tags = this.postForm.value.tags ?? [];
 
     const post = new Post({
-      author: userUid,
+      authorId,
+      authorName,
       title,
       content,
       tags: new Set(tags)
     });
 
-    this.postsService.create(post);
-    this.referencesService.updateTags(new Set(tags));
+    await this.referencesService.updateTags(new Set(tags));
+    const postId = await this.postsService.create(post);
+
+    await this.router.navigate(['/', 'posts', postId]);
   }
 }

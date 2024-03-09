@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
 import {PostsComponent} from "./posts/posts.component";
 import {CreatePostComponent} from "./create-post/create-post.component";
+import {PostComponent} from "./post/post.component";
 
 
 const routes: Routes = [
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'create',
     component: CreatePostComponent,
+  },
+  {
+    path: ':id',
+    component: PostComponent,
   },
 ];
 

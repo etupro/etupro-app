@@ -1,3 +1,24 @@
 <app-header></app-header>
 
-<h1>Post Page</h1>
+<div class="post-container">
+  <mat-card>
+    <mat-card-title>
+      {{ post?.title }}
+    </mat-card-title>
+
+    <mat-card-content>
+      {{ post?.content }}
+    </mat-card-content>
+
+    <mat-card-footer>
+      <mat-chip-listbox aria-label="Post tags">
+        <mat-chip-option *ngFor="let tag of post?.tags">{{ tag }}</mat-chip-option>
+      </mat-chip-listbox>
+    </mat-card-footer>
+  </mat-card>
+
+  <h1>Commentaires :</h1>
+
+  <app-comment-card *ngFor="let comment of comments" [comment]="comment"></app-comment-card>
+
+</div>
