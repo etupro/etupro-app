@@ -13,6 +13,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {CommentCardComponent} from './post/comment-card/comment-card.component';
+import {PublishCommentComponent} from './post/publish-comment/publish-comment.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import {CommentCardComponent} from './post/comment-card/comment-card.component';
     PostComponent,
     PostsComponent,
     CommentCardComponent,
+    PublishCommentComponent,
   ],
     imports: [
         CommonModule,

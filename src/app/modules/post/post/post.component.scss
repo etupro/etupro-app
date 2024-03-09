@@ -7,10 +7,12 @@
   width: 100%;
   padding: 16px;
 
-  mat-card {
+  > * {
     width: 750px;
     padding: 16px;
+  }
 
+  mat-card {
     display: flex;
     flex-direction: column;
     gap: 16px

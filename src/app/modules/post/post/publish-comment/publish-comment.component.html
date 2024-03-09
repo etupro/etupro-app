@@ -1,0 +1,11 @@
+<form [formGroup]="commentForm">
+  <mat-form-field class="content-form-field">
+    <mat-label>Description</mat-label>
+    <textarea [formControl]="commentForm.controls.comment" matInput></textarea>
+    <mat-error *ngIf="commentForm.controls.comment.hasError('required')">
+      La description est <strong>requise</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <button (click)="addComment()" mat-raised-button>Publier</button>
+</form>
