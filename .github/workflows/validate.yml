@@ -2,13 +2,17 @@
 # https://github.com/firebase/firebase-tools
 
 name: Validate PR
-'on': pull_request
+'on':
+  pull_request:
+  push:
+    branches:
+      - master
 permissions:
   checks: write
   contents: read
   pull-requests: write
 jobs:
-  build_and_preview:
+  build_and_test:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
@@ -24,13 +28,16 @@ jobs:
           sed -i "s/APP_ID: ''/APP_ID: '${{ secrets.FIREBASE_APP_ID }}'/" ./src/environments/environment.ts
           sed -i "s/MEASUREMENT_ID: ''/MEASUREMENT_ID: '${{ secrets.FIREBASE_MEASUREMENT_ID }}'/" ./src/environments/environment.ts
 
-      - name: Build project
-        run: npm ci && npm run build
+      - name: Install dependencies
+        run: npm ci
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ETUPRO_8E99F }}'
-          projectId: etupro-8e99f
-        env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
+      - name: Test project
+        run: npm run test -- --watch=false --browsers=ChromeHeadlessCustom
+
+      - name: Build project
+        run: npm run build
+
+  firebase_deploy:
+    needs: build_and_test
+    uses: ./.github/workflows/firebase-deploy.yml
+    secrets: inherit
