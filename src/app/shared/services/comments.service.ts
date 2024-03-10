@@ -3,6 +3,7 @@ import {
   addDoc,
   collection,
   collectionData,
+  deleteDoc,
   doc,
   docData,
   Firestore,
@@ -34,8 +35,16 @@ export class CommentsService {
   }
 
   async create(comment: Comment): Promise<string> {
-    const c = collection(this.firestore, 'comments').withConverter(new Comment.Converter());
-    let ref = await addDoc(c, comment);
-    return ref.id;
+    const collectionReference = collection(this.firestore, 'comments').withConverter(new Comment.Converter());
+    let documentReference = await addDoc(collectionReference, comment);
+    return documentReference.id;
+  }
+
+  async delete(id?: string): Promise<void> {
+    if (id) {
+      const collectionReference = collection(this.firestore, 'comments').withConverter(new Comment.Converter());
+      const commentReference = doc(collectionReference, id);
+      return await deleteDoc(commentReference);
+    }
   }
 }

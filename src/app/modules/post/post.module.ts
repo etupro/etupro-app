@@ -14,6 +14,10 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {CommentCardComponent} from './post/comment-card/comment-card.component';
 import {PublishCommentComponent} from './post/publish-comment/publish-comment.component';
+import {
+  ConfirmCommentDeletionDialogComponent
+} from './post/comment-card/confirm-comment-deletion-dialog/confirm-comment-deletion-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -23,18 +27,20 @@ import {PublishCommentComponent} from './post/publish-comment/publish-comment.co
     PostsComponent,
     CommentCardComponent,
     PublishCommentComponent,
+    ConfirmCommentDeletionDialogComponent,
   ],
-    imports: [
-        CommonModule,
-        PostRoutingModule,
-        ComponentsModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatButtonModule,
-        MatChipsModule,
-        MatIconModule,
-        MatAutocompleteModule,
-        MatCardModule,
-    ]
+  imports: [
+    CommonModule,
+    PostRoutingModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatCardModule,
+    MatDialogModule
+  ]
 })
 export class PostModule { }
