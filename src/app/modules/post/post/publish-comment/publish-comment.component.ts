@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Auth} from "@angular/fire/auth";
 import {Comment} from "../../../../shared/models/comment.model";
@@ -12,6 +12,7 @@ import {CommentsService} from "../../../../shared/services/comments.service";
 export class PublishCommentComponent {
 
   @Input('postId') postId: string | undefined;
+  @Output('commentPosted') commentPosted = new EventEmitter<void>();
 
   commentForm = new FormGroup({
     comment: new FormControl('', [Validators.required],),
@@ -42,7 +43,8 @@ export class PublishCommentComponent {
       this.commentForm.controls.comment.setValue('');
       this.commentForm.markAsPristine();
       this.commentForm.markAsUntouched();
-      this.commentForm.updateValueAndValidity()
+      this.commentForm.updateValueAndValidity();
+      this.commentPosted.emit();
     });
   }
 }

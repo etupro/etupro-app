@@ -16,7 +16,9 @@ export class PostsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.postsService.getAll().subscribe(posts => this.posts = posts);
+    this.postsService.getAll().then(posts => {
+      this.posts = posts;
+    });
   }
 
   postClick(post: Post) {

@@ -8,8 +8,7 @@ export class Post {
   readonly authorName: string;
   readonly title: string;
   readonly content: string;
-  readonly tags: Set<string>;
-  readonly comments: Set<string>;
+  readonly tags: string[];
   readonly createdAt: DateTime
   readonly updatedAt: DateTime
 
@@ -19,8 +18,7 @@ export class Post {
     this.authorName = builder.authorName;
     this.title = builder.title;
     this.content = builder.content;
-    this.tags = builder.tags ?? new Set();
-    this.comments = builder.comments ?? new Set();
+    this.tags = builder.tags ?? [];
     this.createdAt = builder.createdAt ?? DateTime.now();
     this.updatedAt = builder.updatedAt ?? DateTime.now();
   }
@@ -36,8 +34,7 @@ export class Post {
       authorName: data['authorName'],
       title: data['title'],
       content: data['content'],
-      tags: new Set(data['tags']),
-      comments: new Set(data['comments']),
+      tags: new Array(data['tags']),
       createdAt: DateTime.fromMillis(data['createdAt']),
       updatedAt: DateTime.fromMillis(data['updatedAt']),
     });
@@ -50,7 +47,6 @@ export class Post {
       title: this.title,
       content: this.content,
       tags: Array.from(this.tags),
-      comments: Array.from(this.comments),
       createdAt: this.createdAt.toMillis(),
       updatedAt: this.updatedAt.toMillis(),
     }
@@ -75,8 +71,7 @@ export namespace Post {
     readonly authorName: string;
     readonly title: string;
     readonly content: string;
-    readonly tags?: Set<string>;
-    readonly comments?: Set<string>;
+    readonly tags?: string[];
     readonly createdAt?: DateTime;
     readonly updatedAt?: DateTime;
   }

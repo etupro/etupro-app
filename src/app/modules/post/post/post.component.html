@@ -17,7 +17,7 @@
     </mat-card-footer>
   </mat-card>
 
-  <app-publish-comment *ngIf="post?.id" [postId]="post?.id"></app-publish-comment>
+  <app-publish-comment (commentPosted)="handlePostComment()" *ngIf="post?.id" [postId]="post?.id"></app-publish-comment>
 
   <h1 *ngIf="post?.id">Commentaires :</h1>
 
