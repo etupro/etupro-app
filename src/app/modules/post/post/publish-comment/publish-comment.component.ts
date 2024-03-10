@@ -39,7 +39,10 @@ export class PublishCommentComponent {
     });
 
     this.commentService.create(comment).then(() => {
-      this.commentForm.reset();
+      this.commentForm.controls.comment.setValue('');
+      this.commentForm.markAsPristine();
+      this.commentForm.markAsUntouched();
+      this.commentForm.updateValueAndValidity()
     });
   }
 }

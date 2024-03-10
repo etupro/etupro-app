@@ -5,10 +5,11 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {FirebaseOptions} from "firebase/app";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {getAuth, provideAuth} from "@angular/fire/auth";
-import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
+import {initializeAuth, provideAuth} from '@angular/fire/auth';
+import {getApp, initializeApp, provideFirebaseApp} from "@angular/fire/app";
 import {getFirestore, provideFirestore} from "@angular/fire/firestore";
 import {environment} from "../environments/environment";
+import {connectAuthEmulatorInDevMode, connectFirestoreEmulatorInDevMode} from "./emulator";
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: environment.FIREBASE.API_KEY,
@@ -28,8 +29,16 @@ const firebaseConfig: FirebaseOptions = {
     BrowserModule,
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
+    provideAuth(() => {
+      const auth = initializeAuth(getApp());
+      connectAuthEmulatorInDevMode(auth);
+      return auth;
+    }),
+    provideFirestore(() => {
+      const firestore = getFirestore();
+      connectFirestoreEmulatorInDevMode(firestore);
+      return firestore;
+    }),
     BrowserAnimationsModule,
   ],
   providers: [],
