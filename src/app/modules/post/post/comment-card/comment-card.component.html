@@ -7,3 +7,7 @@
     de {{ comment.authorName }}
   </mat-card-footer>
 </mat-card>
+
+<button (click)="deleteComment()" *ngIf="isUserComment" class="comment-close-button" mat-icon-button>
+  <mat-icon>delete</mat-icon>
+</button>
