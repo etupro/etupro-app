@@ -6,7 +6,6 @@ name: Validate and deploy master branch
 permissions:
   checks: write
   contents: read
-  pull-requests: write
 jobs:
   build_and_test:
     uses: ./.github/workflows/validate.yml
