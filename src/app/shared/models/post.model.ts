@@ -34,7 +34,7 @@ export class Post {
       authorName: data['authorName'],
       title: data['title'],
       content: data['content'],
-      tags: new Array(data['tags']),
+      tags: data['tags'],
       createdAt: DateTime.fromMillis(data['createdAt']),
       updatedAt: DateTime.fromMillis(data['updatedAt']),
     });
@@ -46,7 +46,7 @@ export class Post {
       authorName: this.authorName,
       title: this.title,
       content: this.content,
-      tags: Array.from(this.tags),
+      tags: this.tags,
       createdAt: this.createdAt.toMillis(),
       updatedAt: this.updatedAt.toMillis(),
     }

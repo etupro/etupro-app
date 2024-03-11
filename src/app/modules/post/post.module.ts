@@ -18,6 +18,7 @@ import {
   ConfirmCommentDeletionDialogComponent
 } from './post/comment-card/confirm-comment-deletion-dialog/confirm-comment-deletion-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {PostCardComponent} from "./posts/post-card/post-card.component";
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     CreatePostComponent,
     PostComponent,
     PostsComponent,
+    PostCardComponent,
     CommentCardComponent,
     PublishCommentComponent,
     ConfirmCommentDeletionDialogComponent,

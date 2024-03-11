@@ -10,7 +10,6 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
 import {ReactiveFormsModule} from "@angular/forms";
-import {PostCardComponent} from './post-card/post-card.component';
 import {MatCardModule} from "@angular/material/card";
 
 
@@ -18,12 +17,10 @@ import {MatCardModule} from "@angular/material/card";
   declarations: [
     HeaderComponent,
     AutocompleteInputComponent,
-    PostCardComponent,
   ],
   exports: [
     HeaderComponent,
     AutocompleteInputComponent,
-    PostCardComponent,
   ],
   imports: [
     CommonModule,
