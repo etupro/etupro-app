@@ -15,6 +15,7 @@ export class PostComponent implements OnInit, OnDestroy {
 
   watcher = new Subscription();
   post: Post | undefined;
+  postId: string;
   comments: Comment[] = [];
 
   constructor(private route: ActivatedRoute,
@@ -24,9 +25,9 @@ export class PostComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.watcher.add(this.route.params.subscribe(params => {
-      const postId = params['id'] + '';
-      this.postsService.get(postId).subscribe(post => this.post = post);
-      this.commentsService.getAllFromPost(postId).subscribe(comments => this.comments = comments);
+      this.postId = params['id'] + '';
+      this.postsService.get(this.postId).subscribe(post => this.post = post);
+      this.commentsService.getAllFromPost(this.postId).then(comments => this.comments = comments);
     }))
   }
 
@@ -34,4 +35,7 @@ export class PostComponent implements OnInit, OnDestroy {
     this.watcher.unsubscribe();
   }
 
+  handlePostComment() {
+    this.commentsService.getAllFromPost(this.postId).then(comments => this.comments = comments);
+  }
 }

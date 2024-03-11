@@ -30,9 +30,9 @@ export class CommentCardComponent implements OnInit {
   deleteComment() {
     const dialogRef = this.dialog.open(ConfirmCommentDeletionDialogComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        this.commentsService.delete(this.comment.id);
+        await this.commentsService.delete(this.comment.id);
       }
     });
   }

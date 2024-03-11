@@ -4,8 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:emul": "firebase emulators:start --import=./.seed --export-on-exit",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "deploy": "npm ci && npm run build && firebase deploy",
     "test": "ng test"
   },
   "private": true,

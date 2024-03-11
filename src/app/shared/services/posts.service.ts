@@ -1,31 +1,26 @@
 import {Injectable} from '@angular/core';
-import {addDoc, collection, collectionData, doc, docData, Firestore, orderBy, query,} from "@angular/fire/firestore";
-import {Observable} from "rxjs";
+import {Firestore, orderBy, query, QueryDocumentSnapshot,} from "@angular/fire/firestore";
 import {Post} from "../models/post.model";
+import {FirestoreCrudService} from "./firestore-crud.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class PostsService {
+export class PostsService extends FirestoreCrudService<Post> {
 
-  constructor(private firestore: Firestore) {
+  constructor(protected override firestore: Firestore) {
+    super('posts', new Post.Converter(), firestore);
   }
 
-  getAll(): Observable<Post[]> {
-    const c = collection(this.firestore, 'posts').withConverter(new Post.Converter());
-    const q = query(c, orderBy('createdAt', 'desc'))
-    return collectionData(q, {idField: 'id'});
+  override createEntity(qds: QueryDocumentSnapshot<Post>): Post {
+    return new Post({
+      ...qds.data(),
+      id: qds.id
+    })
   }
 
-  get(id: string): Observable<Post | undefined> {
-    const c = collection(this.firestore, 'posts').withConverter(new Post.Converter());
-    const postReference = doc(c, id);
-    return docData(postReference, {idField: 'id'});
-  }
-
-  async create(post: Post): Promise<string> {
-    const c = collection(this.firestore, 'posts').withConverter(new Post.Converter());
-    const ref = await addDoc(c, post);
-    return ref.id;
+  override async getAll(): Promise<Post[]> {
+    const q = query(this.collectionReference, orderBy('createdAt', 'desc'))
+    return await this.getAllWithQuery(q);
   }
 }
