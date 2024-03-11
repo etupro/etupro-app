@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Firestore, orderBy, query, QueryDocumentSnapshot} from "@angular/fire/firestore";
+import {Firestore, orderBy, query} from "@angular/fire/firestore";
 import {Tag} from "../models/tag.model";
 import {FirestoreCrudService} from "./firestore-crud.service";
 
@@ -12,10 +12,10 @@ export class TagsService extends FirestoreCrudService<Tag> {
     super('tags', new Tag.Converter(), firestore);
   }
 
-  override createEntity(qds: QueryDocumentSnapshot<Tag>): Tag {
+  override createEntity(id: string, data: Tag): Tag {
     return new Tag({
-      ...qds.data(),
-      id: qds.id
+      ...data,
+      id
     })
   }
 

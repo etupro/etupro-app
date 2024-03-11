@@ -17,12 +17,13 @@
     </mat-card-footer>
   </mat-card>
 
-  <app-publish-comment (commentPosted)="handlePostComment()" *ngIf="post?.id" [postId]="post?.id"></app-publish-comment>
+  <app-publish-comment (commentPosted)="updateCommentList()" *ngIf="post?.id" [postId]="post?.id"></app-publish-comment>
 
   <h1 *ngIf="post?.id">Commentaires :</h1>
 
   <ng-container *ngIf="post?.id">
-    <app-comment-card *ngFor="let comment of comments" [comment]="comment"></app-comment-card>
+    <app-comment-card (commentDeleted)="updateCommentList()" *ngFor="let comment of comments"
+                      [comment]="comment"></app-comment-card>
   </ng-container>
 
 </div>

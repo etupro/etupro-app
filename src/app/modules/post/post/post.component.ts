@@ -26,8 +26,8 @@ export class PostComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.watcher.add(this.route.params.subscribe(params => {
       this.postId = params['id'] + '';
-      this.postsService.get(this.postId).subscribe(post => this.post = post);
-      this.commentsService.getAllFromPost(this.postId).then(comments => this.comments = comments);
+      this.postsService.get(this.postId).then(post => this.post = post);
+      this.updateCommentList()
     }))
   }
 
@@ -35,7 +35,7 @@ export class PostComponent implements OnInit, OnDestroy {
     this.watcher.unsubscribe();
   }
 
-  handlePostComment() {
+  updateCommentList() {
     this.commentsService.getAllFromPost(this.postId).then(comments => this.comments = comments);
   }
 }

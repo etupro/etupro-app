@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 import {Auth} from "@angular/fire/auth";
 import {Comment} from "../../../../shared/models/comment.model";
 import {CommentsService} from "../../../../shared/services/comments.service";
@@ -15,7 +15,7 @@ export class PublishCommentComponent {
   @Output('commentPosted') commentPosted = new EventEmitter<void>();
 
   commentForm = new FormGroup({
-    comment: new FormControl('', [Validators.required],),
+    comment: new FormControl(''),
   })
 
   constructor(private auth: Auth, private commentService: CommentsService) {
@@ -24,12 +24,11 @@ export class PublishCommentComponent {
   addComment() {
     const authorId = this.auth.currentUser?.uid;
     const authorName = this.auth.currentUser?.displayName ?? 'Anonyme';
+    const content = this.commentForm.value.comment;
 
-    if (!this.commentForm.valid || !authorId || !authorName || !this.postId) {
+    if (!content || !authorId || !authorName || !this.postId) {
       return;
     }
-
-    const content = this.commentForm.value.comment!;
 
     const comment = new Comment({
       authorId,

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Comment} from "../../../../shared/models/comment.model";
 import {CommentsService} from "../../../../shared/services/comments.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -15,6 +15,8 @@ import {Auth} from "@angular/fire/auth";
 export class CommentCardComponent implements OnInit {
 
   @Input() comment: Comment;
+
+  @Output('commentDeleted') commentPosted = new EventEmitter<void>();
 
   isUserComment = false;
 
@@ -33,6 +35,7 @@ export class CommentCardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         await this.commentsService.delete(this.comment.id);
+        this.commentPosted.emit();
       }
     });
   }
