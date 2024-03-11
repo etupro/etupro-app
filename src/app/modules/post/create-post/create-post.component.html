@@ -20,7 +20,8 @@
       </mat-error>
     </mat-form-field>
 
-    <app-tags-input [control]="postForm.controls.tags"></app-tags-input>
+    <app-autocomplete-input [allValues]="allTags" [control]="postForm.controls.tags"
+                            label="tags"></app-autocomplete-input>
 
   </form>
 

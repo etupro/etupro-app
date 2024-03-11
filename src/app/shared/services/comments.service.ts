@@ -1,50 +1,26 @@
 import {Injectable} from '@angular/core';
-import {
-  addDoc,
-  collection,
-  collectionData,
-  deleteDoc,
-  doc,
-  docData,
-  Firestore,
-  orderBy,
-  query,
-  where,
-} from "@angular/fire/firestore";
-import {Observable} from "rxjs";
+import {Firestore, orderBy, query, QueryDocumentSnapshot, where,} from "@angular/fire/firestore";
 import {Comment} from "../models/comment.model";
+import {FirestoreCrudService} from "./firestore-crud.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CommentsService {
+export class CommentsService extends FirestoreCrudService<Comment> {
 
-  constructor(private firestore: Firestore) {
+  constructor(protected override firestore: Firestore) {
+    super('comments', new Comment.Converter(), firestore);
   }
 
-  getAllFromPost(postId: string): Observable<Comment[]> {
-    const c = collection(this.firestore, 'comments').withConverter(new Comment.Converter());
-    const q = query(c, where('postId', '==', postId), orderBy('createdAt', 'desc'))
-    return collectionData(q, {idField: 'id'});
+  override createEntity(qds: QueryDocumentSnapshot<Comment>): Comment {
+    return new Comment({
+      ...qds.data(),
+      id: qds.id
+    })
   }
 
-  get(id: string): Observable<Comment | undefined> {
-    const c = collection(this.firestore, 'comments').withConverter(new Comment.Converter());
-    const commentReference = doc(c, id);
-    return docData(commentReference, {idField: 'id'});
-  }
-
-  async create(comment: Comment): Promise<string> {
-    const collectionReference = collection(this.firestore, 'comments').withConverter(new Comment.Converter());
-    let documentReference = await addDoc(collectionReference, comment);
-    return documentReference.id;
-  }
-
-  async delete(id?: string): Promise<void> {
-    if (id) {
-      const collectionReference = collection(this.firestore, 'comments').withConverter(new Comment.Converter());
-      const commentReference = doc(collectionReference, id);
-      return await deleteDoc(commentReference);
-    }
+  async getAllFromPost(postId: string): Promise<Comment[]> {
+    const q = query(this.collectionReference, where('postId', '==', postId), orderBy('createdAt', 'desc'))
+    return await this.getAllWithQuery(q);
   }
 }

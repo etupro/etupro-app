@@ -1,5 +1,6 @@
 export const environment = {
   isProduction: false,
+  useEmulators: true,
   FIREBASE: {
     API_KEY: '',
     AUTH_DOMAIN: '',

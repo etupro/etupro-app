@@ -1,0 +1,14 @@
+name: Validate PR
+'on':
+  pull_request:
+  push:
+    branches:
+      - master
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+jobs:
+  build_and_test:
+    uses: ./.github/workflows/validate.yml
+    secrets: inherit
