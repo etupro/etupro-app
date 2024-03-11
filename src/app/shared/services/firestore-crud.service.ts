@@ -4,16 +4,15 @@ import {
   CollectionReference,
   deleteDoc,
   doc,
-  docData,
   Firestore,
+  getDoc,
   getDocs,
   onSnapshot,
   Query,
-  QueryDocumentSnapshot,
   QuerySnapshot,
   updateDoc
 } from "@angular/fire/firestore";
-import {Observable, Subject} from "rxjs";
+import {Subject} from "rxjs";
 import {FirestoreDataConverter} from "@firebase/firestore";
 
 export abstract class FirestoreCrudService<T> {
@@ -34,15 +33,22 @@ export abstract class FirestoreCrudService<T> {
     })
   }
 
-  abstract createEntity(qds: QueryDocumentSnapshot<T>): T;
+  abstract createEntity(id: string, data: T): T;
 
   async getAll(): Promise<T[]> {
     const snapshot = await getDocs(this.collectionReference);
-    return snapshot.docs.map(this.createEntity);
+    return snapshot.docs.map(qds => this.createEntity(qds.id, qds.data()));
   }
 
-  get(id: string): Observable<T | undefined> {
-    return docData(doc(this.collectionReference, id));
+  async get(id: string): Promise<T | undefined> {
+    const snapshot = await getDoc(doc(this.collectionReference, id));
+    const data = snapshot.data();
+    return data ? this.createEntity(snapshot.id, data) : undefined;
+  }
+
+  protected async getAllWithQuery(q: Query<T>): Promise<T[]> {
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(qds => this.createEntity(qds.id, qds.data()));
   }
 
   async create(item: T): Promise<string> {
@@ -62,10 +68,5 @@ export abstract class FirestoreCrudService<T> {
     const docRef = doc(this.collectionReference, docId);
     await updateDoc(docRef, {name, age})
     return;
-  }
-
-  protected async getAllWithQuery(q: Query<T>): Promise<T[]> {
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(this.createEntity);
   }
 }

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Firestore, orderBy, query, QueryDocumentSnapshot,} from "@angular/fire/firestore";
+import {Firestore, orderBy, query,} from "@angular/fire/firestore";
 import {Post} from "../models/post.model";
 import {FirestoreCrudService} from "./firestore-crud.service";
 
@@ -12,10 +12,10 @@ export class PostsService extends FirestoreCrudService<Post> {
     super('posts', new Post.Converter(), firestore);
   }
 
-  override createEntity(qds: QueryDocumentSnapshot<Post>): Post {
+  override createEntity(id: string, data: Post): Post {
     return new Post({
-      ...qds.data(),
-      id: qds.id
+      ...data,
+      id
     })
   }
 
