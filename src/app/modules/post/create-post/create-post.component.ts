@@ -24,6 +24,8 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   watcher = new Subscription();
   allTags: string[] = [];
 
+  createLoading = false;
+
   constructor(private auth: Auth,
               private router: Router,
               private postsService: PostsService,
@@ -61,11 +63,15 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       tags
     });
 
-    tags.filter(tag => !this.allTags.includes(tag))
-      .map(async tag => await this.tagsService.create(new Tag({tag})));
+    this.createLoading = true;
+    try {
+      tags.filter(tag => !this.allTags.includes(tag))
+        .map(async tag => await this.tagsService.create(new Tag({tag})));
 
-    const postId = await this.postsService.create(post);
-
-    await this.router.navigate(['/', 'posts', postId]);
+      const postId = await this.postsService.create(post);
+      await this.router.navigate(['/', 'posts', postId]);
+    } finally {
+      this.createLoading = false;
+    }
   }
 }

@@ -10,6 +10,8 @@ import {getApp, initializeApp, provideFirebaseApp} from "@angular/fire/app";
 import {getFirestore, provideFirestore} from "@angular/fire/firestore";
 import {environment} from "../environments/environment";
 import {connectAuthEmulatorInDevMode, connectFirestoreEmulatorInDevMode} from "./emulator";
+import {browserLocalPersistence} from "@firebase/auth";
+import {AngularFireAuthGuardModule} from "@angular/fire/compat/auth-guard";
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: environment.FIREBASE.API_KEY,
@@ -30,7 +32,9 @@ const firebaseConfig: FirebaseOptions = {
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => {
-      const auth = initializeAuth(getApp());
+      const auth = initializeAuth(getApp(), {
+        persistence: browserLocalPersistence
+      });
       connectAuthEmulatorInDevMode(auth);
       return auth;
     }),
@@ -40,6 +44,7 @@ const firebaseConfig: FirebaseOptions = {
       return firestore;
     }),
     BrowserAnimationsModule,
+    AngularFireAuthGuardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
