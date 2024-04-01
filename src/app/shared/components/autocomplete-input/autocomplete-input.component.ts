@@ -28,7 +28,6 @@ export class AutocompleteInputComponent implements OnInit {
       startWith(null),
       map((value: string | null) => (value ? this._filter(value) : Array.from(this.allValues))),
     );
-    this.filteredValues$.subscribe(values => console.log(values));
   }
 
   ngOnInit() {

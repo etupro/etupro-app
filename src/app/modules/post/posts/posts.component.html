@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header [loading]="postsLoading"></app-header>
 
 <div class="post-cards-container">
   <app-post-card (click)="postClick(post)" *ngFor="let post of posts" [post]="post"/>

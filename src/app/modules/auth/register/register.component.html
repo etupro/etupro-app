@@ -1,0 +1,61 @@
+<mat-card>
+  <mat-card-title>Inscription</mat-card-title>
+  <mat-card-content>
+    <form (ngSubmit)="register()" [formGroup]="registerForm" class="register-form-container">
+      <div class="register-names-container">
+        <mat-form-field>
+          <mat-label>Nom</mat-label>
+          <input formControlName="firstname" matInput placeholder="Bob" required>
+          <mat-error *ngIf="registerForm.controls.firstname.errors?.['required']">Ce champs est requis</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Prénom</mat-label>
+          <input formControlName="lastname" matInput placeholder="Razowski" required>
+          <mat-error *ngIf="registerForm.controls.lastname.errors?.['required']">Ce champs est requis</mat-error>
+        </mat-form-field>
+      </div>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input autocomplete="on" formControlName="email" matInput placeholder="bob.razowski@etupro.com" required>
+        <mat-error *ngIf="registerForm.controls.email.errors?.['required']">Ce champs est requis</mat-error>
+        <mat-error *ngIf="registerForm.controls.email.errors?.['email']">Veuillez renseigner un email valide</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input [type]="hidePassword ? 'password' : 'text'" autocomplete="on" formControlName="password" matInput
+               required>
+        <button (click)="hidePassword = !hidePassword" [attr.aria-label]="'Cacher le mot de passe'"
+                [attr.aria-pressed]="hidePassword" mat-icon-button
+                matSuffix type="button">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="registerForm.controls.password.errors?.['required']">Ce champs est requis</mat-error>
+        <mat-error *ngIf="registerForm.controls.password.errors?.['minlength']">Le mot de passe doit avoir au moins 8
+          caractères
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Confirmation du mot de passe</mat-label>
+        <input [type]="hideConfirmPassword ? 'password' : 'text'" autocomplete="off" formControlName="confirmPassword"
+               matInput
+               required>
+        <button (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Cacher le mot de passe'"
+                [attr.aria-pressed]="hideConfirmPassword" mat-icon-button
+                matSuffix type="button">
+          <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="registerForm.controls.confirmPassword.errors?.['required']">Ce champs est requis</mat-error>
+        <mat-error *ngIf="registerForm.controls.confirmPassword.errors?.['minlength']">Le mot de passe doit avoir au
+          moins 8 caractères
+        </mat-error>
+      </mat-form-field>
+      <mat-error *ngIf="registerForm.errors?.['passwordMismatch']">Le mot de passe et la confirmation doivent être
+        identique
+      </mat-error>
+      <button color="primary" mat-raised-button type="submit">Inscription</button>
+      <div class="bottom-form-links">
+        <a href="/login">Connexion</a>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

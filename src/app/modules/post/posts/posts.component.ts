@@ -11,13 +11,17 @@ import {Router} from "@angular/router";
 export class PostsComponent implements OnInit {
 
   posts: Post[] = [];
+  postsLoading = false;
 
   constructor(private postsService: PostsService, private router: Router) {
   }
 
   ngOnInit(): void {
+    this.postsLoading = true;
     this.postsService.getAll().then(posts => {
       this.posts = posts;
+    }).finally(() => {
+      this.postsLoading = false
     });
   }
 
