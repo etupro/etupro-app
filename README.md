@@ -95,6 +95,20 @@ Le cycle de vie d'une tache est le suivant :
 
 TODO expliquer comment faire une code review
 
+### Architecture du projet
+
+- **src** // tout le code et autre fichier de l'app se trouve ici
+  - **app** // Dossier qui contient le code de l'application
+    - **modules** // Dossier qui contient les différents modules qui structure l'application.
+      - On retrouve un dossier par module principal
+      - Chaque module doit définir son routing
+    - **shared** // Dossier qui contient le code partagé entre les différents modules de l'application
+      - **components** // Dossier qui contient tout les composant commun
+      - **models** // Dossier qui contient les type, interface et classe qui définissent des structures de donnée
+      - **services** // Dossier qui contient les class de service qui serve la logique commune pour l'application
+  - **assets** // Dossier qui continent les assets de l'app (image, ficher, ...)
+  - **environments** // Dossier avec les fichiers de variable d'environement
+
 ## A discuter
 
 Les points à discuter sur l'orga ou les idées truc a mettre en place :
