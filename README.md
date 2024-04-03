@@ -25,13 +25,13 @@ Installer le projet :
 npm install
 ```
 
-Installer firebase :
+Installer firebase et angular CLI:
 
 ```shell
-npm install -g firebase-tools
+npm install -g firebase-tools @angular/cli
 ```
 
-Conecter le CLI (nessecite d'être ajouté au projet dans firebase) :
+Connecter le CLI (necessite d'être ajouté au projet dans firebase) :
 
 ```shell
 firebase login
@@ -56,12 +56,12 @@ il y aura quelques règles à suivre pour cadrer la participation et valider le 
 
 ### Branches
 
-Tout nouveau développement doit se faire sur une branche de travail basé sur la branche principale.  
+Tout nouveau développement doit se faire sur une branche de travail basé sur la branche principale.
 Pour l'instant, il n'y a pas de règle de nommage pour la branche à part que se doit être en anglais.
 
 ### Commits
 
-Pour l'instant, il n'y a pas de règle sur les commits.  
+Pour l'instant, il n'y a pas de règle sur les commits.
 Même s'il est conseillé de faire une synthèse claire en anglais de ce qui est fait dans le commit pour pouvoir identifier
 rapidement les modifications incluses dans le commit. Ne pas hésiter à découper en plusieurs commits de grosses
 modifications.
@@ -69,7 +69,7 @@ modifications.
 ### Pull requests
 
 Pour intégrer son développement à la branche principale, il est obligatoire de créer une "Pull Request" (PR)
-qui permettra à un autre développeur de faire une revue de code et à terme valider la PR.  
+qui permettra à un autre développeur de faire une revue de code et à terme valider la PR.
 Une fois validé, le développeur qui a fait la relecture du code pourra merge la PR sur la branche principale.
 
 Il est attendu que le pair fasse une relecture du code pour une validation technique et également une passe
@@ -77,7 +77,7 @@ fonctionnelle pour s'assurer du bon fonctionnement de l'application.
 
 ## Organisation
 
-Le projet s'organise actuellement surtout autour du tableau du projet de type "Kanban Board".  
+Le projet s'organise actuellement surtout autour du tableau du projet de type "Kanban Board".
 C'est là-bas que sont créées les taches et que l'on suit leur évolution passant de la conception
 à la réalisation.
 
