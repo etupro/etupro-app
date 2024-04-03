@@ -12,14 +12,15 @@ import { FormControl } from "@angular/forms";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AutocompleteInputComponent implements OnInit {
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+
   @ViewChild('valueInput') valueInput: ElementRef<HTMLInputElement> | undefined;
 
   @Input() label = 'valeur';
   @Input() allValues: string[] = [];
   @Input() valuesControl = new FormControl<string[]>([]);
-  valueControl = new FormControl<string>('');
 
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  valueControl = new FormControl<string>('');
   values: string[] = [];
   filteredValues$: Observable<string[]>;
 
