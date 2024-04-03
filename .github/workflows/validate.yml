@@ -23,5 +23,8 @@ jobs:
       #      - name: Test project
       #        run: npm run test -- --watch=false --browsers=ChromeHeadlessCustom
 
+      - name: Validate code quality
+        run: npm run lint
+
       - name: Build project
         run: npm run build

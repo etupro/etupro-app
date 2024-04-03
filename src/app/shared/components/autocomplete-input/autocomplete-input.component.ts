@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {map, Observable, startWith} from "rxjs";
-import {MatChipInputEvent} from "@angular/material/chips";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {FormControl} from "@angular/forms";
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { map, Observable, startWith } from "rxjs";
+import { MatChipInputEvent } from "@angular/material/chips";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import { FormControl } from "@angular/forms";
 
 @Component({
   selector: 'app-autocomplete-input',
@@ -14,9 +14,9 @@ import {FormControl} from "@angular/forms";
 export class AutocompleteInputComponent implements OnInit {
   @ViewChild('valueInput') valueInput: ElementRef<HTMLInputElement> | undefined;
 
-  @Input('label') label: string = 'valeur';
-  @Input('allValues') allValues: string[] = [];
-  @Input('control') valuesControl = new FormControl<string[]>([]);
+  @Input() label = 'valeur';
+  @Input() allValues: string[] = [];
+  @Input() valuesControl = new FormControl<string[]>([]);
   valueControl = new FormControl<string>('');
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
@@ -44,7 +44,7 @@ export class AutocompleteInputComponent implements OnInit {
       this.values.push(value);
     }
 
-    event.chipInput!.clear();
+    event.chipInput.clear();
     this.valueControl.setValue(null);
   }
 

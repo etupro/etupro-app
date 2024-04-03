@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {Router} from "@angular/router";
+import { Component, Input } from '@angular/core';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
 })
 export class HeaderComponent {
 
-  @Input("loading") loading = false;
+  @Input() loading = false;
 
   constructor(private router: Router) {
   }

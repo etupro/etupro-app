@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {Post} from "../../../../shared/models/post.model";
+import { Component, Input } from '@angular/core';
+import { Post } from "../../../../shared/models/post.model";
 
 @Component({
   selector: 'app-post-card',
@@ -8,5 +8,5 @@ import {Post} from "../../../../shared/models/post.model";
 })
 export class PostCardComponent {
 
-  @Input('post') post: Post;
+  @Input() post: Post;
 }

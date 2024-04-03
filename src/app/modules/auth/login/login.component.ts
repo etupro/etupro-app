@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {Router} from "@angular/router";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../../shared/services/auth.service";
+import { Component } from '@angular/core';
+import { Router } from "@angular/router";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../../../shared/services/auth.service";
 
 @Component({
   selector: 'app-login',
@@ -28,8 +28,8 @@ export class LoginComponent {
       return;
     }
 
-    const email = this.loginForm.value.email!;
-    const password = this.loginForm.value.password!;
+    const email = this.loginForm.value.email ?? '';
+    const password = this.loginForm.value.password ?? '';
 
     await this.authService.login(email, password);
     this.router.navigate(this.redirect);

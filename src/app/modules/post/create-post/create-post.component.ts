@@ -1,12 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {PostsService} from "../../../shared/services/posts.service";
-import {Post} from "../../../shared/models/post.model";
-import {Auth} from "@angular/fire/auth";
-import {TagsService} from "../../../shared/services/tags.service";
-import {Router} from "@angular/router";
-import {Tag} from "../../../shared/models/tag.model";
-import {Subscription} from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { PostsService } from "../../../shared/services/posts.service";
+import { Post } from "../../../shared/models/post.model";
+import { Auth } from "@angular/fire/auth";
+import { TagsService } from "../../../shared/services/tags.service";
+import { Router } from "@angular/router";
+import { Tag } from "../../../shared/models/tag.model";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-create-post',
@@ -51,8 +51,8 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const title = this.postForm.value.title!;
-    const content = this.postForm.value.content!;
+    const title = this.postForm.value.title ?? '';
+    const content = this.postForm.value.content ?? '';
     const tags = this.postForm.value.tags ?? [];
 
     const post = new Post({

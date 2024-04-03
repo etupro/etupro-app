@@ -1,11 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Comment} from "../../../../shared/models/comment.model";
-import {CommentsService} from "../../../../shared/services/comments.service";
-import {MatDialog} from "@angular/material/dialog";
-import {
-  ConfirmCommentDeletionDialogComponent
-} from "./confirm-comment-deletion-dialog/confirm-comment-deletion-dialog.component";
-import {Auth} from "@angular/fire/auth";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Comment } from "../../../../shared/models/comment.model";
+import { CommentsService } from "../../../../shared/services/comments.service";
+import { MatDialog } from "@angular/material/dialog";
+import { ConfirmCommentDeletionDialogComponent } from "./confirm-comment-deletion-dialog/confirm-comment-deletion-dialog.component";
+import { Auth } from "@angular/fire/auth";
 
 @Component({
   selector: 'app-comment-card',
@@ -16,7 +14,7 @@ export class CommentCardComponent implements OnInit {
 
   @Input() comment: Comment;
 
-  @Output('commentDeleted') commentPosted = new EventEmitter<void>();
+  @Output() commentPosted = new EventEmitter<void>();
 
   isUserComment = false;
 

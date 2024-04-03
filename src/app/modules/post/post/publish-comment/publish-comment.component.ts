@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
-import {Auth} from "@angular/fire/auth";
-import {Comment} from "../../../../shared/models/comment.model";
-import {CommentsService} from "../../../../shared/services/comments.service";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, FormGroup } from "@angular/forms";
+import { Auth } from "@angular/fire/auth";
+import { Comment } from "../../../../shared/models/comment.model";
+import { CommentsService } from "../../../../shared/services/comments.service";
 
 @Component({
   selector: 'app-publish-comment',
@@ -11,8 +11,8 @@ import {CommentsService} from "../../../../shared/services/comments.service";
 })
 export class PublishCommentComponent {
 
-  @Input('postId') postId: string | undefined;
-  @Output('commentPosted') commentPosted = new EventEmitter<void>();
+  @Input() postId: string | undefined;
+  @Output() commentPosted = new EventEmitter<void>();
 
   commentForm = new FormGroup({
     comment: new FormControl(''),

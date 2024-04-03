@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {AuthService} from "../../../shared/services/auth.service";
-import {passwordConfirmationValidator} from "../../../shared/validators/password-confirmation.validator";
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { AuthService } from "../../../shared/services/auth.service";
+import { passwordConfirmationValidator } from "../../../shared/validators/password-confirmation.validator";
 
 @Component({
   selector: 'app-register',
@@ -35,8 +35,8 @@ export class RegisterComponent {
     }
 
     const displayName = this.registerForm.value.firstname + ' ' + this.registerForm.value.lastname;
-    const email = this.registerForm.value.email!;
-    const password = this.registerForm.value.password!;
+    const email = this.registerForm.value.email ?? '';
+    const password = this.registerForm.value.password ?? '';
 
     await this.authService.register(displayName, email, password);
     this.router.navigate(this.redirect);
