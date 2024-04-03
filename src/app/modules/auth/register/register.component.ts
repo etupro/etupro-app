@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
-import {Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile} from "@angular/fire/auth";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {AuthService} from "../../../shared/services/auth.service";
+import {passwordConfirmationValidator} from "../../../shared/validators/password-confirmation.validator";
 
 @Component({
   selector: 'app-register',
@@ -19,13 +20,13 @@ export class RegisterComponent {
     confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
   }, {
     updateOn: "submit",
-    validators: [passwordConfirmationValidator]
+    validators: [passwordConfirmationValidator()]
   })
 
   hidePassword = true;
   hideConfirmPassword = true;
 
-  constructor(private auth: Auth, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   async register() {
@@ -33,27 +34,11 @@ export class RegisterComponent {
       return;
     }
 
-    const value = this.registerForm.value;
+    const displayName = this.registerForm.value.firstname + ' ' + this.registerForm.value.lastname;
+    const email = this.registerForm.value.email!;
+    const password = this.registerForm.value.password!;
 
-    try {
-      const userCreds = await createUserWithEmailAndPassword(this.auth, value.email!, value.password!);
-      await updateProfile(userCreds.user, {displayName: value.firstname + ' ' + value.lastname})
-      await signInWithEmailAndPassword(this.auth, value.email!, value.password!)
-    } catch (error: any) {
-      console.log(error.message);
-      return;
-    }
+    await this.authService.register(displayName, email, password);
     this.router.navigate(this.redirect);
   }
 }
-
-const passwordConfirmationValidator: ValidatorFn = (
-  control: AbstractControl,
-): ValidationErrors | null => {
-  const password = control.get('password');
-  const confirmPassword = control.get('confirmPassword');
-
-  return password?.value === confirmPassword?.value
-    ? null
-    : {passwordMismatch: true};
-};

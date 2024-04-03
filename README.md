@@ -25,6 +25,18 @@ Installer le projet :
 npm install
 ```
 
+Installer firebase :
+
+```shell
+npm install -g firebase-tools
+```
+
+Conecter le CLI (nessecite d'être ajouté au projet dans firebase) :
+
+```shell
+firebase login
+```
+
 ### Lancer le projet en local
 
 ```bash

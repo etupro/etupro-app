@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {Auth, signInWithEmailAndPassword} from "@angular/fire/auth";
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AuthService} from "../../../shared/services/auth.service";
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,7 @@ export class LoginComponent {
 
   hide = true;
 
-  constructor(private auth: Auth, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   async login() {
@@ -28,8 +28,10 @@ export class LoginComponent {
       return;
     }
 
-    const userCreds = await signInWithEmailAndPassword(this.auth, this.loginForm.value.email!, this.loginForm.value.password!)
-    localStorage.setItem('sessionId', userCreds.user.refreshToken);
+    const email = this.loginForm.value.email!;
+    const password = this.loginForm.value.password!;
+
+    await this.authService.login(email, password);
     this.router.navigate(this.redirect);
   }
 }
