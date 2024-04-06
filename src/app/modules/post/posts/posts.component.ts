@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {PostsService} from "../../../shared/services/posts.service";
-import {Post} from "../../../shared/models/post.model";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { PostsService } from "../../../shared/services/posts.service";
+import { Post } from "../../../shared/models/post.model";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-posts',
@@ -25,7 +25,11 @@ export class PostsComponent implements OnInit {
     });
   }
 
-  postClick(post: Post) {
+  navigateToPostCreation() {
+    this.router.navigate(['/', 'posts', 'create'])
+  }
+
+  navigateToPost(post: Post) {
     this.router.navigate(['/', 'posts', post.id])
   }
 }

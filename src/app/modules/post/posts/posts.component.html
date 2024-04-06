@@ -1,5 +1,8 @@
-<app-header [loading]="postsLoading"></app-header>
+<app-header [loading]="postsLoading">
+  <h1>{{ posts.length }} posts</h1>
+  <button (click)="navigateToPostCreation()" mat-raised-button>Créer un post</button>
+</app-header>
 
 <div class="post-cards-container">
-  <app-post-card (click)="postClick(post)" *ngFor="let post of posts" [post]="post"/>
+  <app-post-card (click)="navigateToPost(post)" *ngFor="let post of posts" [post]="post"/>
 </div>

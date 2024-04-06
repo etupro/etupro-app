@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from "@angular/router";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'app-header',
@@ -10,18 +11,11 @@ export class HeaderComponent {
 
   @Input() loading = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
   }
 
-  home() {
-    this.router.navigate(['/']);
-  }
-
-  createPost() {
-    this.router.navigate(['/', 'posts', 'create']);
-  }
-
-  logout() {
-    this.router.navigate(['/', 'logout']);
+  async handleLogout() {
+    await this.authService.logout();
+    await this.router.navigate(['/']);
   }
 }

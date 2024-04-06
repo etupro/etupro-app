@@ -1,11 +1,18 @@
-<mat-toolbar>
-  <div class="title-menu-container">
-    <button (click)="home()" mat-flat-button>Etupro</button>
-  </div>
+<mat-toolbar color="primary">
+  <a class="title-image" href="/"><img alt="Etupro" height="60" ngSrc="/assets/logoFR_white.png" width="196"></a>
 
   <div>
-    <button mat-raised-button color="primary" (click)="createPost()">Créer un post</button>
-    <button mat-button (click)="logout()">Logout</button>
+    <button [matMenuTriggerFor]="menu" mat-icon-button>
+      <mat-icon>account_circle</mat-icon>
+    </button>
   </div>
 </mat-toolbar>
+<mat-toolbar>
+  <ng-content></ng-content>
+</mat-toolbar>
 <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>Profil</button>
+  <button (click)="handleLogout()" mat-menu-item>Déconnexion</button>
+</mat-menu>

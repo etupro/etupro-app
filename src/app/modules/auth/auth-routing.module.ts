@@ -1,12 +1,10 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from "@angular/router";
-import {LoginComponent} from "./login/login.component";
-import {LogoutComponent} from "./logout/logout.component";
-import {canActivate, redirectLoggedInTo, redirectUnauthorizedTo} from "@angular/fire/auth-guard";
-import {RegisterComponent} from "./register/register.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from "@angular/router";
+import { LoginComponent } from "./login/login.component";
+import { canActivate, redirectLoggedInTo } from "@angular/fire/auth-guard";
+import { RegisterComponent } from "./register/register.component";
 
 const redirectLoggedInToHome = () => redirectLoggedInTo(['/posts']);
-const redirectLogoutToLogin = () => redirectUnauthorizedTo(['/login']);
 
 const routes: Routes = [
   {
@@ -23,11 +21,6 @@ const routes: Routes = [
     path: 'register',
     component: RegisterComponent,
     ...canActivate(redirectLoggedInToHome)
-  },
-  {
-    path: 'logout',
-    component: LogoutComponent,
-    ...canActivate(redirectLogoutToLogin)
   },
 ];
 
