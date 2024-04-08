@@ -1,17 +1,19 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {FirebaseOptions} from "firebase/app";
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {initializeAuth, provideAuth} from '@angular/fire/auth';
-import {getApp, initializeApp, provideFirebaseApp} from "@angular/fire/app";
-import {getFirestore, provideFirestore} from "@angular/fire/firestore";
-import {environment} from "../environments/environment";
-import {connectAuthEmulatorInDevMode, connectFirestoreEmulatorInDevMode} from "./emulator";
-import {browserLocalPersistence} from "@firebase/auth";
-import {AngularFireAuthGuardModule} from "@angular/fire/compat/auth-guard";
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { FirebaseOptions } from "firebase/app";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { initializeAuth, provideAuth } from '@angular/fire/auth';
+import { getApp, initializeApp, provideFirebaseApp } from "@angular/fire/app";
+import { getFirestore, provideFirestore } from "@angular/fire/firestore";
+import { environment } from "../environments/environment";
+import { connectAuthEmulatorInDevMode, connectFirestoreEmulatorInDevMode } from "./emulator";
+import { browserLocalPersistence } from "@firebase/auth";
+import { AngularFireAuthGuardModule } from "@angular/fire/compat/auth-guard";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { CoreModule } from "./core/core.module";
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: environment.FIREBASE.API_KEY,
@@ -44,7 +46,9 @@ const firebaseConfig: FirebaseOptions = {
       return firestore;
     }),
     BrowserAnimationsModule,
-    AngularFireAuthGuardModule
+    AngularFireAuthGuardModule,
+    MatSnackBarModule,
+    CoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,6 +10,6 @@ export class SnackbarService {
   }
 
   openSnackBar(message: string) {
-    this.matSnackBar.open(message, "Fermer");
+    this.matSnackBar.open(message, "Fermer", {duration: 3000});
   }
 }
