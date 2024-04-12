@@ -1,11 +1,5 @@
-import {Injectable} from "@angular/core";
-import {
-  Auth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  updateProfile
-} from "@angular/fire/auth";
+import { Injectable } from "@angular/core";
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "@angular/fire/auth";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +7,14 @@ import {
 export class AuthService {
 
   constructor(private auth: Auth) {
+  }
+
+  get isLoggedIn(): boolean {
+    return !!this.auth.currentUser;
+  }
+
+  get currentUser() {
+    return this.auth.currentUser;
   }
 
   async login(email: string, password: string): Promise<void> {

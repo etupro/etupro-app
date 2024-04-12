@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from "@angular/forms";
-import { Auth } from "@angular/fire/auth";
 import { Comment } from "../../../../shared/models/comment.model";
 import { CommentsService } from "../../../../shared/services/comments.service";
+import { AuthService } from "../../../../shared/services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-publish-comment',
@@ -18,12 +19,17 @@ export class PublishCommentComponent {
     comment: new FormControl(''),
   })
 
-  constructor(private auth: Auth, private commentService: CommentsService) {
+  constructor(protected authService: AuthService, private router: Router, private commentService: CommentsService) {
   }
 
   addComment() {
-    const authorId = this.auth.currentUser?.uid;
-    const authorName = this.auth.currentUser?.displayName ?? 'Anonyme';
+    if (!this.authService.isLoggedIn) {
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    const authorId = this.authService.currentUser?.uid;
+    const authorName = this.authService.currentUser?.displayName ?? 'Anonyme';
     const content = this.commentForm.value.comment;
 
     if (!content || !authorId || !authorName || !this.postId) {

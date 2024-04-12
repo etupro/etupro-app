@@ -1,8 +1,9 @@
 <mat-toolbar color="primary">
-  <a class="title-image" href="/"><img alt="Etupro" height="60" ngSrc="/assets/logoFR_white.png" width="196"></a>
+  <a class="title-image" href="https://www.etupro.fr"><img alt="Etupro" height="60" ngSrc="/assets/logoFR_white.png"
+                                                           priority width="196"></a>
 
   <div>
-    <button [matMenuTriggerFor]="menu" mat-icon-button>
+    <button *ngIf="authService.isLoggedIn" [matMenuTriggerFor]="menu" mat-icon-button>
       <mat-icon>account_circle</mat-icon>
     </button>
   </div>
@@ -13,6 +14,6 @@
 <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
 <mat-menu #menu="matMenu">
-  <button mat-menu-item>Profil</button>
+  <!--  <button mat-menu-item>Profil</button>-->
   <button (click)="handleLogout()" mat-menu-item>Déconnexion</button>
 </mat-menu>

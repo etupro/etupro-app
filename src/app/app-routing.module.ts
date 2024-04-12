@@ -1,18 +1,20 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {canActivate, redirectUnauthorizedTo} from "@angular/fire/auth-guard";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/login']);
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/posts',
+    pathMatch: 'full'
+  },
+  {
+    path: 'auth',
     loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule),
   },
   {
     path: 'posts',
     loadChildren: () => import('./modules/post/post.module').then(m => m.PostModule),
-    ...canActivate(redirectUnauthorizedToLogin),
   },
 ];
 

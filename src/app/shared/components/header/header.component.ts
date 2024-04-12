@@ -11,7 +11,7 @@ export class HeaderComponent {
 
   @Input() loading = false;
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(private router: Router, protected authService: AuthService) {
   }
 
   async handleLogout() {

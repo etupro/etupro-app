@@ -1,8 +1,11 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from "@angular/router";
-import {PostsComponent} from "./posts/posts.component";
-import {CreatePostComponent} from "./create-post/create-post.component";
-import {PostComponent} from "./post/post.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from "@angular/router";
+import { PostsComponent } from "./posts/posts.component";
+import { CreatePostComponent } from "./create-post/create-post.component";
+import { PostComponent } from "./post/post.component";
+import { canActivate, redirectUnauthorizedTo } from "@angular/fire/auth-guard";
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/auth/login']);
 
 
 const routes: Routes = [
@@ -13,6 +16,7 @@ const routes: Routes = [
   {
     path: 'create',
     component: CreatePostComponent,
+    ...canActivate(redirectUnauthorizedToLogin),
   },
   {
     path: ':id',

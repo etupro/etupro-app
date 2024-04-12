@@ -1,8 +1,8 @@
 <form [formGroup]="commentForm">
   <mat-form-field class="content-form-field">
-    <mat-label>Description</mat-label>
+    <mat-label>Commentaire</mat-label>
     <textarea [formControl]="commentForm.controls.comment" matInput></textarea>
   </mat-form-field>
 
-  <button (click)="addComment()" mat-raised-button>Publier</button>
+  <button (click)="addComment()" mat-raised-button>{{ authService.isLoggedIn ? 'Publier' : 'S\'authentifier' }}</button>
 </form>
