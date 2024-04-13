@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
-import {PostsService} from "../../../shared/services/posts.service";
-import {Post} from "../../../shared/models/post.model";
-import {CommentsService} from "../../../shared/services/comments.service";
-import {Comment} from "../../../shared/models/comment.model";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { PostsService } from "../../../shared/services/posts.service";
+import { Post } from "../../../shared/models/post.model";
+import { CommentsService } from "../../../shared/services/comments.service";
+import { Comment } from "../../../shared/models/comment.model";
 
 @Component({
   selector: 'app-post',
@@ -22,6 +22,7 @@ export class PostComponent implements OnInit, OnDestroy {
   commentLoading = false;
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private postsService: PostsService,
               private commentsService: CommentsService) {
   }
@@ -50,5 +51,9 @@ export class PostComponent implements OnInit, OnDestroy {
     }).finally(() => {
       this.commentLoading = false
     });
+  }
+
+  backToPosts() {
+    this.router.navigate(['/', 'posts']);
   }
 }

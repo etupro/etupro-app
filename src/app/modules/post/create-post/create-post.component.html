@@ -1,6 +1,13 @@
-<app-header></app-header>
+<app-header>
+  <div class="header-title-back-container">
+    <button (click)="backToPosts()" mat-icon-button>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Liste des posts</h1>
+  </div>
+</app-header>
 
-<div>
+<div class="create-post-container">
   <h1>Créer un post</h1>
 
   <form [formGroup]="postForm">

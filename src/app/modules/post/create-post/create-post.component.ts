@@ -74,4 +74,8 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       this.createLoading = false;
     }
   }
+
+  backToPosts() {
+    this.router.navigate(['/', 'posts']);
+  }
 }

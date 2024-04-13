@@ -1,4 +1,11 @@
-<app-header [loading]="postLoading || commentLoading"></app-header>
+<app-header [loading]="postLoading || commentLoading">
+  <div class="header-title-back-container">
+    <button (click)="backToPosts()" mat-icon-button>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Liste des posts</h1>
+  </div>
+</app-header>
 
 <div class="post-container">
   <mat-card>
@@ -22,7 +29,7 @@
   <h1 *ngIf="post?.id">Commentaires :</h1>
 
   <ng-container *ngIf="post?.id">
-    <app-comment-card (commentDeleted)="updateCommentList()" *ngFor="let comment of comments"
+    <app-comment-card *ngFor="let comment of comments"
                       [comment]="comment"></app-comment-card>
   </ng-container>
 
