@@ -1,5 +1,6 @@
 <app-header [loading]="postsLoading">
   <h1>{{ posts.length }} posts</h1>
+  <app-search-bar></app-search-bar>
   <button (click)="navigateToPostCreation()" mat-raised-button>Créer un post</button>
 </app-header>
 

@@ -1,19 +1,6 @@
-import {
-  addDoc,
-  collection,
-  CollectionReference,
-  deleteDoc,
-  doc,
-  Firestore,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  Query,
-  QuerySnapshot,
-  updateDoc
-} from "@angular/fire/firestore";
-import {Subject} from "rxjs";
-import {FirestoreDataConverter} from "@firebase/firestore";
+import { addDoc, collection, CollectionReference, deleteDoc, doc, Firestore, getDoc, getDocs, onSnapshot, Query, QuerySnapshot, updateDoc } from "@angular/fire/firestore";
+import { Subject } from "rxjs";
+import { FirestoreDataConverter } from "@firebase/firestore";
 
 export abstract class FirestoreCrudService<T> {
   collectionReference: CollectionReference<T>;
@@ -35,7 +22,7 @@ export abstract class FirestoreCrudService<T> {
 
   abstract createEntity(id: string, data: T): T;
 
-  async getAll(): Promise<T[]> {
+  async getAll(filter?: string): Promise<T[]> {
     const snapshot = await getDocs(this.collectionReference);
     return snapshot.docs.map(qds => this.createEntity(qds.id, qds.data()));
   }
