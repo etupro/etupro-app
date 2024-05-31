@@ -32,6 +32,12 @@ const firebaseConfig: FirebaseOptions = {
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    AngularFireAuthGuardModule,
+    MatSnackBarModule,
+    CoreModule,
+  ],
+  providers: [
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => {
       const auth = initializeAuth(getApp(), {
@@ -45,12 +51,7 @@ const firebaseConfig: FirebaseOptions = {
       connectFirestoreEmulatorInDevMode(firestore);
       return firestore;
     }),
-    BrowserAnimationsModule,
-    AngularFireAuthGuardModule,
-    MatSnackBarModule,
-    CoreModule,
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
