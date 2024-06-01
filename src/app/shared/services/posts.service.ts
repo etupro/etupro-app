@@ -20,19 +20,14 @@ export class PostsService extends FirestoreCrudService<Post> {
     })
   }
 
-  override async getAll(filterString?: string): Promise<Post[]> {
-    const filters = filterString ? filterString.split(' ') : [];
+  async getAll(tags: string[]): Promise<Post[]> {
     const constraints: QueryConstraint[] = [orderBy('createdAt', 'desc')];
 
-    if (filters.length > 0) {
-      filters.map(filter => {
-        constraints.push(where('tags', 'array-contains', filter))
-        constraints.push(where('tags', 'array-contains', filter))
-      });
-
+    if (tags.length) {
+      constraints.push(where('tags', 'array-contains-any', tags));
     }
 
-    const q = query(this.collectionReference, orderBy('createdAt', 'desc'))
+    const q = query(this.collectionReference, ...constraints)
     return await this.getAllWithQuery(q);
   }
 }

@@ -1,3 +1,8 @@
 .search-form-container {
   display: flex;
+  width: 100%;
+
+  app-autocomplete-input {
+    width: 100%;
+  }
 }

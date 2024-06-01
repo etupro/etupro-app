@@ -17,8 +17,12 @@ export class PostsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.searchPosts([]);
+  }
+
+  searchPosts(tags: string[]) {
     this.postsLoading = true;
-    this.postsService.getAll().then(posts => {
+    this.postsService.getAll(tags).then(posts => {
       this.posts = posts;
     }).finally(() => {
       this.postsLoading = false
@@ -31,5 +35,9 @@ export class PostsComponent implements OnInit {
 
   navigateToPost(post: Post) {
     this.router.navigate(['/', 'posts', post.id])
+  }
+
+  handleTagSearch(tags: string[]) {
+    this.searchPosts(tags);
   }
 }

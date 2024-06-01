@@ -34,7 +34,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.watcher.add(this.tagsService.updatedSnapshot$.subscribe(snapshot => {
-      this.allTags = snapshot.docs.map(d => d.data().tag)
+      this.allTags = snapshot?.docs?.map(d => d.data().tag) ?? []
     }));
   }
 

@@ -1,11 +1,10 @@
-import { addDoc, collection, CollectionReference, deleteDoc, doc, Firestore, getDoc, getDocs, onSnapshot, Query, QuerySnapshot, updateDoc } from "@angular/fire/firestore";
-import { Subject } from "rxjs";
+import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentData, Firestore, getDoc, getDocs, onSnapshot, Query, QuerySnapshot, updateDoc } from "@angular/fire/firestore";
 import { FirestoreDataConverter } from "@firebase/firestore";
+import { BehaviorSubject } from "rxjs";
 
 export abstract class FirestoreCrudService<T> {
   collectionReference: CollectionReference<T>;
-  private updatedSnapshot = new Subject<QuerySnapshot<T>>();
-  updatedSnapshot$ = this.updatedSnapshot.asObservable();
+  updatedSnapshot$ = new BehaviorSubject<QuerySnapshot<T, DocumentData> | undefined>(undefined);
 
   constructor(protected path: string,
               protected converter: FirestoreDataConverter<T>,
@@ -14,18 +13,13 @@ export abstract class FirestoreCrudService<T> {
 
     // Get Realtime Data
     onSnapshot(this.collectionReference, (snapshot) => {
-      this.updatedSnapshot.next(snapshot);
+      this.updatedSnapshot$.next(snapshot);
     }, (err) => {
       console.log(err);
-    })
+    });
   }
 
   abstract createEntity(id: string, data: T): T;
-
-  async getAll(filter?: string): Promise<T[]> {
-    const snapshot = await getDocs(this.collectionReference);
-    return snapshot.docs.map(qds => this.createEntity(qds.id, qds.data()));
-  }
 
   async get(id: string): Promise<T | undefined> {
     const snapshot = await getDoc(doc(this.collectionReference, id));

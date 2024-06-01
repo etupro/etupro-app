@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Firestore, orderBy, query} from "@angular/fire/firestore";
-import {Tag} from "../models/tag.model";
-import {FirestoreCrudService} from "./firestore-crud.service";
+import { Injectable } from '@angular/core';
+import { Firestore, orderBy, query } from "@angular/fire/firestore";
+import { Tag } from "../models/tag.model";
+import { FirestoreCrudService } from "./firestore-crud.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class TagsService extends FirestoreCrudService<Tag> {
     })
   }
 
-  override async getAll(): Promise<Tag[]> {
+  async getAll(): Promise<Tag[]> {
     const q = query(this.collectionReference, orderBy('tag', 'asc'));
     return await this.getAllWithQuery(q);
   }
