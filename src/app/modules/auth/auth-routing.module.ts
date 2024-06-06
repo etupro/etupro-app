@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from "@angular/router";
 import { LoginComponent } from "./login/login.component";
-import { canActivate, redirectLoggedInTo } from "@angular/fire/auth-guard";
 import { RegisterComponent } from "./register/register.component";
-
-const redirectLoggedInToHome = () => redirectLoggedInTo(['/posts']);
+import { noAuthGuard } from "../../core/guard/auth.guard";
 
 const routes: Routes = [
   {
@@ -15,12 +13,12 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    ...canActivate(redirectLoggedInToHome)
+    canActivate: [noAuthGuard]
   },
   {
     path: 'register',
     component: RegisterComponent,
-    ...canActivate(redirectLoggedInToHome)
+    canActivate: [noAuthGuard]
   },
 ];
 

@@ -1,7 +1,6 @@
 import { ErrorHandler, Injectable, NgZone } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 import { SnackbarService } from "../../shared/services/snackbar.service";
-import { ErrorsMapper } from "../../shared/mappers/errors.mapper";
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -15,10 +14,6 @@ export class GlobalErrorHandler implements ErrorHandler {
     // Check if it's an error from an HTTP response
     if (!(error instanceof HttpErrorResponse)) {
       error = error.rejection; // get the error object
-    }
-
-    if ('code' in error) {
-      error.message = ErrorsMapper.firebaseAuthError(error);
     }
 
     this.zone.run(() =>

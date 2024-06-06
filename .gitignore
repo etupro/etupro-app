@@ -42,9 +42,7 @@ testem.log
 Thumbs.db
 
 # Project
-app.properties.ts
-environment.development.ts
-environment.production.ts
 *.log
 .seed
 .firebase
+.snaplet

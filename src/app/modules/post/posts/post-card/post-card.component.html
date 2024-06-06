@@ -3,7 +3,9 @@
   <mat-card-content>{{ post.content}}</mat-card-content>
   <mat-card-footer>
     <mat-chip-listbox aria-label="Post tags">
-      <mat-chip-option *ngFor="let tag of post.tags" [selectable]="false">{{ tag }}</mat-chip-option>
+      @for (tag of post.tags; track tag) {
+        <mat-chip-option [selectable]="false">{{ tag }}</mat-chip-option>
+      }
     </mat-chip-listbox>
   </mat-card-footer>
 </mat-card>

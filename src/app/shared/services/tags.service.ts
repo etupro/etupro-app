@@ -1,26 +1,46 @@
-import {Injectable} from '@angular/core';
-import {Firestore, orderBy, query} from "@angular/fire/firestore";
-import {Tag} from "../models/tag.model";
-import {FirestoreCrudService} from "./firestore-crud.service";
+import { Injectable } from '@angular/core';
+import { Tag } from "../models/tag.model";
+import { SupabaseService } from "./supabase.service";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
+import { DateTime } from "luxon";
 
 @Injectable({
   providedIn: 'root'
 })
-export class TagsService extends FirestoreCrudService<Tag> {
+export class TagsService {
 
-  constructor(protected override firestore: Firestore) {
-    super('tags', new Tag.Converter(), firestore);
+  constructor(private supabaseService: SupabaseService) {
   }
 
-  override createEntity(id: string, data: Tag): Tag {
-    return new Tag({
-      ...data,
-      id
-    })
+  async getById(id: Tag.Table['id']): Promise<PostgrestSingleResponse<Tag.Table | null>> {
+    return this.supabaseService.client
+      .from('tags')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle()
   }
 
-  override async getAll(): Promise<Tag[]> {
-    const q = query(this.collectionReference, orderBy('tag', 'asc'));
-    return await this.getAllWithQuery(q);
+  async create(tag: Tag.Insert): Promise<PostgrestSingleResponse<null>> {
+    return this.supabaseService.client
+      .from('tags')
+      .insert(tag)
+  }
+
+  async update(id: number, tag: Tag.Update): Promise<PostgrestSingleResponse<null>> {
+    return this.supabaseService.client
+      .from('tags')
+      .update({
+        ...tag,
+        id,
+        updated_at: DateTime.now().toISO()
+      })
+      .eq('id', id)
+  }
+
+  async getAll(): Promise<PostgrestSingleResponse<Tag.Table[]>> {
+    return this.supabaseService.client
+      .from('tags')
+      .select('*')
+      .order('value', {ascending: true})
   }
 }

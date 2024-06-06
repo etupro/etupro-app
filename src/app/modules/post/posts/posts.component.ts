@@ -10,16 +10,20 @@ import { Router } from "@angular/router";
 })
 export class PostsComponent implements OnInit {
 
-  posts: Post[] = [];
+  posts: Post.Table[] = [];
   postsLoading = false;
 
   constructor(private postsService: PostsService, private router: Router) {
   }
 
   ngOnInit(): void {
+    this.searchPosts([]);
+  }
+
+  searchPosts(tags: string[]) {
     this.postsLoading = true;
-    this.postsService.getAll().then(posts => {
-      this.posts = posts;
+    this.postsService.getAllByTags(tags).then(response => {
+      this.posts = response.data ?? [];
     }).finally(() => {
       this.postsLoading = false
     });
@@ -29,7 +33,11 @@ export class PostsComponent implements OnInit {
     this.router.navigate(['/', 'posts', 'create'])
   }
 
-  navigateToPost(post: Post) {
+  navigateToPost(post: Post.Table) {
     this.router.navigate(['/', 'posts', post.id])
+  }
+
+  handleTagSearch(tags: string[]) {
+    this.searchPosts(tags);
   }
 }
