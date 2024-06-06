@@ -1,33 +1,48 @@
 import { Injectable } from '@angular/core';
-import { Firestore, orderBy, query, where, } from "@angular/fire/firestore";
 import { Post } from "../models/post.model";
-import { FirestoreCrudService } from "./firestore-crud.service";
-import { QueryConstraint } from "@firebase/firestore";
+import { SupabaseService } from "./supabase.service";
+import { DateTime } from "luxon";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
 @Injectable({
   providedIn: 'root'
 })
-export class PostsService extends FirestoreCrudService<Post> {
+export class PostsService {
 
-  constructor(protected override firestore: Firestore) {
-    super('posts', new Post.Converter(), firestore);
+  constructor(private supabaseService: SupabaseService) {
   }
 
-  override createEntity(id: string, data: Post): Post {
-    return new Post({
-      ...data,
-      id
-    })
+  async getAllByTags(tags: string[] = []): Promise<PostgrestSingleResponse<Post.Table[]>> {
+    return this.supabaseService.client
+      .from('posts')
+      .select('*')
+      .contains('tags', tags)
+      .order('updated_at', {ascending: false})
+      .limit(100);
   }
 
-  async getAll(tags: string[]): Promise<Post[]> {
-    const constraints: QueryConstraint[] = [orderBy('createdAt', 'desc')];
+  async getById(id: Post.Table['id']): Promise<PostgrestSingleResponse<Post.Table | null>> {
+    return this.supabaseService.client
+      .from('posts')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle()
+  }
 
-    if (tags.length) {
-      constraints.push(where('tags', 'array-contains-any', tags));
-    }
+  async create(post: Post.Insert): Promise<PostgrestSingleResponse<null>> {
+    return this.supabaseService.client
+      .from('posts')
+      .insert(post)
+  }
 
-    const q = query(this.collectionReference, ...constraints)
-    return await this.getAllWithQuery(q);
+  async update(id: number, post: Post.Update): Promise<PostgrestSingleResponse<null>> {
+    return this.supabaseService.client
+      .from('posts')
+      .update({
+        ...post,
+        id,
+        updated_at: DateTime.now().toISO()
+      })
+      .eq('id', id)
   }
 }

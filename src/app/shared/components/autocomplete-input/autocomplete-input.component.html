@@ -1,12 +1,14 @@
 <mat-form-field class="values-form-field">
   <mat-label>{{ label | titlecase }}</mat-label>
   <mat-chip-grid #chipGrid aria-label="Séléction des valeurs">
-    <mat-chip-row (removed)="remove(value)" *ngFor="let value of values">
-      {{ value }}
-      <button [attr.aria-label]="'supprimer  ' + value" matChipRemove>
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </mat-chip-row>
+    @for (value of values; track value) {
+      <mat-chip-row (removed)="remove(value)">
+        {{ value }}
+        <button [attr.aria-label]="'supprimer  ' + value" matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    }
   </mat-chip-grid>
   <input #valueInput [formControl]="tagInputControl" placeholder="Nouvelle valeur..."
          [matChipInputFor]="chipGrid" [matAutocomplete]="auto"

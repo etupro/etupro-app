@@ -1,26 +1,55 @@
-import {Injectable} from '@angular/core';
-import {Firestore, orderBy, query, where,} from "@angular/fire/firestore";
-import {Comment} from "../models/comment.model";
-import {FirestoreCrudService} from "./firestore-crud.service";
+import { Injectable } from '@angular/core';
+import { Comment } from "../models/comment.model";
+import { SupabaseService } from "./supabase.service";
+import { DateTime } from "luxon";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CommentsService extends FirestoreCrudService<Comment> {
+export class CommentsService {
 
-  constructor(protected override firestore: Firestore) {
-    super('comments', new Comment.Converter(), firestore);
+  constructor(private supabaseService: SupabaseService) {
   }
 
-  override createEntity(id: string, data: Comment): Comment {
-    return new Comment({
-      ...data,
-      id
-    })
+  async getById(id: Comment.Table['id']): Promise<PostgrestSingleResponse<Comment.Table | null>> {
+    return this.supabaseService.client
+      .from('comments')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle()
   }
 
-  async getAllFromPost(postId: string): Promise<Comment[]> {
-    const q = query(this.collectionReference, where('postId', '==', postId), orderBy('createdAt', 'desc'))
-    return await this.getAllWithQuery(q);
+  async create(comment: Comment.Insert): Promise<PostgrestSingleResponse<null>> {
+    return this.supabaseService.client
+      .from('comments')
+      .insert(comment)
+  }
+
+  async update(id: number, comment: Comment.Update): Promise<PostgrestSingleResponse<null>> {
+    return this.supabaseService.client
+      .from('comments')
+      .update({
+        ...comment,
+        id,
+        updated_at: DateTime.now().toISO()
+      })
+      .eq('id', id)
+  }
+
+  async getAllFromPost(postId: number): Promise<PostgrestSingleResponse<Comment.TableWithUserProfile[]>> {
+    return this.supabaseService.client
+      .from('comments')
+      .select('*, user_profiles(*)')
+      .eq('post_id', postId)
+      .order('updated_at', {ascending: false})
+      .limit(1000);
+  }
+
+  async delete(id: number): Promise<PostgrestSingleResponse<null>> {
+    return this.supabaseService.client
+      .from('comments')
+      .delete()
+      .eq('id', id)
   }
 }

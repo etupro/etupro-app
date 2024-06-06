@@ -14,9 +14,9 @@ import { Comment } from "../../../shared/models/comment.model";
 export class PostComponent implements OnInit, OnDestroy {
 
   watcher = new Subscription();
-  post: Post | undefined;
-  postId: string;
-  comments: Comment[] = [];
+  post: Post.Table | undefined;
+  postId: number;
+  comments: Comment.TableWithUserProfile[] = [];
 
   postLoading = false;
   commentLoading = false;
@@ -29,10 +29,10 @@ export class PostComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.watcher.add(this.route.params.subscribe(params => {
-      this.postId = params['id'] + '';
+      this.postId = params['id'];
       this.postLoading = true
-      this.postsService.get(this.postId).then(post => {
-        this.post = post
+      this.postsService.getById(this.postId).then(response => {
+        this.post = response.data ?? undefined;
       }).finally(() => {
         this.postLoading = false
       });
@@ -46,8 +46,8 @@ export class PostComponent implements OnInit, OnDestroy {
 
   updateCommentList() {
     this.commentLoading = true;
-    this.commentsService.getAllFromPost(this.postId).then(comments => {
-      this.comments = comments
+    this.commentsService.getAllFromPost(this.postId).then(response => {
+      this.comments = response.data ?? [];
     }).finally(() => {
       this.commentLoading = false
     });

@@ -19,18 +19,23 @@
 
     <mat-card-footer>
       <mat-chip-listbox aria-label="Post tags">
-        <mat-chip-option *ngFor="let tag of post?.tags" [selectable]="false">{{ tag }}</mat-chip-option>
+        @for (tag of post?.tags; track tag) {
+          <mat-chip-option [selectable]="false">{{ tag }}</mat-chip-option>
+        }
       </mat-chip-listbox>
     </mat-card-footer>
   </mat-card>
 
   <app-publish-comment (commentPosted)="updateCommentList()" *ngIf="post?.id" [postId]="post?.id"></app-publish-comment>
 
-  <h1 *ngIf="post?.id">Commentaires :</h1>
+  @if (post?.id) {
+    <h1>Commentaires :</h1>
+  }
 
-  <ng-container *ngIf="post?.id">
-    <app-comment-card *ngFor="let comment of comments"
-                      [comment]="comment"></app-comment-card>
-  </ng-container>
+  @if (post?.id) {
+    @for (comment of comments; track comment) {
+      <app-comment-card [comment]="comment" (commentDeleted)="updateCommentList()"></app-comment-card>
+    }
+  }
 
 </div>

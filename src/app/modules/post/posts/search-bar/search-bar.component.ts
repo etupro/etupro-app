@@ -23,9 +23,9 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.watcher.add(this.tagsService.updatedSnapshot$.subscribe(snapshot => {
-      this.allTags = snapshot?.docs?.map(d => d.data().tag) ?? []
-    }));
+    this.tagsService.getAll().then(response => {
+      this.allTags = response.data?.map(d => d.value) ?? []
+    });
 
     this.watcher.add(this.searchForm.valueChanges.subscribe(value => {
       this.searchUpdate.emit(value.tags ?? []);

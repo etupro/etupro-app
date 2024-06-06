@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { PostsService } from "../../../shared/services/posts.service";
 import { Post } from "../../../shared/models/post.model";
-import { Auth } from "@angular/fire/auth";
 import { TagsService } from "../../../shared/services/tags.service";
 import { Router } from "@angular/router";
-import { Tag } from "../../../shared/models/tag.model";
 import { Subscription } from "rxjs";
+import { AuthService } from "../../../shared/services/auth.service";
+import { UserProfileService } from "../../../shared/services/user-profile.service";
 
 @Component({
   selector: 'app-create-post',
@@ -26,16 +26,17 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
   createLoading = false;
 
-  constructor(private auth: Auth,
+  constructor(private authService: AuthService,
               private router: Router,
               private postsService: PostsService,
-              private tagsService: TagsService) {
+              private tagsService: TagsService,
+              private userProfileService: UserProfileService) {
   }
 
   ngOnInit() {
-    this.watcher.add(this.tagsService.updatedSnapshot$.subscribe(snapshot => {
-      this.allTags = snapshot?.docs?.map(d => d.data().tag) ?? []
-    }));
+    this.tagsService.getAll().then(response => {
+      this.allTags = response.data?.map(d => d.value) ?? []
+    });
   }
 
   ngOnDestroy() {
@@ -43,10 +44,14 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   }
 
   async createPost() {
-    const authorId = this.auth.currentUser?.uid;
-    const authorName = this.auth.currentUser?.displayName ?? 'Anonyme';
+    const userId = this.authService.userId;
+    if (!userId) {
+      throw new Error('No user id found');
+    }
 
-    if (!this.postForm.valid || !authorId || !authorName) {
+    const authorId = (await this.userProfileService.getByUserId(userId)).data?.id;
+
+    if (!this.postForm.valid || !authorId) {
       this.postForm.markAllAsTouched();
       return;
     }
@@ -55,18 +60,17 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     const content = this.postForm.value.content ?? '';
     const tags = this.postForm.value.tags ?? [];
 
-    const post = new Post({
-      authorId,
-      authorName,
+    const post: Post.Insert = {
+      user_profile_id: authorId,
       title,
       content,
-      tags
-    });
+      tags,
+    };
 
     this.createLoading = true;
     try {
       tags.filter(tag => !this.allTags.includes(tag))
-        .map(async tag => await this.tagsService.create(new Tag({tag})));
+        .map(async tag => await this.tagsService.create({value: tag}));
 
       const postId = await this.postsService.create(post);
       await this.router.navigate(['/', 'posts', postId]);

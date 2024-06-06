@@ -49,13 +49,7 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all",
-              "fileReplacements": [
-                {
-                  "replace": "src/app/emulator.ts",
-                  "with": "src/app/emulator.prod.ts"
-                }
-              ]
+              "outputHashing": "all"
             },
             "development": {
               "buildOptimizer": false,
