@@ -1,16 +1,18 @@
 {
   "name": "etupro-app",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "start:emul": "npx supabase start",
-    "stop:emul": "npx supabase stop",
+    "stop:emul": "npx supabase stop --no-backup",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "deploy": "npm ci && npm run build && firebase deploy",
     "supabase:db-pull": "npx supabase db pull",
     "supabase:update-database-type": "npx supabase gen types typescript --project-id jhshraxeznmhpigjdzcq > src/app/shared/models/database.types.ts",
+    "supabase:update-seed": "npx tsx seed.ts > supabase/seed.sql",
     "test": "ng test",
     "lint": "ng lint"
   },
@@ -57,6 +59,7 @@
     "karma-jasmine-html-reporter": "2.1.0",
     "pg": "^8.12.0",
     "supabase": "^1.172.2",
+    "tsx": "^4.13.3",
     "typescript": "5.4.5"
   },
   "engines": {
