@@ -8,5 +8,5 @@ import { Post } from "../../../../shared/models/post.model";
 })
 export class PostCardComponent {
 
-  @Input() post: Post.Table;
+  @Input() post: Post.TableWithUserProfile;
 }

@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
 })
 export class PostsComponent implements OnInit {
 
-  posts: Post.Table[] = [];
+  posts: Post.TableWithUserProfile[] = [];
   postsLoading = false;
 
   constructor(private postsService: PostsService, private router: Router) {

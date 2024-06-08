@@ -12,19 +12,19 @@ export class PostsService {
   constructor(private supabaseService: SupabaseService) {
   }
 
-  async getAllByTags(tags: string[] = []): Promise<PostgrestSingleResponse<Post.Table[]>> {
+  async getAllByTags(tags: string[] = []): Promise<PostgrestSingleResponse<Post.TableWithUserProfile[]>> {
     return this.supabaseService.client
       .from('posts')
-      .select('*')
+      .select('*, user_profiles(*)')
       .contains('tags', tags)
       .order('updated_at', {ascending: false})
       .limit(100);
   }
 
-  async getById(id: Post.Table['id']): Promise<PostgrestSingleResponse<Post.Table | null>> {
+  async getById(id: Post.Table['id']): Promise<PostgrestSingleResponse<Post.TableWithUserProfile | null>> {
     return this.supabaseService.client
       .from('posts')
-      .select('*')
+      .select('*, user_profiles(*)')
       .eq('id', id)
       .maybeSingle()
   }
