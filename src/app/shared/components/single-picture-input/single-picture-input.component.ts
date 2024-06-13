@@ -23,12 +23,16 @@ export class SinglePictureInputComponent {
     event.preventDefault();
     event.stopPropagation();
     this.fileOver = true;
+
+    console.log('Drag over');
   }
 
   @HostListener('dragleave', ['$event']) onDragLeave(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.fileOver = false;
+
+    console.log('Drag leave');
   }
 
   @HostListener('drop', ['$event'])
