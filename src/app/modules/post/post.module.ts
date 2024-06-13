@@ -18,6 +18,7 @@ import { ConfirmCommentDeletionDialogComponent } from './post/comment-card/confi
 import { MatDialogModule } from "@angular/material/dialog";
 import { PostCardComponent } from "./posts/post-card/post-card.component";
 import { SearchBarComponent } from './posts/search-bar/search-bar.component';
+import { DropImageDirective } from "../../shared/directives/drop-image.directive";
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { SearchBarComponent } from './posts/search-bar/search-bar.component';
     MatIconModule,
     MatAutocompleteModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
+    DropImageDirective
   ]
 })
 export class PostModule { }
