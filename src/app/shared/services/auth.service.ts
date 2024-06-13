@@ -1,22 +1,23 @@
 import { Injectable } from "@angular/core";
-import { User } from "@supabase/supabase-js";
+import { User, UserResponse } from "@supabase/supabase-js";
 import { SupabaseService } from "./supabase.service";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, filter, Observable } from "rxjs";
 import { UserProfileService } from "./user-profile.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private user$ = new BehaviorSubject<User | undefined>(undefined);
-  private user: User | undefined;
+  private _user$ = new BehaviorSubject<User | null | undefined>(undefined);
+  user$ = this._user$.pipe(filter(_ => _ !== undefined)) as Observable<User | null>;
+  private user: User | null | undefined;
 
   constructor(private supabaseService: SupabaseService, private userProfileService: UserProfileService) {
     this.supabaseService.client.auth.getUser().then(({data, error}) => {
-      this.user$.next(data.user ?? undefined);
+      this._user$.next(data.user);
 
       this.supabaseService.client.auth.onAuthStateChange((event, session) => {
-        this.user$.next(session?.user ?? undefined);
+        this._user$.next(session?.user ?? null);
       });
     });
 
@@ -26,7 +27,11 @@ export class AuthService {
   }
 
   get isLoggedIn(): boolean {
-    return !!this.userId;
+    return !!this.user;
+  }
+
+  async getUser(): Promise<UserResponse> {
+    return await this.supabaseService.client.auth.getUser()
   }
 
   get userId(): string | undefined {
