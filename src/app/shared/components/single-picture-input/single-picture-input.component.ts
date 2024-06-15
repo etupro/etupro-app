@@ -23,16 +23,12 @@ export class SinglePictureInputComponent {
     event.preventDefault();
     event.stopPropagation();
     this.fileOver = true;
-
-    console.log('Drag over');
   }
 
   @HostListener('dragleave', ['$event']) onDragLeave(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.fileOver = false;
-
-    console.log('Drag leave');
   }
 
   @HostListener('drop', ['$event'])
@@ -44,6 +40,12 @@ export class SinglePictureInputComponent {
     if (files && files.length > 0) {
       await this.saveFiles(files);
     }
+  }
+
+  async onFileChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const files = target.files as FileList;
+    await this.saveFiles(files);
   }
 
   async onFileChange(event: Event) {
