@@ -1,4 +1,6 @@
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
+import { StorageService } from "../../services/storage.service";
+import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-single-picture-input',
@@ -7,46 +9,72 @@ import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 })
 export class SinglePictureInputComponent {
 
-  @Output() fileDropped = new EventEmitter<string>();
+  @Output() fileSaved = new EventEmitter<string>();
 
   fileOver = false;
+  uploading = false;
+  coverUrl: SafeResourceUrl | undefined;
+
+  constructor(private storageService: StorageService,
+              private readonly dom: DomSanitizer) {
+  }
 
   @HostListener('dragover', ['$event']) onDragOver(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.fileOver = true;
-
-    console.log('Drag over');
   }
 
   @HostListener('dragleave', ['$event']) onDragLeave(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.fileOver = false;
-
-    console.log('Drag leave');
   }
 
-  @HostListener('drop', ['$event']) onDrop(event: DragEvent) {
+  @HostListener('drop', ['$event'])
+  async onDrop(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.fileOver = false;
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
-      this.saveFiles(files);
+      await this.saveFiles(files);
     }
   }
 
-  onFileChange(event: any) {
-    this.saveFiles(event.target?.files);
+  async onFileChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const files = target.files as FileList;
+    await this.saveFiles(files);
   }
 
-  saveFiles(files: FileList) {
-    console.log(`You selected ${files.length} files.`);
-    const file = files.item(0);
+  async saveFiles(files: FileList | null | undefined) {
+    try {
+      this.uploading = true
+      if (!files || files.length === 0) {
+        throw new Error('You must select an image to upload.')
+      }
 
-    // todo : store to bucket and emit public url
+      const file = files[0]
+      const fileExt = file.name.split('.').pop()
+      const filePath = `${Math.random()}.${fileExt}`
 
-    // this.fileDropped.emit(url);
+      const uploadPath = await this.storageService.uploadToBucket(StorageService.BucketName.POST_COVERS, filePath, file)
+      this.fileSaved.emit(uploadPath)
+      await this.downloadImage(uploadPath)
+    } finally {
+      this.uploading = false
+    }
+  }
+
+  async downloadImage(path: string) {
+    try {
+      const blob = await this.storageService.downLoadFromBucket(StorageService.BucketName.POST_COVERS, path)
+      this.coverUrl = this.dom.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob))
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Error downloading image: ', error.message)
+      }
+    }
   }
 }

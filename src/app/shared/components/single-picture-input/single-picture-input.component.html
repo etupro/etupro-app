@@ -1,11 +1,13 @@
 <div [ngClass]="{'drop-zone-shake': fileOver}" class="add-image-container">
-  <input #fileDropRef [multiple]="false" type="file">
+  <input #fileDropRef (change)="onFileChange($event)" [multiple]="false" accept="image/*" type="file">
   <mat-icon>add_photo_alternate</mat-icon>
   <h3>Déposez votre image ici</h3>
   <h5>ou cliquez pour choisir un fichier</h5>
   <div (change)="onFileChange($event)"
        (click)="fileDropRef.click()"
        (keydown)="fileDropRef.click()"
-       appDropImage
-       class="add-image-overlay" tabindex="0"></div>
+       class="add-image-overlay"
+       tabindex="0"></div>
+
+  <img *ngIf="coverUrl" [ngSrc]="coverUrl" alt="Image de couverture"/>
 </div>
