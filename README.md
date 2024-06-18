@@ -2,8 +2,9 @@
 
 ### Pré-requis
 
-- [Node & npm v20](https://nodejs.org/en/download)
 - [git](https://git-scm.com/downloads)
+- [Docker desktop](https://docs.docker.com/desktop/)
+- [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
 
 ### Installation
 
@@ -19,6 +20,12 @@ Se déplacer dans le dossier du projet :
 cd etupro-app
 ```
 
+Installer node :
+
+```
+nvm install
+```
+
 Installer le projet :
 
 ```shell
@@ -28,13 +35,7 @@ npm install
 Installer firebase et angular CLI:
 
 ```shell
-npm install -g firebase-tools @angular/cli
-```
-
-Connecter le CLI (necessite d'être ajouté au projet dans firebase) :
-
-```shell
-firebase login
+npm install -g @angular/cli
 ```
 
 ### Lancer le projet en local
