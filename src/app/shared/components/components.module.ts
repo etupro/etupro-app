@@ -13,16 +13,20 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatMenuModule } from "@angular/material/menu";
+import { SinglePictureInputComponent } from "./single-picture-input/single-picture-input.component";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
     AutocompleteInputComponent,
+    SinglePictureInputComponent,
   ],
   exports: [
     HeaderComponent,
     AutocompleteInputComponent,
+    SinglePictureInputComponent,
   ],
   imports: [
     CommonModule,
@@ -37,7 +41,8 @@ import { MatMenuModule } from "@angular/material/menu";
     MatCardModule,
     MatProgressBarModule,
     MatMenuModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatProgressSpinner,
   ]
 })
 export class ComponentsModule { }

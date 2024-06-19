@@ -13,6 +13,10 @@
       {{ post?.title }}
     </mat-card-title>
 
+    @if (post?.cover) {
+      <img [src]="post?.cover" [alt]="'Cover image for post'"/>
+    }
+
     <mat-card-content>
       {{ post?.content }}
     </mat-card-content>

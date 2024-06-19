@@ -1,0 +1,20 @@
+<div [ngClass]="{'drop-zone-shake': fileOver}" class="add-image-container">
+  @if (coverUrl) {
+    <img *ngIf="coverUrl" [src]="coverUrl" alt="Image de couverture"/>
+  }
+  <div class="add-image-input-container">
+    <input #fileDropRef (change)="onFileChange($event)" [multiple]="false" accept="image/*" type="file">
+    <mat-icon>add_photo_alternate</mat-icon>
+    <h3>Déposez votre image ici</h3>
+    <h5>ou cliquez pour choisir un fichier</h5>
+    <div (change)="onFileChange($event)"
+         (click)="fileDropRef.click()"
+         (keydown)="fileDropRef.click()"
+         class="add-image-overlay"
+         tabindex="0"></div>
+  </div>
+
+  @if (uploading) {
+    <mat-spinner></mat-spinner>
+  }
+</div>

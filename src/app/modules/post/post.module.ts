@@ -42,7 +42,7 @@ import { SearchBarComponent } from './posts/search-bar/search-bar.component';
     MatIconModule,
     MatAutocompleteModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
   ]
 })
 export class PostModule { }

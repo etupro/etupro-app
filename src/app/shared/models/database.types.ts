@@ -54,6 +54,7 @@ export type Database = {
       posts: {
         Row: {
           content: string
+          cover: string | null
           created_at: string
           id: number
           tags: string[]
@@ -63,6 +64,7 @@ export type Database = {
         }
         Insert: {
           content: string
+          cover?: string | null
           created_at?: string
           id?: number
           tags: string[]
@@ -72,6 +74,7 @@ export type Database = {
         }
         Update: {
           content?: string
+          cover?: string | null
           created_at?: string
           id?: number
           tags?: string[]
