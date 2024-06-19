@@ -1,5 +1,4 @@
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
-import { StorageService } from "../../services/storage.service";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 @Component({
@@ -9,14 +8,15 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 })
 export class SinglePictureInputComponent {
 
-  @Output() fileSaved = new EventEmitter<string>();
+  @Output() fileSaved = new EventEmitter<File>();
 
   fileOver = false;
   uploading = false;
+
+  file: File | undefined;
   coverUrl: SafeResourceUrl | undefined;
 
-  constructor(private storageService: StorageService,
-              private readonly dom: DomSanitizer) {
+  constructor(private readonly dom: DomSanitizer) {
   }
 
   @HostListener('dragover', ['$event']) onDragOver(event: DragEvent) {
@@ -50,31 +50,16 @@ export class SinglePictureInputComponent {
 
   async saveFiles(files: FileList | null | undefined) {
     try {
-      this.uploading = true
+      this.uploading = true;
       if (!files || files.length === 0) {
-        throw new Error('You must select an image to upload.')
+        throw new Error('You must select an image to upload.');
       }
 
-      const file = files[0]
-      const fileExt = file.name.split('.').pop()
-      const filePath = `${Math.random()}.${fileExt}`
-
-      const uploadPath = await this.storageService.uploadToBucket(StorageService.BucketName.POST_COVERS, filePath, file)
-      this.fileSaved.emit(uploadPath)
-      await this.downloadImage(uploadPath)
+      this.file = files[0];
+      this.coverUrl = this.dom.bypassSecurityTrustResourceUrl(URL.createObjectURL(this.file));
+      this.fileSaved.emit(this.file);
     } finally {
-      this.uploading = false
-    }
-  }
-
-  async downloadImage(path: string) {
-    try {
-      const blob = await this.storageService.downLoadFromBucket(StorageService.BucketName.POST_COVERS, path)
-      this.coverUrl = this.dom.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob))
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error('Error downloading image: ', error.message)
-      }
+      this.uploading = false;
     }
   }
 }

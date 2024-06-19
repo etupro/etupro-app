@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SupabaseService } from "./supabase.service";
+import { v4 as uuidv4 } from "uuid";
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,10 @@ export class StorageService {
   constructor(private supabaseService: SupabaseService) {
   }
 
-  async uploadToBucket(bucketName: StorageService.BucketName, fileName: string, file: File): Promise<string> {
-    const {data, error} = await this.supabaseService.client.storage.from(bucketName).upload(fileName, file)
+  async uploadToBucket(bucketName: StorageService.BucketName, file: File): Promise<string> {
+    const fileExt = file.name.split('.').pop()
+    const filePath = `${uuidv4()}.${fileExt}`
+    const {data, error} = await this.supabaseService.client.storage.from(bucketName).upload(filePath, file)
     if (error) {
       throw new Error(error.message);
     } else {
@@ -18,13 +21,8 @@ export class StorageService {
     }
   }
 
-  async downLoadFromBucket(bucketName: StorageService.BucketName, filePath: string): Promise<Blob> {
-    const {data, error} = await this.supabaseService.client.storage.from(bucketName).download(filePath)
-    if (data instanceof Blob) {
-      return data;
-    } else {
-      throw new Error(error?.message ?? 'Une erreur est survenue lors du téléchargement de la photo');
-    }
+  getPublicUrl(bucketName: StorageService.BucketName, filePath: string): string {
+    return this.supabaseService.client.storage.from(bucketName).getPublicUrl(filePath).data.publicUrl;
   }
 }
 

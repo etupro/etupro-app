@@ -5,7 +5,6 @@ mat-card {
 
   display: flex;
   justify-content: space-between;
-  gap: 8px;
 
   mat-card-title {
     max-height: 32px;
@@ -14,8 +13,13 @@ mat-card {
     overflow: hidden;
   }
 
+  img {
+    object-fit: cover;
+    height: 100px;
+  }
+
   mat-card-content {
-    max-height: 6rem;
+    max-height: 6lh;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -24,7 +28,7 @@ mat-card {
   }
 
   mat-card-footer {
-    height: 100px;
+    height: 56px;
     overflow: hidden;
   }
 }

@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UserProfileService } from "../../../shared/services/user-profile.service";
+import { StorageService } from "../../../shared/services/storage.service";
 
 @Component({
   selector: 'app-create-post',
@@ -18,6 +19,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   postForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     content: new FormControl('', [Validators.required]),
+    cover: new FormControl<File | undefined>(undefined),
     tags: new FormControl<string[]>([]),
   })
 
@@ -30,7 +32,8 @@ export class CreatePostComponent implements OnInit, OnDestroy {
               private router: Router,
               private postsService: PostsService,
               private tagsService: TagsService,
-              private userProfileService: UserProfileService) {
+              private userProfileService: UserProfileService,
+              private storageService: StorageService) {
   }
 
   ngOnInit() {
@@ -58,12 +61,20 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
     const title = this.postForm.value.title ?? '';
     const content = this.postForm.value.content ?? '';
+    const cover = this.postForm.value.cover ?? '';
     const tags = this.postForm.value.tags ?? [];
+
+    let coverUrl: string | undefined;
+    if (cover) {
+      const uploadPath = await this.storageService.uploadToBucket(StorageService.BucketName.POST_COVERS, cover);
+      coverUrl = this.storageService.getPublicUrl(StorageService.BucketName.POST_COVERS, uploadPath);
+    }
 
     const post: Post.Insert = {
       user_profile_id: authorId,
       title,
       content,
+      cover: coverUrl,
       tags,
     };
 
@@ -81,5 +92,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
   backToPosts() {
     this.router.navigate(['/', 'posts']);
+  }
+
+  handleCoverUpload(coverUrl: File) {
+    this.postForm.controls.cover.setValue(coverUrl);
   }
 }

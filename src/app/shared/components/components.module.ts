@@ -14,7 +14,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatMenuModule } from "@angular/material/menu";
 import { SinglePictureInputComponent } from "./single-picture-input/single-picture-input.component";
-import { DropImageDirective } from "../directives/drop-image.directive";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -42,7 +42,7 @@ import { DropImageDirective } from "../directives/drop-image.directive";
     MatProgressBarModule,
     MatMenuModule,
     NgOptimizedImage,
-    DropImageDirective
+    MatProgressSpinner,
   ]
 })
 export class ComponentsModule { }

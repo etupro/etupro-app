@@ -19,7 +19,7 @@
       </mat-error>
     </mat-form-field>
 
-    <app-single-picture-input></app-single-picture-input>
+    <app-single-picture-input (fileSaved)="handleCoverUpload($event)"></app-single-picture-input>
 
     <mat-form-field class="content-form-field">
       <mat-label>Description</mat-label>
