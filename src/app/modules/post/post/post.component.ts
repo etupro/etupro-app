@@ -14,9 +14,9 @@ import { Comment } from "../../../shared/models/comment.model";
 export class PostComponent implements OnInit, OnDestroy {
 
   watcher = new Subscription();
-  post: Post.TableWithUserProfile | undefined;
+  post: Post | undefined;
   postId: number;
-  comments: Comment.TableWithUserProfile[] = [];
+  comments: Comment[] = [];
 
   postLoading = false;
   commentLoading = false;

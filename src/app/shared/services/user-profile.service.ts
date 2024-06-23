@@ -12,7 +12,7 @@ export class UserProfileService {
   constructor(private supabaseService: SupabaseService) {
   }
 
-  async getByUserId(id: UserProfile.Table['user_id']): Promise<PostgrestSingleResponse<UserProfile.Table | null>> {
+  async getByUserId(id: string): Promise<PostgrestSingleResponse<UserProfile | null>> {
     return this.supabaseService.client
       .from('user_profiles')
       .select('*')

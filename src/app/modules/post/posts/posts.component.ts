@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
 })
 export class PostsComponent implements OnInit {
 
-  posts: Post.TableWithUserProfile[] = [];
+  posts: Post[] = [];
   postsLoading = false;
 
   constructor(private postsService: PostsService, private router: Router) {
@@ -33,7 +33,7 @@ export class PostsComponent implements OnInit {
     this.router.navigate(['/', 'posts', 'create'])
   }
 
-  navigateToPost(post: Post.Table) {
+  navigateToPost(post: Post) {
     this.router.navigate(['/', 'posts', post.id])
   }
 

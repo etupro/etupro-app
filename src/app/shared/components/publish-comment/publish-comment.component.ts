@@ -1,15 +1,28 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup } from "@angular/forms";
-import { Comment } from "../../../../shared/models/comment.model";
-import { CommentsService } from "../../../../shared/services/comments.service";
-import { AuthService } from "../../../../shared/services/auth.service";
+import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { Comment } from "../../models/comment.model";
+import { CommentsService } from "../../services/comments.service";
+import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router";
-import { UserProfileService } from "../../../../shared/services/user-profile.service";
+import { UserProfileService } from "../../services/user-profile.service";
+import { CommonModule } from "@angular/common";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { MatButton } from "@angular/material/button";
 
 @Component({
   selector: 'app-publish-comment',
   templateUrl: './publish-comment.component.html',
-  styleUrls: ['./publish-comment.component.scss']
+  styleUrls: ['./publish-comment.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormField,
+    MatInput,
+    MatButton,
+    MatLabel
+  ]
 })
 export class PublishCommentComponent {
 
