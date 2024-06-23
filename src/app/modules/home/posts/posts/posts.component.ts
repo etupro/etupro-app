@@ -1,10 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { PostsService } from "../../../shared/services/posts.service";
-import { Post } from "../../../shared/models/post.model";
+import { PostsService } from "../../../../shared/services/posts.service";
+import { Post } from "../../../../shared/models/post.model";
 import { Router } from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { HeaderComponent } from "../../../../shared/components/header/header.component";
+import { SearchBarComponent } from "../../../../shared/components/search-bar/search-bar.component";
+import { MatButton } from "@angular/material/button";
+import { PostCardComponent } from "../../../../shared/components/post-card/post-card.component";
+import { MatToolbar } from "@angular/material/toolbar";
 
 @Component({
   selector: 'app-posts',
+  standalone: true,
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    SearchBarComponent,
+    MatButton,
+    PostCardComponent,
+    MatToolbar
+  ],
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss']
 })
