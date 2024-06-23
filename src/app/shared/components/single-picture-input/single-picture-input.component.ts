@@ -57,12 +57,6 @@ export class SinglePictureInputComponent {
     await this.saveFiles(files);
   }
 
-  async onFileChange(event: Event) {
-    const target = event.target as HTMLInputElement;
-    const files = target.files as FileList;
-    await this.saveFiles(files);
-  }
-
   async saveFiles(files: FileList | null | undefined) {
     try {
       this.uploading = true;
