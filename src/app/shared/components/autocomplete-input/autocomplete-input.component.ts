@@ -1,14 +1,30 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
-import { MatChipInputEvent } from "@angular/material/chips";
-import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
-import { FormControl } from "@angular/forms";
+import { MatChipGrid, MatChipInput, MatChipInputEvent, MatChipRow } from "@angular/material/chips";
+import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger, MatOption } from "@angular/material/autocomplete";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-autocomplete-input',
   templateUrl: './autocomplete-input.component.html',
   styleUrls: ['./autocomplete-input.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatFormField,
+    MatChipGrid,
+    MatChipRow,
+    MatIcon,
+    ReactiveFormsModule,
+    MatChipInput,
+    MatAutocompleteTrigger,
+    MatAutocomplete,
+    MatOption,
+    MatLabel
+  ],
 })
 export class AutocompleteInputComponent implements OnInit, OnChanges {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;

@@ -1,10 +1,10 @@
-<app-header [loading]="postsLoading">
+<mat-toolbar>
   <div class="post-cards-header">
     <h1 class="header-flex-1">{{ posts.length }} posts</h1>
     <app-search-bar (searchUpdate)="handleTagSearch($event)" class="header-flex-3"></app-search-bar>
     <button (click)="navigateToPostCreation()" class="header-flex-1" mat-raised-button>Créer un post</button>
   </div>
-</app-header>
+</mat-toolbar>
 
 <div class="post-cards-container">
   @for (post of posts; track post) {

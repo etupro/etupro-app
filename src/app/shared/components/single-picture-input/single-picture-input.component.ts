@@ -1,10 +1,19 @@
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+import { CommonModule } from "@angular/common";
+import { MatIcon } from "@angular/material/icon";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-single-picture-input',
   templateUrl: './single-picture-input.component.html',
-  styleUrl: './single-picture-input.component.scss'
+  styleUrl: './single-picture-input.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatIcon,
+    MatProgressSpinner
+  ]
 })
 export class SinglePictureInputComponent {
 

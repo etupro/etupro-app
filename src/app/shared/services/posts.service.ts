@@ -12,7 +12,7 @@ export class PostsService {
   constructor(private supabaseService: SupabaseService) {
   }
 
-  async getAllByTags(tags: string[] = []): Promise<PostgrestSingleResponse<Post.TableWithUserProfile[]>> {
+  async getAllByTags(tags: string[] = []): Promise<PostgrestSingleResponse<Post[]>> {
     return this.supabaseService.client
       .from('posts')
       .select('*, user_profiles(*)')
@@ -21,7 +21,7 @@ export class PostsService {
       .limit(100);
   }
 
-  async getById(id: Post.Table['id']): Promise<PostgrestSingleResponse<Post.TableWithUserProfile | null>> {
+  async getById(id: number): Promise<PostgrestSingleResponse<Post | null>> {
     return this.supabaseService.client
       .from('posts')
       .select('*, user_profiles(*)')

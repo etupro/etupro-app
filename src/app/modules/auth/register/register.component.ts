@@ -1,11 +1,32 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "../../../shared/services/auth.service";
 import { passwordConfirmationValidator } from "../../../shared/validators/password-confirmation.validator";
+import { CommonModule } from "@angular/common";
+import { MatCard, MatCardContent, MatCardTitle } from "@angular/material/card";
+import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-register',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    ReactiveFormsModule,
+    MatFormField,
+    MatInput,
+    MatIconButton,
+    MatIcon,
+    MatButton,
+    MatError,
+    MatLabel
+  ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
@@ -13,8 +34,7 @@ export class RegisterComponent {
   redirect = ['/posts'];
 
   registerForm = new FormGroup({
-    firstname: new FormControl('', [Validators.required]),
-    lastname: new FormControl('', [Validators.required]),
+    displayName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -34,7 +54,7 @@ export class RegisterComponent {
       return;
     }
 
-    const displayName = this.registerForm.value.firstname + ' ' + this.registerForm.value.lastname;
+    const displayName = this.registerForm.value.displayName ?? '';
     const email = this.registerForm.value.email ?? '';
     const password = this.registerForm.value.password ?? '';
 

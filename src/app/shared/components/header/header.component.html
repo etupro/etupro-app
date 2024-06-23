@@ -8,10 +8,8 @@
     </button>
   </div>
 </mat-toolbar>
-<mat-toolbar>
-  <ng-content></ng-content>
-</mat-toolbar>
-<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+<mat-progress-bar *ngIf="loading" class="global-progress-bar" mode="indeterminate"></mat-progress-bar>
 
 <mat-menu #menu="matMenu">
   <!--  <button mat-menu-item>Profil</button>-->

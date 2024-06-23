@@ -1,12 +1,20 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { Subscription } from "rxjs";
-import { TagsService } from "../../../../shared/services/tags.service";
+import { TagsService } from "../../services/tags.service";
+import { CommonModule } from "@angular/common";
+import { AutocompleteInputComponent } from "../autocomplete-input/autocomplete-input.component";
 
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.scss']
+  styleUrls: ['./search-bar.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    AutocompleteInputComponent,
+    ReactiveFormsModule,
+  ]
 })
 export class SearchBarComponent implements OnInit, OnDestroy {
 

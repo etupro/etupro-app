@@ -12,7 +12,7 @@ export class TagsService {
   constructor(private supabaseService: SupabaseService) {
   }
 
-  async getById(id: Tag.Table['id']): Promise<PostgrestSingleResponse<Tag.Table | null>> {
+  async getById(id: number): Promise<PostgrestSingleResponse<Tag | null>> {
     return this.supabaseService.client
       .from('tags')
       .select('*')
@@ -37,7 +37,7 @@ export class TagsService {
       .eq('id', id)
   }
 
-  async getAll(): Promise<PostgrestSingleResponse<Tag.Table[]>> {
+  async getAll(): Promise<PostgrestSingleResponse<Tag[]>> {
     return this.supabaseService.client
       .from('tags')
       .select('*')
