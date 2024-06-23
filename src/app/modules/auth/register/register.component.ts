@@ -13,8 +13,7 @@ export class RegisterComponent {
   redirect = ['/posts'];
 
   registerForm = new FormGroup({
-    firstname: new FormControl('', [Validators.required]),
-    lastname: new FormControl('', [Validators.required]),
+    displayName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -34,7 +33,7 @@ export class RegisterComponent {
       return;
     }
 
-    const displayName = this.registerForm.value.firstname + ' ' + this.registerForm.value.lastname;
+    const displayName = this.registerForm.value.displayName ?? '';
     const email = this.registerForm.value.email ?? '';
     const password = this.registerForm.value.password ?? '';
 
