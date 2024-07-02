@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from "@angular/router";
-import { noAuthGuard } from "../../core/guard/auth.guard";
-import { HomeNavigationComponent } from "./home-navigation/home-navigation.component";
+import { authGuard } from "../../core/guard/auth.guard";
+import { HomeComponent } from "./home.component";
 
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeNavigationComponent,
+    component: HomeComponent,
     children: [
       {
         path: '',
@@ -21,7 +21,7 @@ const routes: Routes = [
       {
         path: 'user',
         loadChildren: () => import('./user/user-routing.module').then(m => m.UserRoutingModule),
-        canActivate: [noAuthGuard]
+        canActivate: [authGuard]
       },
     ]
   },

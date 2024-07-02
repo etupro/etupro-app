@@ -12,7 +12,7 @@
     "deploy": "npm ci && npm run build && firebase deploy",
     "supabase:db-pull": "npx supabase db pull --local",
     "supabase:db-push": "npx supabase db push",
-    "supabase:update-database-type": "npx supabase gen types typescript --project-id jhshraxeznmhpigjdzcq > src/app/shared/models/database.types.ts",
+    "supabase:update-database-type": "npx supabase gen types typescript --local > src/app/shared/models/database.types.ts",
     "supabase:update-seed": "npx tsx seed.ts > supabase/seed.sql",
     "test": "ng test",
     "lint": "ng lint"

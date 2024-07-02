@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
-import { MatChipGrid, MatChipInput, MatChipInputEvent, MatChipRow } from "@angular/material/chips";
+import { MatChipGrid, MatChipInput, MatChipInputEvent, MatChipRemove, MatChipRow } from "@angular/material/chips";
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger, MatOption } from "@angular/material/autocomplete";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
@@ -23,7 +23,8 @@ import { MatIcon } from "@angular/material/icon";
     MatAutocompleteTrigger,
     MatAutocomplete,
     MatOption,
-    MatLabel
+    MatLabel,
+    MatChipRemove
   ],
 })
 export class AutocompleteInputComponent implements OnInit, OnChanges {

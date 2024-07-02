@@ -19,15 +19,10 @@ export const authGuard: CanActivateFn = () => {
 
 
 export const noAuthGuard: CanActivateFn = () => {
-  const router = inject(Router);
   return inject(AuthService).user$.pipe(
     first(),
     map(user => {
-      if (!user) return true;
-      else {
-        router.navigate(['/posts']);
-        return false;
-      }
+      return !user;
     })
   );
 }

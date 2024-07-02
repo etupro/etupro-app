@@ -30,7 +30,7 @@ import { MatButton, MatIconButton } from "@angular/material/button";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  redirect = ['/posts'];
+  redirect = ['/'];
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
