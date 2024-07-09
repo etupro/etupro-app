@@ -1,16 +1,19 @@
 import { Injectable } from "@angular/core";
-import { User, UserResponse } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 import { SupabaseService } from "./supabase.service";
 import { BehaviorSubject, filter, Observable } from "rxjs";
 import { UserProfileService } from "./user-profile.service";
+import { UserProfile } from "../models/user-profile.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private _user$ = new BehaviorSubject<User | null | undefined>(undefined);
-  user$ = this._user$.pipe(filter(_ => _ !== undefined)) as Observable<User | null>;
-  private user: User | null | undefined;
+  private _userProfile$ = new BehaviorSubject<UserProfile | null | undefined>(undefined);
+  userProfile$ = this._userProfile$.pipe(filter(_ => _ !== undefined)) as Observable<UserProfile | null>;
+  private user$ = this._user$.pipe(filter(_ => _ !== undefined)) as Observable<User | null>;
+  private _user: User | null | undefined;
 
   constructor(private supabaseService: SupabaseService, private userProfileService: UserProfileService) {
     this.supabaseService.client.auth.getUser().then(({data, error}) => {
@@ -21,21 +24,34 @@ export class AuthService {
       });
     });
 
-    this.user$.subscribe(user => {
-      this.user = user;
+    this.user$.subscribe(async user => {
+      this._user = user;
+      if (user) {
+        const response = await this.userProfileService.getByUserId(user.id);
+        this._userProfile$.next(response?.data ?? null);
+      }
+    })
+
+    this.userProfile$.subscribe(userProfile => {
+      this._userProfile = userProfile;
+      if (this._userProfile) {
+        this._userProfile.user = this._user ?? undefined;
+      }
     });
   }
 
+  private _userProfile: UserProfile | null | undefined;
+
+  get userProfile(): UserProfile | null | undefined {
+    return this._userProfile;
+  }
+
   get isLoggedIn(): boolean {
-    return !!this.user;
+    return !!this._user;
   }
 
-  async getUser(): Promise<UserResponse> {
-    return await this.supabaseService.client.auth.getUser()
-  }
-
-  get userId(): string | undefined {
-    return this.user?.id;
+  get userProfileId(): number | undefined {
+    return this._userProfile?.id;
   }
 
   async login(email: string, password: string): Promise<void> {

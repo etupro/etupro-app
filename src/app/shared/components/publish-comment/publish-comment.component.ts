@@ -45,13 +45,7 @@ export class PublishCommentComponent {
       return;
     }
 
-    const userId = this.authService.userId;
-    if (!userId) {
-      throw new Error('No user id found');
-    }
-
-    const authorResponse = await this.userProfileService.getByUserId(userId);
-    const author = authorResponse.data;
+    const author = this.authService.userProfile;
     if (!author) {
       throw new Error('No author found');
     }

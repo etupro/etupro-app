@@ -37,7 +37,7 @@ export class CommentCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isUserComment = this.authService.userId === this.comment.user_profiles?.user_id;
+    this.isUserComment = this.authService.userProfileId === this.comment.user_profiles?.id;
   }
 
   deleteComment() {

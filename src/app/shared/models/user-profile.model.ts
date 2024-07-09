@@ -1,4 +1,5 @@
 import { Tables, TablesInsert, TablesUpdate } from "./database.types";
+import { User } from "@supabase/supabase-js";
 
 export class UserProfile implements Tables<'user_profiles'> {
   id: number;
@@ -7,6 +8,8 @@ export class UserProfile implements Tables<'user_profiles'> {
   display_name: string;
   created_at: string;
   updated_at: string;
+
+  user?: User
 }
 
 export namespace UserProfile {

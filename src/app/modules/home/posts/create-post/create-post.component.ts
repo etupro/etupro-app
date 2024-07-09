@@ -72,14 +72,12 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   }
 
   async createPost() {
-    const userId = this.authService.userId;
-    if (!userId) {
+    const userProfileId = this.authService.userProfileId;
+    if (!userProfileId) {
       throw new Error('No user id found');
     }
 
-    const authorId = (await this.userProfileService.getByUserId(userId)).data?.id;
-
-    if (!this.postForm.valid || !authorId) {
+    if (!this.postForm.valid) {
       this.postForm.markAllAsTouched();
       return;
     }
@@ -96,7 +94,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     }
 
     const post: Post.Insert = {
-      user_profile_id: authorId,
+      user_profile_id: userProfileId,
       title,
       content,
       cover: coverUrl,
