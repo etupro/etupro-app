@@ -10,8 +10,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "deploy": "npm ci && npm run build && firebase deploy",
-    "supabase:db-pull": "npx supabase db pull",
-    "supabase:update-database-type": "npx supabase gen types typescript --project-id jhshraxeznmhpigjdzcq > src/app/shared/models/database.types.ts",
+    "supabase:db-pull": "npx supabase db pull --local",
+    "supabase:db-push": "npx supabase db push",
+    "supabase:update-database-type": "npx supabase gen types typescript --local > src/app/shared/models/database.types.ts",
     "supabase:update-seed": "npx tsx seed.ts > supabase/seed.sql",
     "test": "ng test",
     "lint": "ng lint"
@@ -45,11 +46,11 @@
     "@angular/cli": "17.3.8",
     "@angular/compiler-cli": "17.3.10",
     "@snaplet/copycat": "5.0.0",
-    "@snaplet/seed": "^0.97.20",
+    "@snaplet/seed": "0.97.20",
     "@types/jasmine": "4.3.6",
     "@types/luxon": "3.4.2",
     "@types/pg": "8.11.6",
-    "@types/uuid": "^9.0.8",
+    "@types/uuid": "9.0.8",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "eslint": "8.57.0",
@@ -62,7 +63,7 @@
     "pg": "8.12.0",
     "supabase": "1.172.2",
     "tsx": "4.13.3",
-    "typescript": "5.4.5"
+    "typescript": "5.2.2"
   },
   "engines": {
     "node": "20.11.1",

@@ -1,0 +1,31 @@
+<app-sub-header></app-sub-header>
+
+<div class="create-post-container">
+  <h1>Créer un post</h1>
+
+  <form [formGroup]="postForm">
+    <mat-form-field class="title-form-field">
+      <mat-label>Titre</mat-label>
+      <input matInput [formControl]="postForm.controls.title">
+      <mat-error *ngIf="postForm.controls.title.hasError('required')">
+        Le titre est <strong>requis</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <app-single-picture-input (fileSaved)="handleCoverUpload($event)"></app-single-picture-input>
+
+    <mat-form-field class="content-form-field">
+      <mat-label>Description</mat-label>
+      <textarea matInput [formControl]="postForm.controls.content"></textarea>
+      <mat-error *ngIf="postForm.controls.content.hasError('required')">
+        La description est <strong>requise</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <app-autocomplete-input [allValues]="allTags" [valuesControl]="postForm.controls.tags"
+                            label="tags"></app-autocomplete-input>
+
+  </form>
+
+  <button mat-raised-button (click)="createPost()">Publier</button>
+</div>

@@ -1,0 +1,39 @@
+<app-sub-header></app-sub-header>
+
+<form (ngSubmit)="editProfile()" [formGroup]="profileForm" class="profile-form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Profil</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Nom complet</mat-label>
+        <input [formControl]="profileForm.controls.displayName"
+               [readonly]="readonly"
+               matInput
+               placeholder="Bob Razowski"
+               required>
+        <mat-error *ngIf="readonly && profileForm.controls.displayName.errors?.['required']">Ce champs est requis
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input [formControl]="profileForm.controls.email"
+               [readonly]="readonly"
+               autocomplete="on"
+               matInput
+               placeholder="bob.razowski@etupro.com"
+               required>
+        <mat-error *ngIf="readonly && profileForm.controls.email.errors?.['required']">Ce champs est requis</mat-error>
+        <mat-error *ngIf="readonly && profileForm.controls.email.errors?.['email']">Veuillez renseigner un email
+          valide
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button (click)="setFormEditMode()" *ngIf="readonly" color="primary" mat-raised-button>Modifier</button>
+      <button (click)="setFormReadOnly()" *ngIf="!readonly" color="warn" mat-raised-button>Annuler</button>
+      <button *ngIf="!readonly" color="primary" mat-raised-button type="submit">Sauvegarder</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

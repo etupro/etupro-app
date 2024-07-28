@@ -3,17 +3,18 @@
                                                            priority width="196"></a>
 
   <div>
+    <button (click)="handleRegister()" *ngIf="!authService.isLoggedIn" color="accent" mat-raised-button>
+      Inscription
+    </button>
     <button *ngIf="authService.isLoggedIn" [matMenuTriggerFor]="menu" mat-icon-button>
       <mat-icon>account_circle</mat-icon>
     </button>
   </div>
 </mat-toolbar>
-<mat-toolbar>
-  <ng-content></ng-content>
-</mat-toolbar>
-<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+<mat-progress-bar *ngIf="loading" class="global-progress-bar" mode="indeterminate"></mat-progress-bar>
 
 <mat-menu #menu="matMenu">
-  <!--  <button mat-menu-item>Profil</button>-->
+  <button (click)="handleProfile()" mat-menu-item>Profil</button>
   <button (click)="handleLogout()" mat-menu-item>Déconnexion</button>
 </mat-menu>

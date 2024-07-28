@@ -5,10 +5,10 @@ import { first, map } from "rxjs";
 
 export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
-  return inject(AuthService).user$.pipe(
+  return inject(AuthService).userProfile$.pipe(
     first(),
-    map(user => {
-      if (user) return true;
+    map(userProfile => {
+      if (userProfile) return true;
       else {
         router.navigate(['/auth/login']);
         return false;
@@ -19,15 +19,10 @@ export const authGuard: CanActivateFn = () => {
 
 
 export const noAuthGuard: CanActivateFn = () => {
-  const router = inject(Router);
-  return inject(AuthService).user$.pipe(
+  return inject(AuthService).userProfile$.pipe(
     first(),
-    map(user => {
-      if (!user) return true;
-      else {
-        router.navigate(['/posts']);
-        return false;
-      }
+    map(userProfile => {
+      return !userProfile;
     })
   );
 }

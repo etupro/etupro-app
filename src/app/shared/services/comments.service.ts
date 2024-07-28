@@ -12,7 +12,7 @@ export class CommentsService {
   constructor(private supabaseService: SupabaseService) {
   }
 
-  async getById(id: Comment.Table['id']): Promise<PostgrestSingleResponse<Comment.Table | null>> {
+  async getById(id: number): Promise<PostgrestSingleResponse<Comment | null>> {
     return this.supabaseService.client
       .from('comments')
       .select('*')
@@ -37,7 +37,7 @@ export class CommentsService {
       .eq('id', id)
   }
 
-  async getAllFromPost(postId: number): Promise<PostgrestSingleResponse<Comment.TableWithUserProfile[]>> {
+  async getAllFromPost(postId: number): Promise<PostgrestSingleResponse<Comment[]>> {
     return this.supabaseService.client
       .from('comments')
       .select('*, user_profiles(*)')
