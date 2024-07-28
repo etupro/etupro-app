@@ -11,12 +11,12 @@ import { UserProfile } from "../models/user-profile.model";
 export class AuthService {
   private _user$ = new BehaviorSubject<User | null | undefined>(undefined);
   private _userProfile$ = new BehaviorSubject<UserProfile | null | undefined>(undefined);
-  userProfile$ = this._userProfile$.pipe(filter(_ => _ !== undefined)) as Observable<UserProfile | null>;
   private user$ = this._user$.pipe(filter(_ => _ !== undefined)) as Observable<User | null>;
+  userProfile$ = this._userProfile$.pipe(filter(_ => _ !== undefined)) as Observable<UserProfile | null>;
   private _user: User | null | undefined;
 
   constructor(private supabaseService: SupabaseService, private userProfileService: UserProfileService) {
-    this.supabaseService.client.auth.getUser().then(({data, error}) => {
+    this.supabaseService.client.auth.getUser().then(({data}) => {
       this._user$.next(data.user);
 
       this.supabaseService.client.auth.onAuthStateChange((event, session) => {
@@ -26,10 +26,7 @@ export class AuthService {
 
     this.user$.subscribe(async user => {
       this._user = user;
-      if (user) {
-        const response = await this.userProfileService.getByUserId(user.id);
-        this._userProfile$.next(response?.data ?? null);
-      }
+      await this.updateUserProfile();
     })
 
     this.userProfile$.subscribe(userProfile => {
@@ -54,6 +51,20 @@ export class AuthService {
     return this._userProfile?.id;
   }
 
+  async updateUserProfile() {
+    let userProfile: UserProfile | null | undefined;
+    if (this._user) {
+      const response = await this.userProfileService.getByUserId(this._user.id);
+      userProfile = response.data ?? null;
+    }
+
+    if (this._user === null) {
+      userProfile = null;
+    }
+
+    this._userProfile$.next(userProfile);
+  }
+
   async login(email: string, password: string): Promise<void> {
     const result = await this.supabaseService.client.auth.signInWithPassword({email, password})
     if (result.error) {
@@ -75,6 +86,12 @@ export class AuthService {
     }
 
     this.userProfileService.create({user_id: result.data.user.id, display_name: displayName});
+  }
+
+  async updateUserEmail(email: string) {
+    await this.supabaseService.client.auth.updateUser({
+      email: email,
+    });
   }
 
   async logout(): Promise<void> {

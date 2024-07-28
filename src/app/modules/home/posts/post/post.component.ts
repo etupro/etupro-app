@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { PostsService } from "../../../../shared/services/posts.service";
 import { Post } from "../../../../shared/models/post.model";
@@ -14,6 +14,7 @@ import { MatChipListbox, MatChipOption } from "@angular/material/chips";
 import { PublishCommentComponent } from "../../../../shared/components/publish-comment/publish-comment.component";
 import { CommentCardComponent } from "../../../../shared/components/comment-card/comment-card.component";
 import { MatToolbar } from "@angular/material/toolbar";
+import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub-header.component";
 
 @Component({
   selector: 'app-post',
@@ -31,7 +32,8 @@ import { MatToolbar } from "@angular/material/toolbar";
     MatChipOption,
     PublishCommentComponent,
     CommentCardComponent,
-    MatToolbar
+    MatToolbar,
+    SubHeaderComponent
   ],
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
@@ -47,7 +49,6 @@ export class PostComponent implements OnInit, OnDestroy {
   commentLoading = false;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
               private postsService: PostsService,
               private commentsService: CommentsService) {
   }
@@ -78,7 +79,4 @@ export class PostComponent implements OnInit, OnDestroy {
     });
   }
 
-  backToPosts() {
-    this.router.navigate(['/', 'posts']);
-  }
 }

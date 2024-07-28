@@ -6,7 +6,6 @@ import { TagsService } from "../../../../shared/services/tags.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { AuthService } from "../../../../shared/services/auth.service";
-import { UserProfileService } from "../../../../shared/services/user-profile.service";
 import { StorageService } from "../../../../shared/services/storage.service";
 import { CommonModule } from "@angular/common";
 import { HeaderComponent } from "../../../../shared/components/header/header.component";
@@ -17,6 +16,7 @@ import { MatInput } from "@angular/material/input";
 import { SinglePictureInputComponent } from "../../../../shared/components/single-picture-input/single-picture-input.component";
 import { AutocompleteInputComponent } from "../../../../shared/components/autocomplete-input/autocomplete-input.component";
 import { MatToolbar } from "@angular/material/toolbar";
+import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub-header.component";
 
 @Component({
   selector: 'app-create-post',
@@ -34,7 +34,8 @@ import { MatToolbar } from "@angular/material/toolbar";
     MatButton,
     MatToolbar,
     MatError,
-    MatLabel
+    MatLabel,
+    SubHeaderComponent
   ],
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
@@ -57,7 +58,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
               private router: Router,
               private postsService: PostsService,
               private tagsService: TagsService,
-              private userProfileService: UserProfileService,
               private storageService: StorageService) {
   }
 
@@ -111,10 +111,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     } finally {
       this.createLoading = false;
     }
-  }
-
-  backToPosts() {
-    this.router.navigate(['/', 'posts']);
   }
 
   handleCoverUpload(coverUrl: File) {
