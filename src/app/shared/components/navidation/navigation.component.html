@@ -1,0 +1,36 @@
+<mat-drawer-container [hasBackdrop]="true" autosize class="app-drawer-container">
+  <mat-drawer #drawer class="app-sidenav" mode="side">
+    <mat-list>
+      @if (authService.isLoggedIn) {
+        <mat-list-item>
+          <button mat-button (click)="handleProfile()">Profil</button>
+        </mat-list-item>
+      }
+      @if (authService.isLoggedIn) {
+        <mat-list-item>
+          <button mat-button (click)="handleLogout()">Déconnexion</button>
+        </mat-list-item>
+      }
+      @if (!authService.isLoggedIn) {
+        <mat-list-item>
+          <button mat-button (click)="handleRegister()">Inscription</button>
+        </mat-list-item>
+      }
+    </mat-list>
+  </mat-drawer>
+
+  <mat-toolbar color="primary">
+    <button (click)="drawer.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <a class="title-image" href="https://www.etupro.fr">
+      <img alt="Etupro" height="60" ngSrc="/assets/logoFR_white.png" priority width="196">
+    </a>
+  </mat-toolbar>
+
+  <mat-progress-bar *ngIf="loading" class="global-progress-bar" mode="indeterminate"></mat-progress-bar>
+
+  <ng-content></ng-content>
+
+</mat-drawer-container>

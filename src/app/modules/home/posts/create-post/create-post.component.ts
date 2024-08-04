@@ -8,7 +8,7 @@ import { Subscription } from "rxjs";
 import { AuthService } from "../../../../shared/services/auth.service";
 import { StorageService } from "../../../../shared/services/storage.service";
 import { CommonModule } from "@angular/common";
-import { HeaderComponent } from "../../../../shared/components/header/header.component";
+import { NavigationComponent } from "../../../../shared/components/navidation/navigation.component";
 import { MatIcon } from "@angular/material/icon";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
@@ -23,7 +23,7 @@ import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
+    NavigationComponent,
     MatIcon,
     MatIconButton,
     ReactiveFormsModule,

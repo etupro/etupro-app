@@ -3,7 +3,7 @@ import { PostsService } from "../../../../shared/services/posts.service";
 import { Post } from "../../../../shared/models/post.model";
 import { Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
-import { HeaderComponent } from "../../../../shared/components/header/header.component";
+import { NavigationComponent } from "../../../../shared/components/navidation/navigation.component";
 import { SearchBarComponent } from "../../../../shared/components/search-bar/search-bar.component";
 import { MatButton } from "@angular/material/button";
 import { PostCardComponent } from "../../../../shared/components/post-card/post-card.component";
@@ -14,7 +14,7 @@ import { MatToolbar } from "@angular/material/toolbar";
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
+    NavigationComponent,
     SearchBarComponent,
     MatButton,
     PostCardComponent,
