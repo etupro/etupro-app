@@ -1,11 +1,15 @@
-<button (click)="handleGoBack()" mat-icon-button>
-  <mat-icon>close</mat-icon>
-</button>
+<div class="search-container">
 
-<form [formGroup]="searchForm">
+  <button (click)="handleGoBack()" mat-icon-button>
+    <mat-icon>close</mat-icon>
+  </button>
 
-  <app-tags-autocomplete-inputs [valuesControl]="searchForm.controls.tags"></app-tags-autocomplete-inputs>
+  <form [formGroup]="searchForm">
 
-</form>
+    <app-tags-autocomplete-inputs [valuesControl]="searchForm.controls.tags"></app-tags-autocomplete-inputs>
 
-<button (click)="handleSubmit()" color="primary" mat-flat-button>Sauvegarder</button>
+  </form>
+
+  <button (click)="handleSubmit()" color="primary" mat-flat-button>Sauvegarder</button>
+
+</div>
