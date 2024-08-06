@@ -5,9 +5,10 @@ import { Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { NavigationComponent } from "../../../../shared/components/navidation/navigation.component";
 import { SearchBarComponent } from "../../../../shared/components/search-bar/search-bar.component";
-import { MatButton } from "@angular/material/button";
+import { MatButton, MatFabButton } from "@angular/material/button";
 import { PostCardComponent } from "../../../../shared/components/post-card/post-card.component";
-import { MatToolbar } from "@angular/material/toolbar";
+import { MatIcon } from "@angular/material/icon";
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from "@angular/material/expansion";
 
 @Component({
   selector: 'app-posts',
@@ -18,12 +19,18 @@ import { MatToolbar } from "@angular/material/toolbar";
     SearchBarComponent,
     MatButton,
     PostCardComponent,
-    MatToolbar
+    MatFabButton,
+    MatIcon,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle
   ],
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss']
 })
 export class PostsComponent implements OnInit {
+
 
   posts: Post[] = [];
   postsLoading = false;
@@ -46,6 +53,10 @@ export class PostsComponent implements OnInit {
 
   navigateToPostCreation() {
     this.router.navigate(['/', 'posts', 'create'])
+  }
+
+  navigateToSearchPosts() {
+    this.router.navigate(['/', 'posts', 'search'])
   }
 
   navigateToPost(post: Post) {

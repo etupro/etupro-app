@@ -1,13 +1,15 @@
-<mat-toolbar>
-  <div class="post-cards-header">
-    <h1 class="header-flex-1">{{ posts.length }} posts</h1>
-    <app-search-bar (searchUpdate)="handleTagSearch($event)" class="header-flex-3"></app-search-bar>
-    <button (click)="navigateToPostCreation()" class="header-flex-1" mat-raised-button>Créer un post</button>
-  </div>
-</mat-toolbar>
-
 <div class="post-cards-container">
   @for (post of posts; track post) {
     <app-post-card (click)="navigateToPost(post)" [post]="post"/>
   }
+</div>
+
+<div class="fabs-container">
+  <button (click)="navigateToPostCreation()" class="add-post-fab" color="primary" mat-fab>
+    <mat-icon>add</mat-icon>
+  </button>
+
+  <button (click)="navigateToSearchPosts()" class="search-post-fab" color="none" mat-fab>
+    <mat-icon>search</mat-icon>
+  </button>
 </div>

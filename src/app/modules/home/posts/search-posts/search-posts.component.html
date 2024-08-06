@@ -1,0 +1,11 @@
+<button (click)="handleGoBack()" mat-icon-button>
+  <mat-icon>close</mat-icon>
+</button>
+
+<form [formGroup]="searchForm">
+
+  <app-tags-autocomplete-inputs [valuesControl]="searchForm.controls.tags"></app-tags-autocomplete-inputs>
+
+</form>
+
+<button color="primary" mat-flat-button>Sauvegarder</button>

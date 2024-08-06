@@ -13,11 +13,11 @@
     }
   }
 
-  .global-progress-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+  .content-container {
+    position: relative;
+    height: calc(100vh - 56px); // removing height of toolbar
     width: 100%;
+    overflow: hidden;
   }
 
 }

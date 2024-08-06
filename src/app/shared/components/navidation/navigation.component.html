@@ -29,8 +29,8 @@
     </a>
   </mat-toolbar>
 
-  <mat-progress-bar *ngIf="loading" class="global-progress-bar" mode="indeterminate"></mat-progress-bar>
-
-  <ng-content></ng-content>
+  <div class="content-container">
+    <ng-content></ng-content>
+  </div>
 
 </mat-drawer-container>
