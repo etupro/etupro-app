@@ -85,7 +85,8 @@ export class AuthService {
       throw new Error('Missing user data after register')
     }
 
-    this.userProfileService.create({user_id: result.data.user.id, display_name: displayName});
+    await this.userProfileService.create({user_id: result.data.user.id, display_name: displayName});
+    await this.updateUserProfile();
   }
 
   async updateUserEmail(email: string) {

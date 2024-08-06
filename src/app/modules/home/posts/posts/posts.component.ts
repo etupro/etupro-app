@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PostsService } from "../../../../shared/services/posts.service";
 import { Post } from "../../../../shared/models/post.model";
-import { Router } from "@angular/router";
+import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { NavigationComponent } from "../../../../shared/components/navidation/navigation.component";
 import { SearchBarComponent } from "../../../../shared/components/search-bar/search-bar.component";
@@ -33,13 +33,21 @@ export class PostsComponent implements OnInit {
 
 
   posts: Post[] = [];
+  tags: string[] = [];
   postsLoading = false;
 
-  constructor(private postsService: PostsService, private router: Router) {
+  constructor(private postsService: PostsService, private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.searchPosts([]);
+    this.route.queryParams.subscribe(params => {
+        this.tags = [];
+        if (params['tags']) {
+          this.tags = params['tags'].split(',');
+        }
+        this.searchPosts(this.tags);
+      }
+    );
   }
 
   searchPosts(tags: string[]) {
@@ -52,18 +60,19 @@ export class PostsComponent implements OnInit {
   }
 
   navigateToPostCreation() {
-    this.router.navigate(['/', 'posts', 'create'])
+    this.router.navigate(['/', 'posts', 'create']);
   }
 
   navigateToSearchPosts() {
-    this.router.navigate(['/', 'posts', 'search'])
+    const navigationExtras: NavigationExtras = {
+      queryParams: {'tags': this.tags.length ? this.tags.join(',') : undefined},
+    };
+
+    this.router.navigate(['/', 'posts', 'search'], navigationExtras);
   }
 
   navigateToPost(post: Post) {
-    this.router.navigate(['/', 'posts', post.id])
+    this.router.navigate(['/', 'posts', post.id]);
   }
 
-  handleTagSearch(tags: string[]) {
-    this.searchPosts(tags);
-  }
 }
