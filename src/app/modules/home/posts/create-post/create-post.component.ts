@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { PostsService } from "../../../../shared/services/posts.service";
 import { Post } from "../../../../shared/models/post.model";
@@ -8,7 +8,7 @@ import { Subscription } from "rxjs";
 import { AuthService } from "../../../../shared/services/auth.service";
 import { StorageService } from "../../../../shared/services/storage.service";
 import { CommonModule } from "@angular/common";
-import { HeaderComponent } from "../../../../shared/components/header/header.component";
+import { NavigationComponent } from "../../../../shared/components/navidation/navigation.component";
 import { MatIcon } from "@angular/material/icon";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
@@ -17,13 +17,14 @@ import { SinglePictureInputComponent } from "../../../../shared/components/singl
 import { AutocompleteInputComponent } from "../../../../shared/components/autocomplete-input/autocomplete-input.component";
 import { MatToolbar } from "@angular/material/toolbar";
 import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub-header.component";
+import { TagsAutocompleteInputsComponent } from "../../../../shared/components/autocomplete-input/tags-autocomplete-inputs/tags-autocomplete-inputs.component";
 
 @Component({
   selector: 'app-create-post',
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
+    NavigationComponent,
     MatIcon,
     MatIconButton,
     ReactiveFormsModule,
@@ -35,12 +36,13 @@ import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub
     MatToolbar,
     MatError,
     MatLabel,
-    SubHeaderComponent
+    SubHeaderComponent,
+    TagsAutocompleteInputsComponent
   ],
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
 })
-export class CreatePostComponent implements OnInit, OnDestroy {
+export class CreatePostComponent implements OnDestroy {
 
   postForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
@@ -50,7 +52,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   })
 
   watcher = new Subscription();
-  allTags: string[] = [];
 
   createLoading = false;
 
@@ -59,12 +60,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
               private postsService: PostsService,
               private tagsService: TagsService,
               private storageService: StorageService) {
-  }
-
-  ngOnInit() {
-    this.tagsService.getAll().then(response => {
-      this.allTags = response.data?.map(d => d.value) ?? []
-    });
   }
 
   ngOnDestroy() {
@@ -103,7 +98,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
     this.createLoading = true;
     try {
-      tags.filter(tag => !this.allTags.includes(tag))
+      const allTagsResponse = await this.tagsService.getAll();
+      const allTags = allTagsResponse.data?.map(d => d.value) ?? [];
+      tags.filter(tag => !allTags.includes(tag))
         .map(async tag => await this.tagsService.create({value: tag}));
 
       const postId = await this.postsService.create(post);

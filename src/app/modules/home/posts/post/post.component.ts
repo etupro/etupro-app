@@ -6,7 +6,7 @@ import { Post } from "../../../../shared/models/post.model";
 import { CommentsService } from "../../../../shared/services/comments.service";
 import { Comment } from "../../../../shared/models/comment.model";
 import { CommonModule } from "@angular/common";
-import { HeaderComponent } from "../../../../shared/components/header/header.component";
+import { NavigationComponent } from "../../../../shared/components/navidation/navigation.component";
 import { MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from "@angular/material/card";
@@ -21,7 +21,7 @@ import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
+    NavigationComponent,
     MatIconButton,
     MatIcon,
     MatCard,

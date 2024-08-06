@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from "@angular/router";
-import { HeaderComponent } from "../../shared/components/header/header.component";
+import { NavigationComponent } from "../../shared/components/navidation/navigation.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     RouterOutlet,
-    HeaderComponent
+    NavigationComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

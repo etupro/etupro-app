@@ -1,38 +1,53 @@
 import { Component, OnInit } from '@angular/core';
 import { PostsService } from "../../../../shared/services/posts.service";
 import { Post } from "../../../../shared/models/post.model";
-import { Router } from "@angular/router";
+import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
-import { HeaderComponent } from "../../../../shared/components/header/header.component";
+import { NavigationComponent } from "../../../../shared/components/navidation/navigation.component";
 import { SearchBarComponent } from "../../../../shared/components/search-bar/search-bar.component";
-import { MatButton } from "@angular/material/button";
+import { MatButton, MatFabButton } from "@angular/material/button";
 import { PostCardComponent } from "../../../../shared/components/post-card/post-card.component";
-import { MatToolbar } from "@angular/material/toolbar";
+import { MatIcon } from "@angular/material/icon";
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from "@angular/material/expansion";
 
 @Component({
   selector: 'app-posts',
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
+    NavigationComponent,
     SearchBarComponent,
     MatButton,
     PostCardComponent,
-    MatToolbar
+    MatFabButton,
+    MatIcon,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle
   ],
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss']
 })
 export class PostsComponent implements OnInit {
 
+
   posts: Post[] = [];
+  tags: string[] = [];
   postsLoading = false;
 
-  constructor(private postsService: PostsService, private router: Router) {
+  constructor(private postsService: PostsService, private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.searchPosts([]);
+    this.route.queryParams.subscribe(params => {
+        this.tags = [];
+        if (params['tags']) {
+          this.tags = params['tags'].split(',');
+        }
+        this.searchPosts(this.tags);
+      }
+    );
   }
 
   searchPosts(tags: string[]) {
@@ -45,14 +60,19 @@ export class PostsComponent implements OnInit {
   }
 
   navigateToPostCreation() {
-    this.router.navigate(['/', 'posts', 'create'])
+    this.router.navigate(['/', 'posts', 'create']);
+  }
+
+  navigateToSearchPosts() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {'tags': this.tags.length ? this.tags.join(',') : undefined},
+    };
+
+    this.router.navigate(['/', 'posts', 'search'], navigationExtras);
   }
 
   navigateToPost(post: Post) {
-    this.router.navigate(['/', 'posts', post.id])
+    this.router.navigate(['/', 'posts', post.id]);
   }
 
-  handleTagSearch(tags: string[]) {
-    this.searchPosts(tags);
-  }
 }
