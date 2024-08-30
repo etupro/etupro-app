@@ -1,10 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { PostsService } from "../../../../shared/services/posts.service";
 import { Post } from "../../../../shared/models/post.model";
 import { TagsService } from "../../../../shared/services/tags.service";
 import { Router } from "@angular/router";
-import { Subscription } from "rxjs";
 import { AuthService } from "../../../../shared/services/auth.service";
 import { StorageService } from "../../../../shared/services/storage.service";
 import { CommonModule } from "@angular/common";
@@ -42,7 +41,7 @@ import { TagsAutocompleteInputsComponent } from "../../../../shared/components/a
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
 })
-export class CreatePostComponent implements OnDestroy {
+export class CreatePostComponent {
 
   postForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
@@ -51,8 +50,6 @@ export class CreatePostComponent implements OnDestroy {
     tags: new FormControl<string[]>([]),
   })
 
-  watcher = new Subscription();
-
   createLoading = false;
 
   constructor(private authService: AuthService,
@@ -60,10 +57,6 @@ export class CreatePostComponent implements OnDestroy {
               private postsService: PostsService,
               private tagsService: TagsService,
               private storageService: StorageService) {
-  }
-
-  ngOnDestroy() {
-    this.watcher.unsubscribe();
   }
 
   async createPost() {
@@ -82,17 +75,16 @@ export class CreatePostComponent implements OnDestroy {
     const cover = this.postForm.value.cover ?? '';
     const tags = this.postForm.value.tags ?? [];
 
-    let coverUrl: string | undefined;
+    let uploadPath: string | undefined;
     if (cover) {
-      const uploadPath = await this.storageService.uploadToBucket(StorageService.BucketName.POST_COVERS, cover);
-      coverUrl = this.storageService.getPublicUrl(StorageService.BucketName.POST_COVERS, uploadPath);
+      uploadPath = await this.storageService.uploadToBucket(StorageService.BucketName.POST_COVERS, cover);
     }
 
     const post: Post.Insert = {
       user_profile_id: userProfileId,
       title,
       content,
-      cover: coverUrl,
+      cover: uploadPath,
       tags,
     };
 

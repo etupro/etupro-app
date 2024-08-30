@@ -13,6 +13,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { passwordConfirmationValidator } from "../../../../shared/validators/password-confirmation.validator";
 import { UserProfileService } from "../../../../shared/services/user-profile.service";
 import { SnackbarService } from "../../../../shared/services/snackbar.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -54,7 +55,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private userProfileService: UserProfileService,
-              private snackbarService: SnackbarService) {
+              private snackbarService: SnackbarService,
+              private router: Router,) {
   }
 
   ngOnInit() {
@@ -97,5 +99,9 @@ export class ProfileComponent implements OnInit {
     await this.authService.updateUserProfile();
     this.snackbarService.openSnackBar("Sauvegardé !")
     this.setFormReadOnly();
+  }
+
+  editOrganization() {
+    this.router.navigate(['/', 'user', 'organization']);
   }
 }

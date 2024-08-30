@@ -9,6 +9,8 @@ import { MatButton, MatFabButton } from "@angular/material/button";
 import { PostCardComponent } from "../../../../shared/components/post-card/post-card.component";
 import { MatIcon } from "@angular/material/icon";
 import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from "@angular/material/expansion";
+import { StorageService } from "../../../../shared/services/storage.service";
+import { Map } from 'immutable';
 
 @Component({
   selector: 'app-posts',
@@ -33,10 +35,14 @@ export class PostsComponent implements OnInit {
 
 
   posts: Post[] = [];
+  coverUrls: Map<string, string> = Map<string, string>();
   tags: string[] = [];
   postsLoading = false;
 
-  constructor(private postsService: PostsService, private router: Router, private route: ActivatedRoute) {
+  constructor(private postsService: PostsService,
+              private storageService: StorageService,
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -56,6 +62,8 @@ export class PostsComponent implements OnInit {
       this.posts = response.data ?? [];
     }).finally(() => {
       this.postsLoading = false
+    }).then(async () => {
+      this.coverUrls = await this.storageService.getSignedUrls(StorageService.BucketName.POST_COVERS, this.posts.map(post => post.cover).filter(Boolean) as string[])
     });
   }
 

@@ -15,6 +15,7 @@ import { PublishCommentComponent } from "../../../../shared/components/publish-c
 import { CommentCardComponent } from "../../../../shared/components/comment-card/comment-card.component";
 import { MatToolbar } from "@angular/material/toolbar";
 import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub-header.component";
+import { StorageService } from "../../../../shared/services/storage.service";
 
 @Component({
   selector: 'app-post',
@@ -43,6 +44,7 @@ export class PostComponent implements OnInit, OnDestroy {
   watcher = new Subscription();
   post: Post | undefined;
   postId: number;
+  coverUrl: string | undefined;
   comments: Comment[] = [];
 
   postLoading = false;
@@ -50,6 +52,7 @@ export class PostComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private postsService: PostsService,
+              private storageService: StorageService,
               private commentsService: CommentsService) {
   }
 
@@ -61,6 +64,10 @@ export class PostComponent implements OnInit, OnDestroy {
         this.post = response.data ?? undefined;
       }).finally(() => {
         this.postLoading = false
+      }).then(async () => {
+        if (this.post?.cover) {
+          this.coverUrl = await this.storageService.getSignedUrl(StorageService.BucketName.POST_COVERS, this.post.cover);
+        }
       });
       this.updateCommentList()
     }))

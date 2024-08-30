@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatIcon } from "@angular/material/icon";
 import { MatIconButton } from "@angular/material/button";
 import { MatToolbar } from "@angular/material/toolbar";
@@ -17,10 +17,13 @@ import { Router } from "@angular/router";
 })
 export class SubHeaderComponent {
 
+  @Input() title = 'Liste des posts';
+  @Input() route: string[] = ['/', 'posts'];
+
   constructor(private router: Router) {
   }
 
   backToPosts() {
-    this.router.navigate(['/', 'posts']);
+    this.router.navigate(this.route);
   }
 }
