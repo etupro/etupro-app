@@ -13,7 +13,6 @@ import { MatInput } from "@angular/material/input";
 import { StorageService } from "../../../../shared/services/storage.service";
 import { UserProfile } from "../../../../shared/models/user-profile.model";
 import { UserProfileService } from "../../../../shared/services/user-profile.service";
-import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub-header.component";
 
 @Component({
   selector: 'app-organization',
@@ -31,7 +30,6 @@ import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub
     MatLabel,
     MatButton,
     MatInput,
-    SubHeaderComponent
   ],
   templateUrl: './organization.component.html',
   styleUrl: './organization.component.scss'
@@ -99,8 +97,8 @@ export class OrganizationComponent implements OnInit {
     this.readonly = true;
   }
 
-  handleCoverUpload(coverUrl: File) {
-    this.organizationForm.controls.picture.setValue(coverUrl);
+  handleCoverUpload(coverFile: File) {
+    this.organizationForm.controls.picture.setValue(coverFile);
   }
 
   async editOrganization() {
@@ -113,11 +111,11 @@ export class OrganizationComponent implements OnInit {
 
     let uploadPath: string | undefined;
 
-    if (picture && typeof picture !== "string") {
+    if (picture) {
       uploadPath = await this.storageService.uploadToBucket(StorageService.BucketName.ORGANIZATION_IMAGES, picture);
     }
 
-    let newOrganization: Organization | null = null;
+    let newOrganization: Organization | null;
     if (this.organization) {
       newOrganization = await this.organizationService.update(this.organization.id, {
         name,

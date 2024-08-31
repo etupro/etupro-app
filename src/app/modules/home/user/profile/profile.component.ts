@@ -5,7 +5,6 @@ import { UserProfile } from "../../../../shared/models/user-profile.model";
 import { MatIcon } from "@angular/material/icon";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatToolbar } from "@angular/material/toolbar";
-import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub-header.component";
 import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from "@angular/material/card";
 import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
@@ -23,7 +22,6 @@ import { Router } from "@angular/router";
     MatIcon,
     MatIconButton,
     MatToolbar,
-    SubHeaderComponent,
     MatCard,
     MatCardHeader,
     MatCardTitle,

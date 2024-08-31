@@ -15,7 +15,6 @@ import { MatInput } from "@angular/material/input";
 import { SinglePictureInputComponent } from "../../../../shared/components/single-picture-input/single-picture-input.component";
 import { AutocompleteInputComponent } from "../../../../shared/components/autocomplete-input/autocomplete-input.component";
 import { MatToolbar } from "@angular/material/toolbar";
-import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub-header.component";
 import { TagsAutocompleteInputsComponent } from "../../../../shared/components/autocomplete-input/tags-autocomplete-inputs/tags-autocomplete-inputs.component";
 
 @Component({
@@ -35,7 +34,6 @@ import { TagsAutocompleteInputsComponent } from "../../../../shared/components/a
     MatToolbar,
     MatError,
     MatLabel,
-    SubHeaderComponent,
     TagsAutocompleteInputsComponent
   ],
   templateUrl: './create-post.component.html',

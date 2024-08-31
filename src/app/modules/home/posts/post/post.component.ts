@@ -14,7 +14,6 @@ import { MatChipListbox, MatChipOption } from "@angular/material/chips";
 import { PublishCommentComponent } from "../../../../shared/components/publish-comment/publish-comment.component";
 import { CommentCardComponent } from "../../../../shared/components/comment-card/comment-card.component";
 import { MatToolbar } from "@angular/material/toolbar";
-import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub-header.component";
 import { StorageService } from "../../../../shared/services/storage.service";
 
 @Component({
@@ -34,7 +33,6 @@ import { StorageService } from "../../../../shared/services/storage.service";
     PublishCommentComponent,
     CommentCardComponent,
     MatToolbar,
-    SubHeaderComponent
   ],
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
