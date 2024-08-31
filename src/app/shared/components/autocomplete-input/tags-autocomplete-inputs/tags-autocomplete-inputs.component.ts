@@ -23,7 +23,7 @@ export class TagsAutocompleteInputsComponent implements OnInit {
 
   ngOnInit() {
     this.tagsService.getAll().then(response => {
-      this.allTags = response.data?.map(d => d.value) ?? []
+      this.allTags = response.data?.map(d => d.value) ?? [];
     });
   }
 }

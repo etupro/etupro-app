@@ -47,7 +47,7 @@ export class ProfileComponent implements OnInit {
   }, {
     updateOn: "submit",
     validators: [passwordConfirmationValidator()]
-  })
+  });
 
   readonly = true;
 
@@ -63,7 +63,7 @@ export class ProfileComponent implements OnInit {
     this.authService.userProfile$.subscribe(userProfile => {
       this.userProfile = userProfile;
       this.resetForm();
-    })
+    });
   }
 
   resetForm() {
@@ -93,9 +93,9 @@ export class ProfileComponent implements OnInit {
     const email = this.profileForm.value.email ?? '';
 
     await this.authService.updateUserEmail(email);
-    await this.userProfileService.update(this.userProfile.id, {display_name: displayName})
+    await this.userProfileService.update(this.userProfile.id, {display_name: displayName});
     await this.authService.updateUserProfile();
-    this.snackbarService.openSnackBar("Sauvegardé !")
+    this.snackbarService.openSnackBar("Sauvegardé !");
     this.setFormReadOnly();
   }
 

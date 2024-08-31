@@ -17,13 +17,13 @@ export class CommentsService {
       .from('comments')
       .select('*')
       .eq('id', id)
-      .maybeSingle()
+      .maybeSingle();
   }
 
   async create(comment: Comment.Insert): Promise<PostgrestSingleResponse<null>> {
     return this.supabaseService.client
       .from('comments')
-      .insert(comment)
+      .insert(comment);
   }
 
   async update(id: number, comment: Comment.Update): Promise<PostgrestSingleResponse<null>> {
@@ -34,7 +34,7 @@ export class CommentsService {
         id,
         updated_at: DateTime.now().toISO()
       })
-      .eq('id', id)
+      .eq('id', id);
   }
 
   async getAllFromPost(postId: number): Promise<PostgrestSingleResponse<Comment[]>> {
@@ -50,6 +50,6 @@ export class CommentsService {
     return this.supabaseService.client
       .from('comments')
       .delete()
-      .eq('id', id)
+      .eq('id', id);
   }
 }

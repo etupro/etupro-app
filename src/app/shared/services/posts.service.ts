@@ -26,13 +26,13 @@ export class PostsService {
       .from('posts')
       .select('*, user_profiles(*)')
       .eq('id', id)
-      .maybeSingle()
+      .maybeSingle();
   }
 
   async create(post: Post.Insert): Promise<PostgrestSingleResponse<null>> {
     return this.supabaseService.client
       .from('posts')
-      .insert(post)
+      .insert(post);
   }
 
   async update(id: number, post: Post.Update): Promise<PostgrestSingleResponse<null>> {
@@ -43,6 +43,6 @@ export class PostsService {
         id,
         updated_at: DateTime.now().toISO()
       })
-      .eq('id', id)
+      .eq('id', id);
   }
 }

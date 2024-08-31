@@ -61,9 +61,9 @@ export class PostsComponent implements OnInit {
     this.postsService.getAllByTags(tags).then(response => {
       this.posts = response.data ?? [];
     }).finally(() => {
-      this.postsLoading = false
+      this.postsLoading = false;
     }).then(async () => {
-      this.coverUrls = await this.storageService.getSignedUrls(StorageService.BucketName.POST_COVERS, this.posts.map(post => post.cover).filter(Boolean) as string[])
+      this.coverUrls = await this.storageService.getSignedUrls(StorageService.BucketName.POST_COVERS, this.posts.map(post => post.cover).filter(Boolean) as string[]);
     });
   }
 

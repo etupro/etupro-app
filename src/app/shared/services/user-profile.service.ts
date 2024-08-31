@@ -17,13 +17,13 @@ export class UserProfileService {
       .from('user_profiles')
       .select('*')
       .eq('user_id', id)
-      .maybeSingle()
+      .maybeSingle();
   }
 
   async create(userProfile: UserProfile.Insert): Promise<PostgrestSingleResponse<null>> {
     return this.supabaseService.client
       .from('user_profiles')
-      .insert(userProfile)
+      .insert(userProfile);
   }
 
   async update(id: number, userProfile: UserProfile.Update): Promise<PostgrestSingleResponse<null>> {
@@ -34,6 +34,6 @@ export class UserProfileService {
         id,
         updated_at: DateTime.now().toISO()
       })
-      .eq('id', id)
+      .eq('id', id);
   }
 }

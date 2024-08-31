@@ -12,8 +12,8 @@ export class StorageService {
   }
 
   async uploadToBucket(bucketName: StorageService.BucketName, file: File): Promise<string> {
-    const fileExt = file.name.split('.').pop()
-    const filePath = `${uuidv4()}.${fileExt}`
+    const fileExt = file.name.split('.').pop();
+    const filePath = `${uuidv4()}.${fileExt}`;
     const tokenResponse = await this.supabaseService.client.storage.from(bucketName).createSignedUploadUrl(filePath);
 
     let path: string | undefined;

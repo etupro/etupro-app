@@ -47,7 +47,7 @@ export class OrganizationComponent implements OnInit {
   }, {
     updateOn: "submit",
     validators: [passwordConfirmationValidator()]
-  })
+  });
 
   constructor(private authService: AuthService,
               private organizationService: OrganizationService,
@@ -68,7 +68,7 @@ export class OrganizationComponent implements OnInit {
   async updateOrganization() {
     console.log(this.userProfile);
     if (this.userProfile?.organization_id) {
-      this.organization = await this.organizationService.getById(this.userProfile.organization_id)
+      this.organization = await this.organizationService.getById(this.userProfile.organization_id);
       console.log(this.organization);
       this.resetForm();
 
@@ -125,14 +125,14 @@ export class OrganizationComponent implements OnInit {
       newOrganization = await this.organizationService.create({
         name,
         picture: uploadPath
-      })
+      });
     }
 
     if (this.userProfile) {
-      await this.userProfileService.update(this.userProfile.id, {organization_id: newOrganization?.id ?? null})
+      await this.userProfileService.update(this.userProfile.id, {organization_id: newOrganization?.id ?? null});
     }
 
-    this.snackbarService.openSnackBar("Sauvegardé !")
+    this.snackbarService.openSnackBar("Sauvegardé !");
     await this.updateOrganization();
     this.setFormReadOnly();
   }

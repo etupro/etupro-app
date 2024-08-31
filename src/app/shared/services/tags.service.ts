@@ -17,13 +17,13 @@ export class TagsService {
       .from('tags')
       .select('*')
       .eq('id', id)
-      .maybeSingle()
+      .maybeSingle();
   }
 
   async create(tag: Tag.Insert): Promise<PostgrestSingleResponse<null>> {
     return this.supabaseService.client
       .from('tags')
-      .insert(tag)
+      .insert(tag);
   }
 
   async update(id: number, tag: Tag.Update): Promise<PostgrestSingleResponse<null>> {
@@ -34,13 +34,13 @@ export class TagsService {
         id,
         updated_at: DateTime.now().toISO()
       })
-      .eq('id', id)
+      .eq('id', id);
   }
 
   async getAll(): Promise<PostgrestSingleResponse<Tag[]>> {
     return this.supabaseService.client
       .from('tags')
       .select('*')
-      .order('value', {ascending: true})
+      .order('value', {ascending: true});
   }
 }

@@ -28,7 +28,7 @@ export class OrganizationService {
       .select('*')
       .single();
 
-    return result.data
+    return result.data;
   }
 
   async update(id: number, Organization: Organization.Update): Promise<Organization | null> {

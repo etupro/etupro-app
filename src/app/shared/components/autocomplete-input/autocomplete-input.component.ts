@@ -75,7 +75,7 @@ export class AutocompleteInputComponent implements OnInit, OnChanges {
       this.valuesControl.setValue(this.values);
     }
 
-    this.allValues.push(tag)
+    this.allValues.push(tag);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {

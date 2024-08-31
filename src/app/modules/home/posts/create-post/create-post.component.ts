@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { PostsService } from "../../../../shared/services/posts.service";
-import { Post } from "../../../../shared/models/post.model";
-import { TagsService } from "../../../../shared/services/tags.service";
-import { Router } from "@angular/router";
-import { AuthService } from "../../../../shared/services/auth.service";
-import { StorageService } from "../../../../shared/services/storage.service";
-import { CommonModule } from "@angular/common";
-import { NavigationComponent } from "../../../../shared/components/navidation/navigation.component";
-import { MatIcon } from "@angular/material/icon";
-import { MatButton, MatIconButton } from "@angular/material/button";
-import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
-import { MatInput } from "@angular/material/input";
-import { SinglePictureInputComponent } from "../../../../shared/components/single-picture-input/single-picture-input.component";
-import { AutocompleteInputComponent } from "../../../../shared/components/autocomplete-input/autocomplete-input.component";
-import { MatToolbar } from "@angular/material/toolbar";
-import { TagsAutocompleteInputsComponent } from "../../../../shared/components/autocomplete-input/tags-autocomplete-inputs/tags-autocomplete-inputs.component";
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { PostsService } from '../../../../shared/services/posts.service';
+import { Post } from '../../../../shared/models/post.model';
+import { TagsService } from '../../../../shared/services/tags.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { StorageService } from '../../../../shared/services/storage.service';
+import { CommonModule } from '@angular/common';
+import { NavigationComponent } from '../../../../shared/components/navidation/navigation.component';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { SinglePictureInputComponent } from '../../../../shared/components/single-picture-input/single-picture-input.component';
+import { AutocompleteInputComponent } from '../../../../shared/components/autocomplete-input/autocomplete-input.component';
+import { MatToolbar } from '@angular/material/toolbar';
+import { TagsAutocompleteInputsComponent } from '../../../../shared/components/autocomplete-input/tags-autocomplete-inputs/tags-autocomplete-inputs.component';
 
 @Component({
   selector: 'app-create-post',
@@ -46,7 +46,8 @@ export class CreatePostComponent {
     content: new FormControl('', [Validators.required]),
     cover: new FormControl<File | undefined>(undefined),
     tags: new FormControl<string[]>([]),
-  })
+  });
+
 
   createLoading = false;
 

@@ -9,7 +9,7 @@ export class Comment implements Tables<'comments'> {
   created_at: string;
   updated_at: string;
 
-  user_profiles?: UserProfile | null
+  user_profiles?: UserProfile | null;
 }
 
 export namespace Comment {

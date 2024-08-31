@@ -57,18 +57,18 @@ export class PostComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.watcher.add(this.route.params.subscribe(params => {
       this.postId = params['id'];
-      this.postLoading = true
+      this.postLoading = true;
       this.postsService.getById(this.postId).then(response => {
         this.post = response.data ?? undefined;
       }).finally(() => {
-        this.postLoading = false
+        this.postLoading = false;
       }).then(async () => {
         if (this.post?.cover) {
           this.coverUrl = await this.storageService.getSignedUrl(StorageService.BucketName.POST_COVERS, this.post.cover);
         }
       });
-      this.updateCommentList()
-    }))
+      this.updateCommentList();
+    }));
   }
 
   ngOnDestroy() {
@@ -80,7 +80,7 @@ export class PostComponent implements OnInit, OnDestroy {
     this.commentsService.getAllFromPost(this.postId).then(response => {
       this.comments = response.data ?? [];
     }).finally(() => {
-      this.commentLoading = false
+      this.commentLoading = false;
     });
   }
 
