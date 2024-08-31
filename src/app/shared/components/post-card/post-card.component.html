@@ -1,8 +1,8 @@
 <mat-card>
   <mat-card-title>{{ post.title}}</mat-card-title>
 
-  @if (post.cover) {
-    <img [src]="post.cover" alt="post cover image"/>
+  @if (coverUrl) {
+    <img [src]="coverUrl" alt="post cover image"/>
   }
 
   <mat-card-content>{{ post.content}}</mat-card-content>

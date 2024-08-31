@@ -1,6 +1,6 @@
 import { Tables, TablesInsert, TablesUpdate } from "./database.types";
 
-export class Organiazation implements Tables<'organizations'> {
+export class Organization implements Tables<'organizations'> {
   id: number;
   name: string;
   picture: string | null;
@@ -8,7 +8,7 @@ export class Organiazation implements Tables<'organizations'> {
   updated_at: string;
 }
 
-export namespace UserProfile {
+export namespace Organization {
   export type Insert = TablesInsert<'organizations'>;
   export type Update = TablesUpdate<'organizations'>;
 }

@@ -41,7 +41,7 @@ export class RegisterComponent {
   }, {
     updateOn: "submit",
     validators: [passwordConfirmationValidator()]
-  })
+  });
 
   hidePassword = true;
   hideConfirmPassword = true;

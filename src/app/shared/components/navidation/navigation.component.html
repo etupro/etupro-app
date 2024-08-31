@@ -1,6 +1,9 @@
 <mat-drawer-container [hasBackdrop]="true" autosize class="app-drawer-container">
   <mat-drawer #drawer class="app-sidenav" mode="side">
     <mat-list>
+      <mat-list-item>
+        <button (click)="handlePosts()" mat-button>Posts</button>
+      </mat-list-item>
       @if (authService.isLoggedIn) {
         <mat-list-item>
           <button mat-button (click)="handleProfile()">Profil</button>

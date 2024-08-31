@@ -11,7 +11,7 @@ export class Post implements Tables<'posts'> {
   created_at: string;
   updated_at: string;
 
-  user_profiles?: UserProfile | null
+  user_profiles?: UserProfile | null;
 }
 
 export namespace Post {

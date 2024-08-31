@@ -31,7 +31,7 @@ export class PublishCommentComponent {
 
   commentForm = new FormGroup({
     comment: new FormControl(''),
-  })
+  });
 
   constructor(protected authService: AuthService,
               private router: Router,

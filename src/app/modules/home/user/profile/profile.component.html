@@ -1,5 +1,3 @@
-<app-sub-header></app-sub-header>
-
 <form (ngSubmit)="editProfile()" [formGroup]="profileForm" class="profile-form-container">
   <mat-card>
     <mat-card-header>
@@ -29,11 +27,12 @@
           valide
         </mat-error>
       </mat-form-field>
+      <button (click)="editOrganization()" *ngIf="readonly" color="primary" mat-raised-button>Organisation</button>
     </mat-card-content>
     <mat-card-actions>
-      <button (click)="setFormEditMode()" *ngIf="readonly" color="primary" mat-raised-button>Modifier</button>
-      <button (click)="setFormReadOnly()" *ngIf="!readonly" color="warn" mat-raised-button>Annuler</button>
-      <button *ngIf="!readonly" color="primary" mat-raised-button type="submit">Sauvegarder</button>
+      <button (click)="setFormEditMode()" *ngIf="readonly" color="primary" mat-button>Modifier</button>
+      <button (click)="setFormReadOnly()" *ngIf="!readonly" color="warn" mat-button>Annuler</button>
+      <button *ngIf="!readonly" color="primary" mat-button type="submit">Sauvegarder</button>
     </mat-card-actions>
   </mat-card>
 </form>

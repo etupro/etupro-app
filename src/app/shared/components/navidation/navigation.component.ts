@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { CommonModule, NgOptimizedImage } from "@angular/common";
@@ -27,19 +27,29 @@ import { MatList, MatListItem } from "@angular/material/list";
   ]
 })
 export class NavigationComponent {
+  @ViewChild('drawer') drawer: MatDrawer;
+
   constructor(private router: Router, protected authService: AuthService) {
   }
 
   async handleLogout() {
     await this.authService.logout();
     await this.router.navigate(['/']);
+    await this.drawer.close();
+  }
+
+  async handlePosts() {
+    await this.router.navigate(['/', 'posts']);
+    await this.drawer.close();
   }
 
   async handleRegister() {
-    await this.router.navigate(['/auth/register']);
+    await this.router.navigate(['/', 'auth', 'register']);
+    await this.drawer.close();
   }
 
   async handleProfile() {
-    await this.router.navigate(['/user/profile']);
+    await this.router.navigate(['/', 'user', 'profile']);
+    await this.drawer.close();
   }
 }

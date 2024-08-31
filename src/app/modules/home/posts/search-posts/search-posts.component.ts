@@ -27,7 +27,7 @@ export class SearchPostsComponent implements OnInit {
 
   searchForm = new FormGroup({
     tags: new FormControl<string[]>([], {nonNullable: true})
-  })
+  });
 
   constructor(private router: Router, private route: ActivatedRoute) {
   }
@@ -49,7 +49,7 @@ export class SearchPostsComponent implements OnInit {
     if (previousRoute) {
       this.router.navigateByUrl(previousRoute);
     } else {
-      this.router.navigate(['/', 'posts'])
+      this.router.navigate(['/', 'posts']);
     }
   }
 

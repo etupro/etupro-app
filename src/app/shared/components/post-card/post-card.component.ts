@@ -22,4 +22,5 @@ import { MatChipListbox, MatChipOption } from "@angular/material/chips";
 export class PostCardComponent {
 
   @Input() post: Post;
+  @Input() coverUrl?: string;
 }

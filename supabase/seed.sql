@@ -169,10 +169,3 @@ VALUES (11, DEFAULT, DEFAULT,
         20, 'https://example.com/cover_photo.jpg');
 SELECT setval('"public"."user_profiles_id_seq"'::regclass, (SELECT MAX("id") FROM "public"."user_profiles"));
 SELECT setval('"public"."posts_id_seq"'::regclass, (SELECT MAX("id") FROM "public"."posts"));
-
-insert into storage.buckets (id, name, created_at, updated_at, public, avif_autodetection, allowed_mime_types)
-values ('post_covers', 'post_covers', '2024-06-19 17:38:59.771924+00', '2024-06-19 17:38:59.771924+00', true, false,
-        '{"image/*"}');
-
-CREATE POLICY "public post cover bucket 3pkz6j_0" ON storage.objects FOR SELECT TO public USING (bucket_id = 'post_covers');
-CREATE POLICY "public post cover bucket 3pkz6j_1" ON storage.objects FOR INSERT TO public WITH CHECK (bucket_id = 'post_covers');

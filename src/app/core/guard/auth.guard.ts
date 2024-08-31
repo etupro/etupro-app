@@ -15,7 +15,7 @@ export const authGuard: CanActivateFn = () => {
       }
     })
   );
-}
+};
 
 
 export const noAuthGuard: CanActivateFn = () => {
@@ -25,4 +25,4 @@ export const noAuthGuard: CanActivateFn = () => {
       return !userProfile;
     })
   );
-}
+};

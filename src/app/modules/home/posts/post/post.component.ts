@@ -14,7 +14,7 @@ import { MatChipListbox, MatChipOption } from "@angular/material/chips";
 import { PublishCommentComponent } from "../../../../shared/components/publish-comment/publish-comment.component";
 import { CommentCardComponent } from "../../../../shared/components/comment-card/comment-card.component";
 import { MatToolbar } from "@angular/material/toolbar";
-import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub-header.component";
+import { StorageService } from "../../../../shared/services/storage.service";
 
 @Component({
   selector: 'app-post',
@@ -33,7 +33,6 @@ import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub
     PublishCommentComponent,
     CommentCardComponent,
     MatToolbar,
-    SubHeaderComponent
   ],
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
@@ -43,6 +42,7 @@ export class PostComponent implements OnInit, OnDestroy {
   watcher = new Subscription();
   post: Post | undefined;
   postId: number;
+  coverUrl: string | undefined;
   comments: Comment[] = [];
 
   postLoading = false;
@@ -50,20 +50,25 @@ export class PostComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private postsService: PostsService,
+              private storageService: StorageService,
               private commentsService: CommentsService) {
   }
 
   ngOnInit() {
     this.watcher.add(this.route.params.subscribe(params => {
       this.postId = params['id'];
-      this.postLoading = true
+      this.postLoading = true;
       this.postsService.getById(this.postId).then(response => {
         this.post = response.data ?? undefined;
       }).finally(() => {
-        this.postLoading = false
+        this.postLoading = false;
+      }).then(async () => {
+        if (this.post?.cover) {
+          this.coverUrl = await this.storageService.getSignedUrl(StorageService.BucketName.POST_COVERS, this.post.cover);
+        }
       });
-      this.updateCommentList()
-    }))
+      this.updateCommentList();
+    }));
   }
 
   ngOnDestroy() {
@@ -75,7 +80,7 @@ export class PostComponent implements OnInit, OnDestroy {
     this.commentsService.getAllFromPost(this.postId).then(response => {
       this.comments = response.data ?? [];
     }).finally(() => {
-      this.commentLoading = false
+      this.commentLoading = false;
     });
   }
 

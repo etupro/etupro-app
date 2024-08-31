@@ -8,5 +8,5 @@ export function passwordConfirmationValidator(passwordControlName = 'password', 
     return password?.value === confirmPassword?.value
       ? null
       : {passwordMismatch: true};
-  }
+  };
 }

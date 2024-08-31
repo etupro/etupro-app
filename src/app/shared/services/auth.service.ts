@@ -27,7 +27,7 @@ export class AuthService {
     this.user$.subscribe(async user => {
       this._user = user;
       await this.updateUserProfile();
-    })
+    });
 
     this.userProfile$.subscribe(userProfile => {
       this._userProfile = userProfile;
@@ -66,7 +66,7 @@ export class AuthService {
   }
 
   async login(email: string, password: string): Promise<void> {
-    const result = await this.supabaseService.client.auth.signInWithPassword({email, password})
+    const result = await this.supabaseService.client.auth.signInWithPassword({email, password});
     if (result.error) {
       throw new Error(result.error.message);
     }
@@ -79,10 +79,10 @@ export class AuthService {
   async register(displayName: string, email: string, password: string) {
     const result = await this.supabaseService.client.auth.signUp({email, password});
     if (result.error) {
-      throw new Error(result.error.message)
+      throw new Error(result.error.message);
     }
     if (!result.data?.user) {
-      throw new Error('Missing user data after register')
+      throw new Error('Missing user data after register');
     }
 
     await this.userProfileService.create({user_id: result.data.user.id, display_name: displayName});
@@ -96,7 +96,7 @@ export class AuthService {
   }
 
   async logout(): Promise<void> {
-    await this.supabaseService.client.auth.signOut()
+    await this.supabaseService.client.auth.signOut();
   }
 
 }

@@ -9,7 +9,7 @@ export class UserProfile implements Tables<'user_profiles'> {
   created_at: string;
   updated_at: string;
 
-  user?: User
+  user?: User;
 }
 
 export namespace UserProfile {

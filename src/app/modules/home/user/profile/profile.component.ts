@@ -5,7 +5,6 @@ import { UserProfile } from "../../../../shared/models/user-profile.model";
 import { MatIcon } from "@angular/material/icon";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatToolbar } from "@angular/material/toolbar";
-import { SubHeaderComponent } from "../../../../shared/components/sub-header/sub-header.component";
 import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from "@angular/material/card";
 import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
@@ -13,6 +12,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { passwordConfirmationValidator } from "../../../../shared/validators/password-confirmation.validator";
 import { UserProfileService } from "../../../../shared/services/user-profile.service";
 import { SnackbarService } from "../../../../shared/services/snackbar.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +22,6 @@ import { SnackbarService } from "../../../../shared/services/snackbar.service";
     MatIcon,
     MatIconButton,
     MatToolbar,
-    SubHeaderComponent,
     MatCard,
     MatCardHeader,
     MatCardTitle,
@@ -48,13 +47,14 @@ export class ProfileComponent implements OnInit {
   }, {
     updateOn: "submit",
     validators: [passwordConfirmationValidator()]
-  })
+  });
 
   readonly = true;
 
   constructor(private authService: AuthService,
               private userProfileService: UserProfileService,
-              private snackbarService: SnackbarService) {
+              private snackbarService: SnackbarService,
+              private router: Router,) {
   }
 
   ngOnInit() {
@@ -63,7 +63,7 @@ export class ProfileComponent implements OnInit {
     this.authService.userProfile$.subscribe(userProfile => {
       this.userProfile = userProfile;
       this.resetForm();
-    })
+    });
   }
 
   resetForm() {
@@ -93,9 +93,13 @@ export class ProfileComponent implements OnInit {
     const email = this.profileForm.value.email ?? '';
 
     await this.authService.updateUserEmail(email);
-    await this.userProfileService.update(this.userProfile.id, {display_name: displayName})
+    await this.userProfileService.update(this.userProfile.id, {display_name: displayName});
     await this.authService.updateUserProfile();
-    this.snackbarService.openSnackBar("Sauvegardé !")
+    this.snackbarService.openSnackBar("Sauvegardé !");
     this.setFormReadOnly();
+  }
+
+  editOrganization() {
+    this.router.navigate(['/', 'user', 'organization']);
   }
 }
