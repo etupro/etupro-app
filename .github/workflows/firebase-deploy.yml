@@ -32,10 +32,11 @@ jobs:
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
 
-      - uses: supabase/setup-cli@v1
-
-      - name: link supabase project
-        run: supabase link --project-ref $PROJECT_ID
-
-      - name: push bd changes
-        run: supabase db push
+# TODO find the right SUPABASE_ACCESS_TOKEN
+#      - uses: supabase/setup-cli@v1
+#
+#      - name: link supabase project
+#        run: supabase link --project-ref $PROJECT_ID
+#
+#      - name: push bd changes
+#        run: supabase db push

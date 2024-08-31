@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { SupabaseService } from "./supabase.service";
-import { v4 as uuidv4 } from "uuid";
+import { SupabaseService } from './supabase.service';
+import { v4 as uuidv4 } from 'uuid';
 import { Map } from 'immutable';
 
 @Injectable({
@@ -14,11 +14,16 @@ export class StorageService {
   async uploadToBucket(bucketName: StorageService.BucketName, file: File): Promise<string> {
     const fileExt = file.name.split('.').pop();
     const filePath = `${uuidv4()}.${fileExt}`;
+    console.log('bucketName: ', bucketName);
+    console.log('filePath: ', filePath);
     const tokenResponse = await this.supabaseService.client.storage.from(bucketName).createSignedUploadUrl(filePath);
+    console.log('tokenResponse: ', tokenResponse);
 
     let path: string | undefined;
     if (tokenResponse.data?.token) {
       const uploadResponse = await this.supabaseService.client.storage.from(bucketName).uploadToSignedUrl(filePath, tokenResponse.data.token, file);
+      console.log('uploadResponse: ', uploadResponse);
+      console.log(JSON.stringify((uploadResponse)));
       if (uploadResponse.error) {
         throw new Error(uploadResponse.error.message);
       }
