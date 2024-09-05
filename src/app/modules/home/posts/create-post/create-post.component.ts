@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PostsService } from '../../../../shared/services/posts.service';
 import { Post } from '../../../../shared/models/post.model';
@@ -39,15 +39,15 @@ import { TagsAutocompleteInputsComponent } from '../../../../shared/components/a
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
 })
-export class CreatePostComponent {
+export class CreatePostComponent implements OnInit {
 
   postForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     content: new FormControl('', [Validators.required]),
     cover: new FormControl<File | undefined>(undefined),
+    author: new FormControl(''),
     tags: new FormControl<string[]>([]),
   });
-
 
   createLoading = false;
 
@@ -56,6 +56,10 @@ export class CreatePostComponent {
               private postsService: PostsService,
               private tagsService: TagsService,
               private storageService: StorageService) {
+  }
+
+  ngOnInit() {
+    this.postForm.controls.author.setValue(this.authService.userProfile?.display_name ?? '');
   }
 
   async createPost() {
@@ -72,6 +76,7 @@ export class CreatePostComponent {
     const title = this.postForm.value.title ?? '';
     const content = this.postForm.value.content ?? '';
     const cover = this.postForm.value.cover ?? '';
+    const author = this.postForm.value.author ?? null;
     const tags = this.postForm.value.tags ?? [];
 
     let uploadPath: string | undefined;
@@ -84,6 +89,7 @@ export class CreatePostComponent {
       title,
       content,
       cover: uploadPath,
+      author_name: author,
       tags,
     };
 

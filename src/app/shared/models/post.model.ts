@@ -1,5 +1,5 @@
-import { Tables, TablesInsert, TablesUpdate } from "./database.types";
-import { UserProfile } from "./user-profile.model";
+import { Tables, TablesInsert, TablesUpdate } from './database.types';
+import { UserProfile } from './user-profile.model';
 
 export class Post implements Tables<'posts'> {
   id: number;
@@ -8,6 +8,7 @@ export class Post implements Tables<'posts'> {
   content: string;
   cover: string | null;
   tags: string[];
+  author_name: string | null;
   created_at: string;
   updated_at: string;
 

@@ -20,6 +20,11 @@
       </mat-error>
     </mat-form-field>
 
+    <mat-form-field class="author-form-field">
+      <mat-label>Auteur</mat-label>
+      <input [formControl]="postForm.controls.author" matInput>
+    </mat-form-field>
+
     <app-tags-autocomplete-inputs [valuesControl]="postForm.controls.tags"></app-tags-autocomplete-inputs>
 
   </form>

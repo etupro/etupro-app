@@ -1,10 +1,11 @@
-drop function if exists "storage"."operation"();
+insert into storage.buckets (id, name, created_at, updated_at, public, avif_autodetection, allowed_mime_types)
+values ('post_covers', 'post_covers', '2024-06-19 17:38:59.771924+00', '2024-06-19 17:38:59.771924+00', false, false,
+        '{"image/*"}');
 
-alter table "storage"."objects"
-  drop column "user_metadata";
-
-alter table "storage"."s3_multipart_uploads"
-  drop column "user_metadata";
+insert into storage.buckets (id, name, created_at, updated_at, public, avif_autodetection, allowed_mime_types)
+values ('organization_images', 'organization_images', '2024-06-19 17:38:59.771924+00', '2024-06-19 17:38:59.771924+00',
+        false, false,
+        '{"image/*"}');
 
 create policy "organization_images_edit_authenticated sz2pz8_0"
   on "storage"."objects"

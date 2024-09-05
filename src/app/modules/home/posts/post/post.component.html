@@ -8,12 +8,12 @@
       <img [src]="coverUrl" [alt]="'Cover image for post'"/>
     }
 
-    <mat-card-content>
+    <mat-card-content class="post-content">
       {{ post?.content }}
     </mat-card-content>
 
     <mat-card-footer>
-      de {{ post?.user_profiles?.display_name ?? 'Anonyme' }}
+      de {{ post?.author_name ?? post?.user_profiles?.display_name ?? 'Anonyme' }}
       <mat-chip-listbox aria-label="Post tags">
         @for (tag of post?.tags; track tag) {
           <mat-chip-option [selectable]="false">{{ tag }}</mat-chip-option>
