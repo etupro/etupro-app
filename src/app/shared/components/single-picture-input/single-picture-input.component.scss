@@ -1,3 +1,5 @@
+@use 'src/styles/annimations';
+
 .drop-zone-shake {
   animation: shake 0.5s;
   animation-iteration-count: 3;
