@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@use './palettes';
+@use 'palettes';
 
 $app-light-primary: mat.define-palette(palettes.$light-primary);
 $app-light-accent: mat.define-palette(palettes.$light-accent);
@@ -10,5 +10,9 @@ $app-light-theme: mat.define-light-theme((
     primary: $app-light-primary,
     accent: $app-light-accent,
     warn: $app-light-warn,
-  )
+  ),
+        typography: (
+                brand-family: 'Roboto',
+                bold-weight: 900
+        ),
 ));
