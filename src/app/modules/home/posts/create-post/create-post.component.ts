@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PostsService } from '../../../../shared/services/posts.service';
 import { Post } from '../../../../shared/models/post.model';
@@ -16,6 +16,9 @@ import { SinglePictureInputComponent } from '../../../../shared/components/singl
 import { AutocompleteInputComponent } from '../../../../shared/components/autocomplete-input/autocomplete-input.component';
 import { MatToolbar } from '@angular/material/toolbar';
 import { TagsAutocompleteInputsComponent } from '../../../../shared/components/autocomplete-input/tags-autocomplete-inputs/tags-autocomplete-inputs.component';
+import { PostCardPreviewComponent } from '../../../../shared/components/post-card/preview/preview.component';
+import { Subscription } from 'rxjs';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-create-post',
@@ -34,12 +37,13 @@ import { TagsAutocompleteInputsComponent } from '../../../../shared/components/a
     MatToolbar,
     MatError,
     MatLabel,
-    TagsAutocompleteInputsComponent
+    TagsAutocompleteInputsComponent,
+    PostCardPreviewComponent
   ],
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
 })
-export class CreatePostComponent implements OnInit {
+export class CreatePostComponent implements OnInit, OnDestroy {
 
   postForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
@@ -51,15 +55,42 @@ export class CreatePostComponent implements OnInit {
 
   createLoading = false;
 
+  postPreview: Post.Update = {};
+  coverUrl?: SafeResourceUrl;
+
+  watcher = new Subscription();
+
   constructor(private authService: AuthService,
               private router: Router,
               private postsService: PostsService,
               private tagsService: TagsService,
-              private storageService: StorageService) {
+              private storageService: StorageService,
+              private readonly dom: DomSanitizer) {
   }
 
   ngOnInit() {
     this.postForm.controls.author.setValue(this.authService.userProfile?.display_name ?? '');
+
+    this.watcher.add(this.postForm.valueChanges.subscribe(value => {
+      this.postPreview = {
+        title: value.title && value.title !== '' ? value.title : undefined,
+        content: value.content && value.content !== '' ? value.content : undefined,
+        tags: value.tags && value.tags.length !== 0 ? value.tags : undefined,
+        author_name: value.author && value.author !== '' ? value.author : undefined,
+      };
+    }));
+
+    this.watcher.add(this.postForm.controls.cover.valueChanges.subscribe(value => {
+      if (value) {
+        this.coverUrl = this.dom.bypassSecurityTrustResourceUrl(URL.createObjectURL(value));
+      } else {
+        this.coverUrl = undefined;
+      }
+    }));
+  }
+
+  ngOnDestroy() {
+    this.watcher.unsubscribe();
   }
 
   async createPost() {

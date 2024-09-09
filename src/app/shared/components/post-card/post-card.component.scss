@@ -1,34 +1,76 @@
-mat-card {
+@use '@angular/material' as mat;
+@use 'theme';
+
+.post-card-container {
   width: 300px;
-  height: 300px;
-  padding: 8px;
+  height: 270px;
 
   display: flex;
-  justify-content: space-between;
+  overflow: hidden;
 
-  mat-card-title {
-    max-height: 32px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
+  .post-cover-container {
+    background-color: mat.get-theme-color(theme.$app-light-theme, primary, default);
+    position: relative;
+    width: 100%;
 
-  img {
-    object-fit: cover;
     height: 100px;
-  }
-
-  mat-card-content {
-    max-height: 6lh;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+
+    .post-cover-description {
+      padding: 0.5rem;
+
+      white-space: pre-line;
+    }
+
+    &:hover {
+      img {
+        display: none;
+      }
+    }
+
+    img {
+      object-fit: cover;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 
-  mat-card-footer {
-    height: 56px;
-    overflow: hidden;
+  .post-infos-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 0.5rem;
+    box-sizing: border-box;
+
+    height: 200px;
+
+    .post-infos-title-container {
+      h2, h6 {
+        margin: 0;
+      }
+
+      h2 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+    }
+
+    .post-infos-tags {
+      max-height: 80px;
+      overflow: hidden;
+    }
   }
+
 }
