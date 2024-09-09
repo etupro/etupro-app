@@ -1,11 +1,11 @@
 <div class="post-container">
   <mat-card>
     <mat-card-title>
-      {{ post?.title }}
+      <h1>{{ post?.title }}</h1>
     </mat-card-title>
 
     @if (coverUrl) {
-      <img [src]="coverUrl" [alt]="'Cover image for post'"/>
+      <img [src]="coverUrl" class="cover-image" [alt]="'Cover image for post'"/>
     }
 
     <mat-card-content class="post-content">
