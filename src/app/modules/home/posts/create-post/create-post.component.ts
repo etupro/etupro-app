@@ -19,6 +19,7 @@ import { TagsAutocompleteInputsComponent } from '../../../../shared/components/a
 import { PostCardPreviewComponent } from '../../../../shared/components/post-card/preview/preview.component';
 import { Subscription } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MarkdownEditorComponent } from '../../../../shared/components/markdown-editor/markdown-editor.component';
 
 @Component({
   selector: 'app-create-post',
@@ -38,7 +39,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     MatError,
     MatLabel,
     TagsAutocompleteInputsComponent,
-    PostCardPreviewComponent
+    PostCardPreviewComponent,
+    MarkdownEditorComponent
   ],
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
@@ -46,11 +48,11 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class CreatePostComponent implements OnInit, OnDestroy {
 
   postForm = new FormGroup({
-    title: new FormControl('', [Validators.required]),
-    content: new FormControl('', [Validators.required]),
+    title: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
+    content: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
     cover: new FormControl<File | undefined>(undefined),
     author: new FormControl(''),
-    tags: new FormControl<string[]>([]),
+    tags: new FormControl<string[]>([], {nonNullable: true}),
   });
 
   createLoading = false;

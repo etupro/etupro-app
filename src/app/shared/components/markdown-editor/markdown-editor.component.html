@@ -1,0 +1,13 @@
+<mat-tab-group class="editor-container">
+  <mat-tab label="Edition">
+    <mat-form-field class="editor-form-field">
+      <textarea [formControl]="controller" matInput></textarea>
+      <mat-error *ngIf="controller.hasError('required')">
+        Ce champ est <strong>requise</strong>
+      </mat-error>
+    </mat-form-field>
+  </mat-tab>
+  <mat-tab label="Pré-visualisation">
+    <markdown [data]="controller.value" class="editor-preview" emoji></markdown>
+  </mat-tab>
+</mat-tab-group>

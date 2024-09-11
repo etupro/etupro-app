@@ -12,13 +12,7 @@
 
     <app-single-picture-input (fileSaved)="handleCoverUpload($event)"></app-single-picture-input>
 
-    <mat-form-field class="content-form-field">
-      <mat-label>Description</mat-label>
-      <textarea matInput [formControl]="postForm.controls.content"></textarea>
-      <mat-error *ngIf="postForm.controls.content.hasError('required')">
-        La description est <strong>requise</strong>
-      </mat-error>
-    </mat-form-field>
+    <app-markdown-editor [controller]="postForm.controls.content"></app-markdown-editor>
 
     <mat-form-field class="author-form-field">
       <mat-label>Auteur</mat-label>
@@ -29,7 +23,7 @@
 
   </form>
 
-  <button mat-raised-button (click)="createPost()">Publier</button>
+  <button (click)="createPost()" color="primary" mat-raised-button>Publier</button>
 
   <app-post-card-preview [coverUrl]="coverUrl" [post]="postPreview"></app-post-card-preview>
 </div>
