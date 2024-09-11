@@ -1,0 +1,26 @@
+@use 'palettes';
+
+.editor-container {
+  width: 100%;
+
+  .editor-form-field {
+    width: 100%;
+
+    textarea {
+      height: 300px;
+    }
+  }
+
+  .editor-preview {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 300px;
+    background-color: var(--mdc-filled-text-field-container-color);
+    box-sizing: border-box;
+
+    border-bottom: 1px solid #000;
+
+    margin-bottom: 21px;
+  }
+}

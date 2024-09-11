@@ -10,9 +10,21 @@ $app-light-theme: mat.define-light-theme((
     primary: $app-light-primary,
     accent: $app-light-accent,
     warn: $app-light-warn,
-  ),
-        typography: (
-                brand-family: 'Roboto',
-                bold-weight: 900
-        ),
+  )
+));
+
+$app-typography: mat.define-typography-config('Roboto, sans-serif', (
+  headline1: mat.define-typography-level(96px, 96px, 300),
+  headline2: mat.define-typography-level(60px, 60px, 300),
+  headline3: mat.define-typography-level(48px, 48px, 400),
+  headline4: mat.define-typography-level(34px, 34px, 400),
+  headline5: mat.define-typography-level(24px, 24px, 400),
+  headline6: mat.define-typography-level(20px, 20px, 500),
+  subtitle1: mat.define-typography-level(16px, 16px, 400),
+  subtitle2: mat.define-typography-level(14px, 14px, 500),
+  body1: mat.define-typography-level(16px, 24px, 400),
+  body2: mat.define-typography-level(14px, 20px, 500),
+  button: mat.define-typography-level(14px, 14px, 500),
+  caption: mat.define-typography-level(12px, 20px, 400),
+  overline: mat.define-typography-level(10px, 10px, 500),
 ));

@@ -1,11 +1,15 @@
+@use '@angular/material' as mat;
+@use 'theme';
+
 .app-drawer-container {
   position: relative;
   height: 100vh;
   width: 100vw;
 
-  mat-toolbar {
+  .main-toolbar {
     display: flex;
     gap: 1rem;
+    background-color: mat.get-theme-color(theme.$app-light-theme, primary, 50);
 
     .title-image {
       display: flex;
@@ -15,7 +19,7 @@
 
   .content-container {
     position: relative;
-    height: calc(100vh - 56px); // removing height of toolbar
+    height: calc(100vh - var(--mat-toolbar-standard-height));
     width: 100%;
     overflow: auto;
   }
