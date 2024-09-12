@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { PostsService } from "../../../../shared/services/posts.service";
-import { Post } from "../../../../shared/models/post.model";
-import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
-import { CommonModule } from "@angular/common";
-import { NavigationComponent } from "../../../../shared/components/navidation/navigation.component";
-import { SearchBarComponent } from "../../../../shared/components/search-bar/search-bar.component";
-import { MatButton, MatFabButton } from "@angular/material/button";
-import { PostCardComponent } from "../../../../shared/components/post-card/post-card.component";
-import { MatIcon } from "@angular/material/icon";
-import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from "@angular/material/expansion";
-import { StorageService } from "../../../../shared/services/storage.service";
+import { PostsService } from '../../../../shared/services/posts.service';
+import { Post } from '../../../../shared/models/post.model';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { NavigationComponent } from '../../../../shared/components/navidation/navigation.component';
+import { SearchBarComponent } from '../../../../shared/components/search-bar/search-bar.component';
+import { MatButton, MatFabButton } from '@angular/material/button';
+import { PostCardComponent } from '../../../../shared/components/post-card/post-card.component';
+import { MatIcon } from '@angular/material/icon';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { Map } from 'immutable';
 
 @Component({
@@ -58,8 +58,8 @@ export class PostsComponent implements OnInit {
 
   searchPosts(tags: string[]) {
     this.postsLoading = true;
-    this.postsService.getAllByTags(tags).then(response => {
-      this.posts = response.data ?? [];
+    this.postsService.getAllByTags(tags).then(posts => {
+      this.posts = posts;
     }).finally(() => {
       this.postsLoading = false;
     }).then(async () => {

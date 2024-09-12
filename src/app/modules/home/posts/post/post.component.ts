@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PostsService } from '../../../../shared/services/posts.service';
 import { Post } from '../../../../shared/models/post.model';
@@ -16,6 +16,11 @@ import { CommentCardComponent } from '../../../../shared/components/comment-card
 import { MatToolbar } from '@angular/material/toolbar';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { MarkdownComponent } from 'ngx-markdown';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfimDeleteDialogComponent } from '../../../../shared/components/dialogs/confim-delete-dialog/confim-delete-dialog.component';
+import { AuthService } from '../../../../shared/services/auth.service';
+import BucketName = StorageService.BucketName;
 
 @Component({
   selector: 'app-post',
@@ -35,6 +40,9 @@ import { MarkdownComponent } from 'ngx-markdown';
     CommentCardComponent,
     MatToolbar,
     MarkdownComponent,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuItem,
   ],
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
@@ -42,7 +50,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 export class PostComponent implements OnInit, OnDestroy {
 
   watcher = new Subscription();
-  post: Post | undefined;
+  post: Post | null = null;
   postId: number;
   coverUrl: string | undefined;
   comments: Comment[] = [];
@@ -50,18 +58,28 @@ export class PostComponent implements OnInit, OnDestroy {
   postLoading = false;
   commentLoading = false;
 
+  isUserPost = false;
+
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private postsService: PostsService,
               private storageService: StorageService,
-              private commentsService: CommentsService) {
+              private commentsService: CommentsService,
+              private authService: AuthService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
     this.watcher.add(this.route.params.subscribe(params => {
       this.postId = params['id'];
       this.postLoading = true;
-      this.postsService.getById(this.postId).then(response => {
-        this.post = response.data ?? undefined;
+      this.postsService.getById(this.postId).then(post => {
+        if (post) {
+          this.post = post;
+          this.isUserPost = post.user_profile_id === this.authService.userProfileId;
+        } else {
+          this.router.navigate(['/']);
+        }
       }).finally(() => {
         this.postLoading = false;
       }).then(async () => {
@@ -84,6 +102,24 @@ export class PostComponent implements OnInit, OnDestroy {
     }).finally(() => {
       this.commentLoading = false;
     });
+  }
+
+  confirmDeletePost() {
+    const dialogRef = this.dialog.open(ConfimDeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deletePost();
+      }
+    });
+  }
+
+  async deletePost() {
+    await this.postsService.delete(this.postId);
+    if (this.post?.cover) {
+      await this.storageService.deleteFromBucket(BucketName.POST_COVERS, this.post.cover);
+    }
+    this.router.navigate(['/']);
   }
 
 }

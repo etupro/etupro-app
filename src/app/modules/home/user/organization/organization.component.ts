@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../../../../shared/services/auth.service";
-import { SnackbarService } from "../../../../shared/services/snackbar.service";
-import { OrganizationService } from "../../../../shared/services/organization.service";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { passwordConfirmationValidator } from "../../../../shared/validators/password-confirmation.validator";
-import { Organization } from "../../../../shared/models/organiazation.model";
-import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from "@angular/material/card";
-import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
-import { SinglePictureInputComponent } from "../../../../shared/components/single-picture-input/single-picture-input.component";
-import { MatButton } from "@angular/material/button";
-import { MatInput } from "@angular/material/input";
-import { StorageService } from "../../../../shared/services/storage.service";
-import { UserProfile } from "../../../../shared/models/user-profile.model";
-import { UserProfileService } from "../../../../shared/services/user-profile.service";
+import { AuthService } from '../../../../shared/services/auth.service';
+import { SnackbarService } from '../../../../shared/services/snackbar.service';
+import { OrganizationService } from '../../../../shared/services/organization.service';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { passwordConfirmationValidator } from '../../../../shared/validators/password-confirmation.validator';
+import { Organization } from '../../../../shared/models/organiazation.model';
+import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { SinglePictureInputComponent } from '../../../../shared/components/single-picture-input/single-picture-input.component';
+import { MatButton } from '@angular/material/button';
+import { MatInput } from '@angular/material/input';
+import { StorageService } from '../../../../shared/services/storage.service';
+import { UserProfile } from '../../../../shared/models/user-profile.model';
+import { UserProfileService } from '../../../../shared/services/user-profile.service';
 
 @Component({
   selector: 'app-organization',
@@ -66,15 +66,12 @@ export class OrganizationComponent implements OnInit {
   }
 
   async updateOrganization() {
-    console.log(this.userProfile);
     if (this.userProfile?.organization_id) {
       this.organization = await this.organizationService.getById(this.userProfile.organization_id);
-      console.log(this.organization);
       this.resetForm();
 
       if (this.organization?.picture) {
         this.pictureUrl = await this.storageService.getSignedUrl(StorageService.BucketName.ORGANIZATION_IMAGES, this.organization.picture);
-        console.log(this.pictureUrl);
       }
     }
   }

@@ -14,16 +14,11 @@ export class StorageService {
   async uploadToBucket(bucketName: StorageService.BucketName, file: File): Promise<string> {
     const fileExt = file.name.split('.').pop();
     const filePath = `${uuidv4()}.${fileExt}`;
-    console.log('bucketName: ', bucketName);
-    console.log('filePath: ', filePath);
     const tokenResponse = await this.supabaseService.client.storage.from(bucketName).createSignedUploadUrl(filePath);
-    console.log('tokenResponse: ', tokenResponse);
 
     let path: string | undefined;
     if (tokenResponse.data?.token) {
       const uploadResponse = await this.supabaseService.client.storage.from(bucketName).uploadToSignedUrl(filePath, tokenResponse.data.token, file);
-      console.log('uploadResponse: ', uploadResponse);
-      console.log(JSON.stringify((uploadResponse)));
       if (uploadResponse.error) {
         throw new Error(uploadResponse.error.message);
       }
@@ -53,7 +48,15 @@ export class StorageService {
       }
     }, Map<string, string>());
   }
+
+  async deleteFromBucket(bucketName: StorageService.BucketName, filePath: string): Promise<void> {
+    const response = await this.supabaseService.client.storage.from(bucketName).remove([filePath]);
+    if (response.error) {
+      throw new Error(response.error.message);
+    }
+  }
 }
+
 
 export namespace StorageService {
   export enum BucketName {

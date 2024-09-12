@@ -1,7 +1,22 @@
 <div class="post-container">
   <mat-card>
-    <mat-card-title>
+    <mat-card-title class="post-title-container">
       <h1>{{ post?.title }}</h1>
+      @if (isUserPost) {
+        <button mat-icon-button [matMenuTriggerFor]="postMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #postMenu="matMenu">
+          <!--          <button mat-menu-item>-->
+          <!--            <mat-icon>edit</mat-icon>-->
+          <!--            <span>Modifier</span>-->
+          <!--          </button>-->
+          <button mat-menu-item (click)="confirmDeletePost()">
+            <mat-icon>delete</mat-icon>
+            <span>Supprimer</span>
+          </button>
+        </mat-menu>
+      }
     </mat-card-title>
 
     @if (coverUrl) {
