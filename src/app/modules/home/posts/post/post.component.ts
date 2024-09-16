@@ -51,7 +51,7 @@ export class PostComponent implements OnInit, OnDestroy {
 
   watcher = new Subscription();
   post: Post | null = null;
-  postId: number;
+  postId: number | null = null;
   coverUrl: string | undefined;
   comments: Comment[] = [];
 
@@ -72,22 +72,24 @@ export class PostComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.watcher.add(this.route.params.subscribe(params => {
       this.postId = params['id'];
+      if (this.postId) {
       this.postLoading = true;
-      this.postsService.getById(this.postId).then(post => {
-        if (post) {
-          this.post = post;
-          this.isUserPost = post.user_profile_id === this.authService.userProfileId;
-        } else {
-          this.router.navigate(['/']);
-        }
-      }).finally(() => {
-        this.postLoading = false;
-      }).then(async () => {
-        if (this.post?.cover) {
-          this.coverUrl = await this.storageService.getSignedUrl(StorageService.BucketName.POST_COVERS, this.post.cover);
-        }
-      });
-      this.updateCommentList();
+        this.postsService.getById(this.postId).then(post => {
+          if (post) {
+            this.post = post;
+            this.isUserPost = post.user_profile_id === this.authService.userProfileId;
+          } else {
+            this.router.navigate(['/']);
+          }
+        }).finally(() => {
+          this.postLoading = false;
+        }).then(async () => {
+          if (this.post?.cover) {
+            this.coverUrl = await this.storageService.getSignedUrl(StorageService.BucketName.POST_COVERS, this.post.cover);
+          }
+        });
+        this.updateCommentList();
+      }
     }));
   }
 
@@ -96,12 +98,20 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   updateCommentList() {
-    this.commentLoading = true;
-    this.commentsService.getAllFromPost(this.postId).then(response => {
-      this.comments = response.data ?? [];
-    }).finally(() => {
-      this.commentLoading = false;
-    });
+    if (this.postId) {
+      this.commentLoading = true;
+      this.commentsService.getAllFromPost(this.postId).then(response => {
+        this.comments = response.data ?? [];
+      }).finally(() => {
+        this.commentLoading = false;
+      });
+    }
+  }
+
+  editPost() {
+    if (this.postId) {
+      this.router.navigate(['/', 'posts', this.postId, 'edit']);
+    }
   }
 
   confirmDeletePost() {
@@ -115,11 +125,13 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   async deletePost() {
-    await this.postsService.delete(this.postId);
-    if (this.post?.cover) {
-      await this.storageService.deleteFromBucket(BucketName.POST_COVERS, this.post.cover);
+    if (this.postId) {
+      await this.postsService.delete(this.postId);
+      if (this.post?.cover) {
+        await this.storageService.deleteFromBucket(BucketName.POST_COVERS, this.post.cover);
+      }
+      this.router.navigate(['/']);
     }
-    this.router.navigate(['/']);
   }
 
 }

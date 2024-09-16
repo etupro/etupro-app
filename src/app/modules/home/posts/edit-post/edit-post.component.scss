@@ -1,4 +1,4 @@
-.post-container {
+.edit-post-container {
   width: 100%;
   padding: 1rem;
 
@@ -11,11 +11,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-
-  .cover-image {
-    aspect-ratio: 16 / 9;
-    object-fit: contain;
   }
 
   .post-content {

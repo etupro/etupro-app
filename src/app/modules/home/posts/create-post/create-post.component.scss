@@ -1,17 +1,27 @@
 .create-post-container {
   width: 100%;
   padding: 1rem;
-  box-sizing: border-box;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: 1rem;
+  box-sizing: border-box;
 
-  form {
-    width: 90%;
+  .post-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .create-post-content {
+    white-space: pre-line;
     display: flex;
     flex-direction: column;
-    gap: 8px
+    gap: 1rem;
+
+    .full-width-form-field {
+      width: 100%;
+    }
   }
 }

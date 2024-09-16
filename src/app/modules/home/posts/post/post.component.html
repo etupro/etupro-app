@@ -1,5 +1,5 @@
-<div class="post-container">
-  <mat-card>
+<div class="app-page-container">
+  <mat-card class="app-card-page">
     <mat-card-title class="post-title-container">
       <h1>{{ post?.title }}</h1>
       @if (isUserPost) {
@@ -7,10 +7,10 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #postMenu="matMenu">
-          <!--          <button mat-menu-item>-->
-          <!--            <mat-icon>edit</mat-icon>-->
-          <!--            <span>Modifier</span>-->
-          <!--          </button>-->
+          <button mat-menu-item (click)="editPost()">
+            <mat-icon>edit</mat-icon>
+            <span>Modifier</span>
+          </button>
           <button mat-menu-item (click)="confirmDeletePost()">
             <mat-icon>delete</mat-icon>
             <span>Supprimer</span>

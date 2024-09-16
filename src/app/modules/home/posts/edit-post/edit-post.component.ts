@@ -1,57 +1,53 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PostsService } from '../../../../shared/services/posts.service';
-import { Post } from '../../../../shared/models/post.model';
-import { TagsService } from '../../../../shared/services/tags.service';
-import { Router } from '@angular/router';
-import { AuthService } from '../../../../shared/services/auth.service';
-import { StorageService } from '../../../../shared/services/storage.service';
-import { CommonModule } from '@angular/common';
-import { NavigationComponent } from '../../../../shared/components/navidation/navigation.component';
-import { MatIcon } from '@angular/material/icon';
+import { MarkdownEditorComponent } from '../../../../shared/components/markdown-editor/markdown-editor.component';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { SinglePictureInputComponent } from '../../../../shared/components/single-picture-input/single-picture-input.component';
-import { AutocompleteInputComponent } from '../../../../shared/components/autocomplete-input/autocomplete-input.component';
-import { MatToolbar } from '@angular/material/toolbar';
-import { TagsAutocompleteInputsComponent } from '../../../../shared/components/autocomplete-input/tags-autocomplete-inputs/tags-autocomplete-inputs.component';
+import { NgIf } from '@angular/common';
 import { PostCardPreviewComponent } from '../../../../shared/components/post-card/preview/preview.component';
-import { Subscription } from 'rxjs';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SinglePictureInputComponent } from '../../../../shared/components/single-picture-input/single-picture-input.component';
+import { TagsAutocompleteInputsComponent } from '../../../../shared/components/autocomplete-input/tags-autocomplete-inputs/tags-autocomplete-inputs.component';
+import { Post } from '../../../../shared/models/post.model';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { MarkdownEditorComponent } from '../../../../shared/components/markdown-editor/markdown-editor.component';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PostsService } from '../../../../shared/services/posts.service';
+import { TagsService } from '../../../../shared/services/tags.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenu, MatMenuItem } from '@angular/material/menu';
 
 @Component({
-  selector: 'app-create-post',
+  selector: 'app-edit-post',
   standalone: true,
   imports: [
-    CommonModule,
-    NavigationComponent,
-    MatIcon,
-    MatIconButton,
-    ReactiveFormsModule,
+    MarkdownEditorComponent,
+    MatButton,
+    MatError,
     MatFormField,
     MatInput,
-    SinglePictureInputComponent,
-    AutocompleteInputComponent,
-    MatButton,
-    MatToolbar,
-    MatError,
     MatLabel,
-    TagsAutocompleteInputsComponent,
+    NgIf,
     PostCardPreviewComponent,
-    MarkdownEditorComponent,
+    ReactiveFormsModule,
+    SinglePictureInputComponent,
+    TagsAutocompleteInputsComponent,
     MatCard,
     MatCardTitle,
+    MatIcon,
+    MatIconButton,
+    MatMenu,
+    MatMenuItem,
     MatCardContent,
     MatCardFooter
   ],
-  templateUrl: './create-post.component.html',
-  styleUrls: ['./create-post.component.scss']
+  templateUrl: './edit-post.component.html',
+  styleUrl: './edit-post.component.scss'
 })
-export class CreatePostComponent implements OnInit, OnDestroy {
-
+export class EditPostComponent implements OnInit, OnDestroy {
   postForm = new FormGroup({
     title: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
     content: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
@@ -62,6 +58,8 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
   createLoading = false;
 
+  postId: number | null = null;
+  postLoading = false;
   postPreview: Post.Update = {};
   coverUrl?: SafeResourceUrl;
 
@@ -69,6 +67,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthService,
               private router: Router,
+              private route: ActivatedRoute,
               private postsService: PostsService,
               private tagsService: TagsService,
               private storageService: StorageService,
@@ -76,7 +75,30 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.postForm.controls.author.setValue(this.authService.userProfile?.display_name ?? '');
+    this.watcher.add(this.route.params.subscribe(params => {
+      this.postId = params['id'];
+      if (this.postId) {
+        this.postLoading = true;
+        this.postsService.getById(this.postId).then(post => {
+          if (post) {
+            if (post.user_profile_id !== this.authService.userProfileId) {
+              this.router.navigate(['/', 'posts', this.postId]);
+            }
+            this.postForm.setValue({
+              title: post.title,
+              content: post.content,
+              cover: null,
+              author: post.author_name ?? this.authService.userProfile?.display_name ?? null,
+              tags: post.tags,
+            });
+          } else {
+            this.router.navigate(['/']);
+          }
+        }).finally(() => {
+          this.postLoading = false;
+        });
+      }
+    }));
 
     this.watcher.add(this.postForm.valueChanges.subscribe(value => {
       this.postPreview = {
@@ -100,7 +122,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     this.watcher.unsubscribe();
   }
 
-  async createPost() {
+  async updatePost() {
     const userProfileId = this.authService.userProfileId;
     if (!userProfileId) {
       throw new Error('No user id found');
@@ -147,5 +169,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
   handleCoverUpload(coverUrl: File) {
     this.postForm.controls.cover.setValue(coverUrl);
+  }
+
+  cancel() {
+    this.router.navigate(['/', 'posts', this.postId]);
   }
 }
