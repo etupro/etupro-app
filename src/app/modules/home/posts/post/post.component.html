@@ -1,4 +1,4 @@
-<div class="post-container">
+<div class="app-page-container">
   <mat-card>
     <mat-card-title class="post-title-container">
       <h1>{{ post?.title }}</h1>
@@ -7,10 +7,10 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #postMenu="matMenu">
-          <!--          <button mat-menu-item>-->
-          <!--            <mat-icon>edit</mat-icon>-->
-          <!--            <span>Modifier</span>-->
-          <!--          </button>-->
+          <button mat-menu-item (click)="editPost()">
+            <mat-icon>edit</mat-icon>
+            <span>Modifier</span>
+          </button>
           <button mat-menu-item (click)="confirmDeletePost()">
             <mat-icon>delete</mat-icon>
             <span>Supprimer</span>
@@ -23,7 +23,7 @@
       <img [src]="coverUrl" class="cover-image" [alt]="'Cover image for post'"/>
     }
 
-    <mat-card-content class="post-content">
+    <mat-card-content>
       <markdown [data]="post?.content" emoji></markdown>
     </mat-card-content>
 

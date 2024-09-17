@@ -1,38 +1,51 @@
-<form (ngSubmit)="editProfile()" [formGroup]="profileForm" class="profile-form-container">
+<div class="app-page-container">
   <mat-card>
-    <mat-card-header>
-      <mat-card-title>Profil</mat-card-title>
-    </mat-card-header>
+    <mat-card-title>
+      <h1>Profil</h1>
+    </mat-card-title>
+
     <mat-card-content>
-      <mat-form-field>
-        <mat-label>Nom complet</mat-label>
-        <input [formControl]="profileForm.controls.displayName"
-               [readonly]="readonly"
-               matInput
-               placeholder="Bob Razowski"
-               required>
-        <mat-error *ngIf="readonly && profileForm.controls.displayName.errors?.['required']">Ce champs est requis
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input [formControl]="profileForm.controls.email"
-               [readonly]="readonly"
-               autocomplete="on"
-               matInput
-               placeholder="bob.razowski@etupro.com"
-               required>
-        <mat-error *ngIf="readonly && profileForm.controls.email.errors?.['required']">Ce champs est requis</mat-error>
-        <mat-error *ngIf="readonly && profileForm.controls.email.errors?.['email']">Veuillez renseigner un email
-          valide
-        </mat-error>
-      </mat-form-field>
-      <button (click)="editOrganization()" *ngIf="readonly" color="primary" mat-raised-button>Organisation</button>
+      <form [formGroup]="profileForm">
+        <mat-form-field class="full-width-form-field">
+          <mat-label>Nom complet</mat-label>
+          <input [formControl]="profileForm.controls.displayName"
+                 [readonly]="readonly"
+                 matInput
+                 placeholder="Bob Razowski"
+                 required>
+          @if (readonly && profileForm.controls.displayName.errors?.['required']) {
+            <mat-error>Ce champs est requis</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="full-width-form-field">
+          <mat-label>Email</mat-label>
+          <input [formControl]="profileForm.controls.email"
+                 [readonly]="readonly"
+                 autocomplete="on"
+                 matInput
+                 placeholder="bob.razowski@etupro.com"
+                 required>
+          @if (readonly) {
+            @if (profileForm.controls.email.errors?.['required']) {
+              <mat-error>Ce champs est requis</mat-error>
+            }
+            @if (profileForm.controls.email.errors?.['email']) {
+              <mat-error>Veuillez renseigner un email valide</mat-error>
+            }
+          }
+        </mat-form-field>
+        @if (readonly) {
+          <button (click)="editOrganization()" color="primary" mat-raised-button>Organisation</button>
+        }
+      </form>
     </mat-card-content>
     <mat-card-actions>
-      <button (click)="setFormEditMode()" *ngIf="readonly" color="primary" mat-button>Modifier</button>
-      <button (click)="setFormReadOnly()" *ngIf="!readonly" color="warn" mat-button>Annuler</button>
-      <button *ngIf="!readonly" color="primary" mat-button type="submit">Sauvegarder</button>
+      @if (readonly) {
+        <button (click)="setFormEditMode()" color="primary" mat-button>Modifier</button>
+      } @else {
+        <button (click)="setFormReadOnly()" color="warn" mat-button>Annuler</button>
+        <button (click)="editProfile()" color="primary" mat-button>Sauvegarder</button>
+      }
     </mat-card-actions>
   </mat-card>
-</form>
+</div>
