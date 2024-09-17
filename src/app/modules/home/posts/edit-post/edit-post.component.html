@@ -1,15 +1,15 @@
 <div class="app-page-container">
-  <mat-card class="app-card-page">
-    <mat-card-title class="edit-post-title-container">
+  <mat-card>
+    <mat-card-title class="post-title-container">
       <h1>Modifier un post</h1>
       <button (click)="cancel()" mat-icon-button>
         <mat-icon>close</mat-icon>
       </button>
     </mat-card-title>
 
-    <mat-card-content class="edit-post-content">
+    <mat-card-content>
       <form [formGroup]="postForm">
-        <mat-form-field class="title-form-field">
+        <mat-form-field class="full-width-form-field">
           <mat-label>Titre</mat-label>
           <input [formControl]="postForm.controls.title" matInput>
           <mat-error *ngIf="postForm.controls.title.hasError('required')">
@@ -21,7 +21,7 @@
 
         <app-markdown-editor [controller]="postForm.controls.content"></app-markdown-editor>
 
-        <mat-form-field class="author-form-field">
+        <mat-form-field class="full-width-form-field">
           <mat-label>Auteur</mat-label>
           <input [formControl]="postForm.controls.author" matInput>
         </mat-form-field>

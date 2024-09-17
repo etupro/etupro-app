@@ -11,9 +11,20 @@
   gap: 1rem;
   box-sizing: border-box;
 
-  .app-card-page {
+  .mat-mdc-card {
     gap: 1rem;
     padding: 1rem;
     width: 100%;
+
+    .mat-mdc-card-content {
+      white-space: pre-line;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
   }
+}
+
+.full-width-form-field {
+  width: 100%;
 }

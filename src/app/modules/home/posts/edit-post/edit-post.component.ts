@@ -56,10 +56,11 @@ export class EditPostComponent implements OnInit, OnDestroy {
     tags: new FormControl<string[]>([], {nonNullable: true}),
   });
 
-  createLoading = false;
+  updateLoading = false;
 
   postId: number | null = null;
   postLoading = false;
+  post: Post | null = null;
   postPreview: Post.Update = {};
   coverUrl?: SafeResourceUrl;
 
@@ -80,6 +81,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
       if (this.postId) {
         this.postLoading = true;
         this.postsService.getById(this.postId).then(post => {
+          this.post = post;
           if (post) {
             if (post.user_profile_id !== this.authService.userProfileId) {
               this.router.navigate(['/', 'posts', this.postId]);
@@ -124,7 +126,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
   async updatePost() {
     const userProfileId = this.authService.userProfileId;
-    if (!userProfileId) {
+    if (!userProfileId || !this.postId) {
       throw new Error('No user id found');
     }
 
@@ -139,12 +141,14 @@ export class EditPostComponent implements OnInit, OnDestroy {
     const author = this.postForm.value.author ?? null;
     const tags = this.postForm.value.tags ?? [];
 
+    this.updateLoading = true;
+
     let uploadPath: string | undefined;
     if (cover) {
       uploadPath = await this.storageService.uploadToBucket(StorageService.BucketName.POST_COVERS, cover);
     }
 
-    const post: Post.Insert = {
+    const post: Post.Update = {
       user_profile_id: userProfileId,
       title,
       content,
@@ -153,17 +157,21 @@ export class EditPostComponent implements OnInit, OnDestroy {
       tags,
     };
 
-    this.createLoading = true;
     try {
       const allTagsResponse = await this.tagsService.getAll();
       const allTags = allTagsResponse.data?.map(d => d.value) ?? [];
       tags.filter(tag => !allTags.includes(tag))
         .map(async tag => await this.tagsService.create({value: tag}));
 
-      const postId = await this.postsService.create(post);
-      await this.router.navigate(['/', 'posts', postId]);
+      const updatedPost = await this.postsService.update(this.postId, post);
+
+      if (uploadPath && this.post?.cover) {
+        await this.storageService.deleteFromBucket(StorageService.BucketName.POST_COVERS, this.post.cover);
+      }
+
+      await this.router.navigate(['/', 'posts', updatedPost.id]);
     } finally {
-      this.createLoading = false;
+      this.updateLoading = false;
     }
   }
 

@@ -8,11 +8,13 @@ import { Organization } from '../../../../shared/models/organiazation.model';
 import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { SinglePictureInputComponent } from '../../../../shared/components/single-picture-input/single-picture-input.component';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { UserProfile } from '../../../../shared/models/user-profile.model';
 import { UserProfileService } from '../../../../shared/services/user-profile.service';
+import { MatIcon } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-organization',
@@ -30,6 +32,8 @@ import { UserProfileService } from '../../../../shared/services/user-profile.ser
     MatLabel,
     MatButton,
     MatInput,
+    MatIcon,
+    MatIconButton,
   ],
   templateUrl: './organization.component.html',
   styleUrl: './organization.component.scss'
@@ -53,6 +57,7 @@ export class OrganizationComponent implements OnInit {
               private organizationService: OrganizationService,
               private userProfileService: UserProfileService,
               private storageService: StorageService,
+              private router: Router,
               private snackbarService: SnackbarService) {
   }
 
@@ -132,6 +137,10 @@ export class OrganizationComponent implements OnInit {
     this.snackbarService.openSnackBar("Sauvegardé !");
     await this.updateOrganization();
     this.setFormReadOnly();
+  }
+
+  cancel() {
+    this.router.navigate(['/', 'user', 'profile']);
   }
 
 }
