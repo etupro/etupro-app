@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router } from "@angular/router";
-import { AuthService } from "../../services/auth.service";
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { MatToolbar } from "@angular/material/toolbar";
-import { MatIcon } from "@angular/material/icon";
-import { MatButton, MatIconButton } from "@angular/material/button";
-import { MatDrawer, MatDrawerContainer } from "@angular/material/sidenav";
-import { MatList, MatListItem } from "@angular/material/list";
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
+import { MatList, MatListItem } from '@angular/material/list';
 
 @Component({
   selector: 'app-navigation',
@@ -29,7 +29,8 @@ import { MatList, MatListItem } from "@angular/material/list";
 export class NavigationComponent {
   @ViewChild('drawer') drawer: MatDrawer;
 
-  constructor(private router: Router, protected authService: AuthService) {
+  constructor(private router: Router,
+              protected authService: AuthService) {
   }
 
   async handleLogout() {
@@ -49,7 +50,7 @@ export class NavigationComponent {
   }
 
   async handleProfile() {
-    await this.router.navigate(['/', 'user', 'profile']);
+    await this.router.navigate(['/', 'user', this.authService.userProfileId]);
     await this.drawer.close();
   }
 }

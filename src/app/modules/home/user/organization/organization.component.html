@@ -15,7 +15,7 @@
                  [readonly]="readonly"
                  matInput
                  placeholder="Organization"
-                 required>
+                 [required]="!readonly">
           @if (readonly && organizationForm.controls.name.errors?.['required']) {
             <mat-error>Ce champs est requis</mat-error>
           }
@@ -27,13 +27,15 @@
         }
       </form>
     </mat-card-content>
-    <mat-card-actions>
-      @if (readonly) {
-        <button (click)="setFormEditMode()" color="primary" mat-button>Modifier</button>
-      } @else {
-        <button (click)="setFormReadOnly()" color="warn" mat-button>Annuler</button>
-        <button (click)="editOrganization()" color="primary" mat-button>Sauvegarder</button>
-      }
-    </mat-card-actions>
+    @if (isOwner) {
+      <mat-card-actions>
+        @if (readonly) {
+          <button (click)="setFormEditMode()" color="primary" mat-button>Modifier</button>
+        } @else {
+          <button (click)="setFormReadOnly()" color="warn" mat-button>Annuler</button>
+          <button (click)="editOrganization()" color="primary" mat-button>Sauvegarder</button>
+        }
+      </mat-card-actions>
+    }
   </mat-card>
 </div>

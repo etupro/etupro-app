@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { User } from "@supabase/supabase-js";
-import { SupabaseService } from "./supabase.service";
-import { BehaviorSubject, filter, Observable } from "rxjs";
-import { UserProfileService } from "./user-profile.service";
-import { UserProfile } from "../models/user-profile.model";
+import { Injectable } from '@angular/core';
+import { User } from '@supabase/supabase-js';
+import { SupabaseService } from './supabase.service';
+import { BehaviorSubject, filter, Observable } from 'rxjs';
+import { UserProfileService } from './user-profile.service';
+import { UserProfile } from '../models/user-profile.model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,8 +54,7 @@ export class AuthService {
   async updateUserProfile() {
     let userProfile: UserProfile | null | undefined;
     if (this._user) {
-      const response = await this.userProfileService.getByUserId(this._user.id);
-      userProfile = response.data ?? null;
+      userProfile = await this.userProfileService.getByUserId(this._user.id);
     }
 
     if (this._user === null) {

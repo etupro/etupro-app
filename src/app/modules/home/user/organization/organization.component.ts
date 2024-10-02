@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { SnackbarService } from '../../../../shared/services/snackbar.service';
 import { OrganizationService } from '../../../../shared/services/organization.service';
@@ -14,7 +14,8 @@ import { StorageService } from '../../../../shared/services/storage.service';
 import { UserProfile } from '../../../../shared/models/user-profile.model';
 import { UserProfileService } from '../../../../shared/services/user-profile.service';
 import { MatIcon } from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-organization',
@@ -38,10 +39,11 @@ import { Router } from '@angular/router';
   templateUrl: './organization.component.html',
   styleUrl: './organization.component.scss'
 })
-export class OrganizationComponent implements OnInit {
+export class OrganizationComponent implements OnInit, OnDestroy {
 
   readonly = true;
   userProfile: UserProfile | null = null;
+  isOwner = false;
   organization: Organization | null = null;
   pictureUrl: string | undefined;
 
@@ -53,21 +55,44 @@ export class OrganizationComponent implements OnInit {
     validators: [passwordConfirmationValidator()]
   });
 
+  profileId: number | null = null;
+  watcher = new Subscription();
+
   constructor(private authService: AuthService,
               private organizationService: OrganizationService,
               private userProfileService: UserProfileService,
               private storageService: StorageService,
               private router: Router,
+              private route: ActivatedRoute,
               private snackbarService: SnackbarService) {
   }
 
   ngOnInit() {
     this.readonly = true;
 
-    this.authService.userProfile$.subscribe(async userProfile => {
-      this.userProfile = userProfile;
-      await this.updateOrganization();
-    });
+    this.watcher.add(this.route.params.subscribe(params => {
+      this.profileId = params['id'];
+      if (this.profileId) {
+        this.userProfileService.getById(this.profileId).then(async userProfile => {
+          if (userProfile) {
+            this.userProfile = userProfile;
+            this.isOwner = this.checkIfCurrentUser();
+            await this.updateOrganization();
+            this.resetForm();
+          } else {
+            this.router.navigate(['/']);
+          }
+        });
+      }
+    }));
+  }
+
+  ngOnDestroy() {
+    this.watcher.unsubscribe();
+  }
+
+  checkIfCurrentUser(): boolean {
+    return this.authService.userProfileId === this.userProfile?.id;
   }
 
   async updateOrganization() {
@@ -140,7 +165,7 @@ export class OrganizationComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/', 'user', 'profile']);
+    this.router.navigate(['/', 'user', this.profileId]);
   }
 
 }
