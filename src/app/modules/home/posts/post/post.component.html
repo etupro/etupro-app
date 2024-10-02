@@ -1,5 +1,5 @@
 <div class="app-page-container">
-  <mat-card>
+  <mat-card class="app-page-card">
     <mat-card-title class="post-title-container">
       <h1>{{ post?.title }}</h1>
       @if (isUserPost) {
@@ -19,11 +19,11 @@
       }
     </mat-card-title>
 
-    @if (coverUrl) {
-      <img [src]="coverUrl" class="cover-image" [alt]="'Cover image for post'"/>
-    }
-
     <mat-card-content>
+      @if (coverUrl) {
+        <img [src]="coverUrl" class="cover-image" [alt]="'Cover image for post'"/>
+      }
+
       <markdown [data]="post?.content" emoji></markdown>
     </mat-card-content>
 

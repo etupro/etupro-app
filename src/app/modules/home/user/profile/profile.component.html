@@ -1,5 +1,5 @@
 <div class="app-page-container">
-  <mat-card>
+  <mat-card class="app-page-card">
     <mat-card-title>
       <h1>Profil</h1>
     </mat-card-title>
@@ -54,9 +54,7 @@
       </form>
     </mat-card-content>
   </mat-card>
-</div>
 
-<div class="post-cards-container">
   @for (post of posts; track post) {
     <app-post-card (click)="navigateToPost(post)" [post]="post" [coverUrl]="coverUrls.get(post.cover ?? '')"/>
   }
