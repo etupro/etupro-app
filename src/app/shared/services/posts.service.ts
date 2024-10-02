@@ -26,6 +26,21 @@ export class PostsService {
     return response.data;
   }
 
+  async getAllByUserProfileId(id: number): Promise<Post[]> {
+    const response = await this.supabaseService.client
+      .from('posts')
+      .select('*, user_profiles(*)')
+      .eq('user_profile_id', id)
+      .order('updated_at', {ascending: false})
+      .limit(100);
+
+    if (response.error) {
+      throw response.error;
+    }
+
+    return response.data;
+  }
+
   async getById(id: number): Promise<Post | null> {
     const response = await this.supabaseService.client
       .from('posts')

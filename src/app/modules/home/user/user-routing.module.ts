@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from "@angular/router";
-import { authGuard } from "../../../core/guard/auth.guard";
-import { ProfileComponent } from "./profile/profile.component";
-import { OrganizationComponent } from "./organization/organization.component";
+import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from '../../../core/guard/auth.guard';
+import { ProfileComponent } from './profile/profile.component';
+import { OrganizationComponent } from './organization/organization.component';
 
 const routes: Routes = [
   {
-    path: 'profile',
+    path: ':id',
     component: ProfileComponent,
     canActivate: [authGuard],
   },
   {
-    path: 'organization',
+    path: ':id/organization',
     component: OrganizationComponent,
     canActivate: [authGuard],
   },
