@@ -56,6 +56,8 @@
   </mat-card>
 
   @for (post of posts; track post) {
-    <app-post-card (click)="navigateToPost(post)" [post]="post" [coverUrl]="coverUrls.get(post.cover ?? '')"/>
+    <app-post-card [post]="post"
+                   [coverUrl]="coverUrls.get(post.cover ?? '')"
+                   (postClick)="navigateToPost($event)"/>
   }
 </div>

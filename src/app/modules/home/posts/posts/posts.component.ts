@@ -79,8 +79,16 @@ export class PostsComponent implements OnInit {
     this.router.navigate(['/', 'posts', 'search'], navigationExtras);
   }
 
-  navigateToPost(post: Post) {
-    this.router.navigate(['/', 'posts', post.id]);
+  navigateToPost(postId: number) {
+    this.router.navigate(['/', 'posts', postId]);
+  }
+
+  handleTagFilterClick(tag: string) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {'tags': tag},
+    };
+
+    this.router.navigate(['/posts'], navigationExtras);
   }
 
 }

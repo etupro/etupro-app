@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Post } from '../../models/post.model';
 import { CommonModule } from '@angular/common';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
@@ -24,4 +24,16 @@ export class PostCardComponent {
 
   @Input() post: Post;
   @Input() coverUrl?: SafeResourceUrl | string;
+
+  @Output() postClick = new EventEmitter<number>();
+  @Output() tagClick = new EventEmitter<string>();
+
+  handlePostClick() {
+    this.postClick.emit(this.post.id);
+  }
+
+  handleTagClick(tag: string, event: MouseEvent) {
+    event.stopPropagation();
+    this.tagClick.emit(tag);
+  }
 }
