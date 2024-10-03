@@ -1,4 +1,4 @@
-<mat-card class="post-card-container">
+<mat-card (click)="handlePostClick()" class="post-card-container">
 
   <div class="post-cover-container">
     <div class="post-cover-description">
@@ -18,7 +18,7 @@
 
     <mat-chip-listbox aria-label="Post tags" class="post-infos-tags">
       @for (tag of post.tags; track tag) {
-        <mat-chip-option [selectable]="false">{{ tag }}</mat-chip-option>
+        <mat-chip-option [selectable]="false" (click)="handleTagClick(tag, $event)">{{ tag }}</mat-chip-option>
       }
     </mat-chip-listbox>
   </div>

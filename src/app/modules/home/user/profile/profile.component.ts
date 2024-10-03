@@ -159,7 +159,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'user', this.profileId, 'organization']);
   }
 
-  navigateToPost(post: Post) {
-    this.router.navigate(['/', 'posts', post.id]);
+  navigateToPost(postId: number) {
+    this.router.navigate(['/', 'posts', postId]);
   }
 }
