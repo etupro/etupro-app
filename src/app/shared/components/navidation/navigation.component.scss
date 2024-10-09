@@ -1,27 +1,21 @@
 @use '@angular/material' as mat;
 @use 'theme';
 
-.app-drawer-container {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
+.main-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: mat.get-theme-color(theme.$app-light-theme, primary, 50);
 
-  .main-toolbar {
+  .title-image {
     display: flex;
-    gap: 1rem;
-    background-color: mat.get-theme-color(theme.$app-light-theme, primary, 50);
-
-    .title-image {
-      display: flex;
-      align-items: center;
-    }
+    align-items: center;
   }
+}
 
-  .content-container {
-    position: relative;
-    height: calc(100vh - var(--mat-toolbar-standard-height));
-    width: 100%;
-    overflow: auto;
-  }
-
+.content-container {
+  position: relative;
+  height: calc(100vh - var(--mat-toolbar-standard-height));
+  width: 100%;
+  overflow: auto;
 }

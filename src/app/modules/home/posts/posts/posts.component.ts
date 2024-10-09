@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PostsService } from '../../../../shared/services/posts.service';
 import { Post } from '../../../../shared/models/post.model';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavigationComponent } from '../../../../shared/components/navidation/navigation.component';
 import { SearchBarComponent } from '../../../../shared/components/search-bar/search-bar.component';
-import { MatButton, MatFabButton } from '@angular/material/button';
+import { MatButton, MatFabButton, MatIconButton } from '@angular/material/button';
 import { PostCardComponent } from '../../../../shared/components/post-card/post-card.component';
 import { MatIcon } from '@angular/material/icon';
 import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { Map } from 'immutable';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatChip, MatChipRemove, MatChipSet } from '@angular/material/chips';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
+import { MatBadge } from '@angular/material/badge';
 
 @Component({
   selector: 'app-posts',
@@ -26,34 +31,50 @@ import { Map } from 'immutable';
     MatAccordion,
     MatExpansionPanel,
     MatExpansionPanelHeader,
-    MatExpansionPanelTitle
+    MatExpansionPanelTitle,
+    MatToolbar,
+    MatChipSet,
+    MatChip,
+    MatIconButton,
+    MatChipRemove,
+    MatBadge,
   ],
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss']
 })
-export class PostsComponent implements OnInit {
-
+export class PostsComponent implements OnInit, OnDestroy {
 
   posts: Post[] = [];
   coverUrls: Map<string, string> = Map<string, string>();
   tags: string[] = [];
   postsLoading = false;
+  isHandset = false;
+
+  watcher = new Subscription();
 
   constructor(private postsService: PostsService,
               private storageService: StorageService,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private responsive: BreakpointObserver) {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.watcher.add(this.route.queryParams.subscribe(params => {
         this.tags = [];
         if (params['tags']) {
           this.tags = params['tags'].split(',');
         }
         this.searchPosts(this.tags);
       }
-    );
+    ));
+
+    this.watcher.add(this.responsive.observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+      .subscribe(result => this.isHandset = result.matches));
+  }
+
+  ngOnDestroy() {
+    this.watcher.unsubscribe();
   }
 
   searchPosts(tags: string[]) {
@@ -86,6 +107,16 @@ export class PostsComponent implements OnInit {
   handleTagFilterClick(tag: string) {
     const navigationExtras: NavigationExtras = {
       queryParams: {'tags': tag},
+    };
+
+    this.router.navigate(['/posts'], navigationExtras);
+  }
+
+  handleTagRemoveClick(tag: string) {
+    this.tags = this.tags.filter(t => t !== tag);
+
+    const navigationExtras: NavigationExtras = {
+      queryParams: {'tags': this.tags.length ? this.tags.join(',') : undefined},
     };
 
     this.router.navigate(['/posts'], navigationExtras);

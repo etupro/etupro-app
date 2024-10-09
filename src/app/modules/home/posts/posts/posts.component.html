@@ -1,3 +1,32 @@
+@if (!isHandset) {
+  <mat-toolbar class="posts-toolbar">
+    <div class="filter-post-button">
+      <button (click)="navigateToSearchPosts()" color="none" mat-raised-button>
+        Rechercher
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+    <div class="filter-list">
+      <mat-chip-set aria-label="Filtres">
+        @for (tag of tags; track tag) {
+          <mat-chip (removed)="handleTagRemoveClick(tag)" [removable]="true">
+            {{ tag }}
+            <button matChipRemove aria-label="Remove">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        }
+      </mat-chip-set>
+    </div>
+    <div class="add-post-button">
+      <button (click)="navigateToPostCreation()" color="primary" mat-raised-button>
+        Créer un post
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+}
+
 <div class="post-cards-container">
   @for (post of posts; track post) {
     <app-post-card [post]="post"
@@ -7,12 +36,20 @@
   }
 </div>
 
-<div class="fabs-container">
-  <button (click)="navigateToPostCreation()" class="add-post-fab" color="primary" mat-fab>
-    <mat-icon>add</mat-icon>
-  </button>
+@if (isHandset) {
+  <div class="fabs-container">
+    <button (click)="navigateToPostCreation()" class="add-post-fab" color="primary" mat-fab>
+      <mat-icon>add</mat-icon>
+    </button>
 
-  <button (click)="navigateToSearchPosts()" class="search-post-fab" color="none" mat-fab>
-    <mat-icon>search</mat-icon>
-  </button>
-</div>
+    <button (click)="navigateToSearchPosts()"
+            [matBadgeHidden]="tags.length === 0"
+            [matBadge]="tags.length"
+            matBadgeSize="medium"
+            class="search-post-fab"
+            color="none"
+            mat-fab>
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+}

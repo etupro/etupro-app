@@ -1,15 +1,18 @@
-<div class="search-container">
+<div class="app-page-container">
+  <mat-card class="app-page-card">
+    <mat-card-title class="search-title-container">
+      <h1>Filtrer les posts</h1>
+      <button (click)="handleGoBack()" mat-icon-button>
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-card-title>
 
-  <button (click)="handleGoBack()" mat-icon-button>
-    <mat-icon>close</mat-icon>
-  </button>
+    <form [formGroup]="searchForm">
 
-  <form [formGroup]="searchForm">
+      <app-tags-autocomplete-inputs [valuesControl]="searchForm.controls.tags"></app-tags-autocomplete-inputs>
 
-    <app-tags-autocomplete-inputs [valuesControl]="searchForm.controls.tags"></app-tags-autocomplete-inputs>
+    </form>
 
-  </form>
-
-  <button (click)="handleSubmit()" color="primary" mat-flat-button>Sauvegarder</button>
-
+    <button (click)="handleSubmit()" color="primary" mat-flat-button>Sauvegarder</button>
+  </mat-card>
 </div>
