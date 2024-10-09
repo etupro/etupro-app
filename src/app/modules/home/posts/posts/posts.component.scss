@@ -1,3 +1,25 @@
+.posts-toolbar {
+  display: flex;
+
+  .filter-post-button {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .filter-list {
+    flex: 4;
+    display: flex;
+    justify-content: center;
+  }
+
+  .add-post-button {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
 .post-cards-container {
   display: flex;
   flex-direction: row;

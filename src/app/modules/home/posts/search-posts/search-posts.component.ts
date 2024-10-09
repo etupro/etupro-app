@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { MatButton, MatIconButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { SearchBarComponent } from "../../../../shared/components/search-bar/search-bar.component";
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { AutocompleteInputComponent } from "../../../../shared/components/autocomplete-input/autocomplete-input.component";
-import { TagsAutocompleteInputsComponent } from "../../../../shared/components/autocomplete-input/tags-autocomplete-inputs/tags-autocomplete-inputs.component";
-import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatButton, MatFabButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { SearchBarComponent } from '../../../../shared/components/search-bar/search-bar.component';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AutocompleteInputComponent } from '../../../../shared/components/autocomplete-input/autocomplete-input.component';
+import { TagsAutocompleteInputsComponent } from '../../../../shared/components/autocomplete-input/tags-autocomplete-inputs/tags-autocomplete-inputs.component';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { MatToolbar } from '@angular/material/toolbar';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
+import { MatCard, MatCardTitle } from '@angular/material/card';
 
 @Component({
   selector: 'app-posts-search',
@@ -18,39 +22,55 @@ import { ActivatedRoute, NavigationExtras, Router } from "@angular/router";
     AutocompleteInputComponent,
     TagsAutocompleteInputsComponent,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatToolbar,
+    MatFabButton,
+    MatCard,
+    MatCardTitle
   ],
   templateUrl: './search-posts.component.html',
   styleUrl: './search-posts.component.scss'
 })
-export class SearchPostsComponent implements OnInit {
+export class SearchPostsComponent implements OnInit, OnDestroy {
 
   searchForm = new FormGroup({
     tags: new FormControl<string[]>([], {nonNullable: true})
   });
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  previousTags: string[] = [];
+  isHandset = false;
+
+  watcher = new Subscription();
+
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private responsive: BreakpointObserver) {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.watcher.add(this.route.queryParams.subscribe(params => {
         this.searchForm.reset();
         if (params['tags']) {
-          this.searchForm.controls.tags.setValue(params['tags'].split(','));
+          this.previousTags = params['tags'].split(',');
+          this.searchForm.controls.tags.setValue(this.previousTags);
         }
       }
-    );
+    ));
+
+    this.watcher.add(this.responsive.observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+      .subscribe(result => this.isHandset = result.matches));
+  }
+
+  ngOnDestroy() {
+    this.watcher.unsubscribe();
   }
 
   handleGoBack() {
-    const lastNav = this.router.lastSuccessfulNavigation;
-    const previousRoute = lastNav?.previousNavigation?.finalUrl;
+    const navigationExtras: NavigationExtras = {
+      queryParams: {'tags': this.previousTags.length ? this.previousTags.join(',') : undefined},
+    };
 
-    if (previousRoute) {
-      this.router.navigateByUrl(previousRoute);
-    } else {
-      this.router.navigate(['/', 'posts']);
-    }
+    this.router.navigate(['/posts'], navigationExtras);
   }
 
   handleSubmit() {

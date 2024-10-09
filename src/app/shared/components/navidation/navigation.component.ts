@@ -1,12 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
-import { MatList, MatListItem } from '@angular/material/list';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-navigation',
@@ -20,14 +19,12 @@ import { MatList, MatListItem } from '@angular/material/list';
     MatIconButton,
     NgOptimizedImage,
     MatButton,
-    MatDrawerContainer,
-    MatDrawer,
-    MatList,
-    MatListItem,
+    MatMenuTrigger,
+    MatMenu,
+    MatMenuItem,
   ]
 })
 export class NavigationComponent {
-  @ViewChild('drawer') drawer: MatDrawer;
 
   constructor(private router: Router,
               protected authService: AuthService) {
@@ -36,21 +33,17 @@ export class NavigationComponent {
   async handleLogout() {
     await this.authService.logout();
     await this.router.navigate(['/']);
-    await this.drawer.close();
   }
 
   async handlePosts() {
     await this.router.navigate(['/', 'posts']);
-    await this.drawer.close();
   }
 
   async handleRegister() {
     await this.router.navigate(['/', 'auth', 'register']);
-    await this.drawer.close();
   }
 
   async handleProfile() {
     await this.router.navigate(['/', 'user', this.authService.userProfileId]);
-    await this.drawer.close();
   }
 }
