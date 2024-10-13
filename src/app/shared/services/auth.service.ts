@@ -4,6 +4,7 @@ import { SupabaseService } from './supabase.service';
 import { BehaviorSubject, filter, Observable } from 'rxjs';
 import { UserProfileService } from './user-profile.service';
 import { UserProfile } from '../models/user-profile.model';
+import { SnackbarService } from './snackbar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,9 @@ export class AuthService {
   userProfile$ = this._userProfile$.pipe(filter(_ => _ !== undefined)) as Observable<UserProfile | null>;
   private _user: User | null | undefined;
 
-  constructor(private supabaseService: SupabaseService, private userProfileService: UserProfileService) {
+  constructor(private supabaseService: SupabaseService,
+              private userProfileService: UserProfileService,
+              private snackbarService: SnackbarService) {
     this.supabaseService.client.auth.getUser().then(({data}) => {
       this._user$.next(data.user);
 
@@ -65,33 +68,36 @@ export class AuthService {
   }
 
   async login(email: string, password: string): Promise<void> {
-    const result = await this.supabaseService.client.auth.signInWithPassword({email, password});
-    if (result.error) {
-      throw new Error(result.error.message);
+    const response = await this.supabaseService.client.auth.signInWithPassword({email, password});
+
+    if (response.error) {
+      throw new Error('Erreur lors de la connexion', {cause: response.error});
     }
 
-    if (result.data.weakPassword) {
-      throw new Error(result.data.weakPassword.message);
+    if (response.data.weakPassword) {
+      this.snackbarService.openSnackBar(response.data.weakPassword.message);
     }
   }
 
   async register(displayName: string, email: string, password: string) {
-    const result = await this.supabaseService.client.auth.signUp({email, password});
-    if (result.error) {
-      throw new Error(result.error.message);
-    }
-    if (!result.data?.user) {
-      throw new Error('Missing user data after register');
+    const response = await this.supabaseService.client.auth.signUp({email, password});
+
+    if (response.error || !response.data?.user) {
+      throw new Error('Erreur lors de l\'inscription', {cause: response.error});
     }
 
-    await this.userProfileService.create({user_id: result.data.user.id, display_name: displayName});
+    await this.userProfileService.create({user_id: response.data.user.id, display_name: displayName});
     await this.updateUserProfile();
   }
 
   async updateUserEmail(email: string) {
-    await this.supabaseService.client.auth.updateUser({
+    const response = await this.supabaseService.client.auth.updateUser({
       email: email,
     });
+
+    if (response.error) {
+      throw new Error('Erreur lors de la mise à jour de l\'email', {cause: response.error});
+    }
   }
 
   async logout(): Promise<void> {

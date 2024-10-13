@@ -103,7 +103,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   async createPost() {
     const userProfileId = this.authService.userProfileId;
     if (!userProfileId) {
-      throw new Error('No user id found');
+      throw new Error('Une erreur s\'est produite lors de la création du post', {cause: 'Id de l\'utilisateur manquant'});
     }
 
     if (!this.postForm.valid) {
@@ -133,9 +133,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
     this.createLoading = true;
     try {
-      const allTagsResponse = await this.tagsService.getAll();
-      const allTags = allTagsResponse.data?.map(d => d.value) ?? [];
-      tags.filter(tag => !allTags.includes(tag))
+      const allTags = await this.tagsService.getAll();
+      const allTagValues = allTags.map(d => d.value) ?? [];
+      tags.filter(tag => !allTagValues.includes(tag))
         .map(async tag => await this.tagsService.create({value: tag}));
 
       const postId = await this.postsService.create(post);

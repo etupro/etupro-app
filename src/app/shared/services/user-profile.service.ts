@@ -19,7 +19,7 @@ export class UserProfileService {
       .single();
 
     if (response.error) {
-      throw response.error;
+      throw new Error('Erreur lors de la récupération du profil utilisateur', {cause: response.error});
     }
 
     return response.data;
@@ -33,7 +33,7 @@ export class UserProfileService {
       .single();
 
     if (response.error) {
-      throw response.error;
+      throw new Error('Erreur lors de la récupération du profil utilisateur', {cause: response.error});
     }
 
     return response.data;
@@ -47,7 +47,7 @@ export class UserProfileService {
       .single();
 
     if (response.error) {
-      throw response.error;
+      throw new Error('Erreur lors de la création du profil utilisateur', {cause: response.error});
     }
 
     return response.data;
@@ -66,7 +66,7 @@ export class UserProfileService {
       .single();
 
     if (response.error) {
-      throw response.error;
+      throw new Error('Erreur lors de la mise à jour du profil utilisateur', {cause: response.error});
     }
 
     return response.data;

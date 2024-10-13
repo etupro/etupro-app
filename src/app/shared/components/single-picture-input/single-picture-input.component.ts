@@ -1,8 +1,8 @@
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
-import { CommonModule } from "@angular/common";
-import { MatIcon } from "@angular/material/icon";
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-single-picture-input',
@@ -61,7 +61,7 @@ export class SinglePictureInputComponent {
     try {
       this.uploading = true;
       if (!files || files.length === 0) {
-        throw new Error('You must select an image to upload.');
+        throw new Error('Vous devez sélectionner une image à téléverser', {cause: 'Pas de fichier remonté depuis l\'explorateur de fichiers'});
       }
 
       this.file = files[0];

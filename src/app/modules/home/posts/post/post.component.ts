@@ -100,8 +100,8 @@ export class PostComponent implements OnInit, OnDestroy {
   updateCommentList() {
     if (this.postId) {
       this.commentLoading = true;
-      this.commentsService.getAllFromPost(this.postId).then(response => {
-        this.comments = response.data ?? [];
+      this.commentsService.getAllFromPost(this.postId).then(comments => {
+        this.comments = comments;
       }).finally(() => {
         this.commentLoading = false;
       });

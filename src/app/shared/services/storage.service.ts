@@ -26,7 +26,7 @@ export class StorageService {
     }
 
     if (!path) {
-      throw new Error("Erreur while uploading image");
+      throw new Error('Erreur lors du téléversement de l\'image', {cause: 'Chemin vers l\'élément téléversé manquant'});
     }
 
     return path;
@@ -34,11 +34,21 @@ export class StorageService {
 
   async getSignedUrl(bucketName: StorageService.BucketName, filePath: string): Promise<string | undefined> {
     const signedUrlResponse = await this.supabaseService.client.storage.from(bucketName).createSignedUrl(filePath, 300);
+
+    if (signedUrlResponse.error) {
+      throw new Error('Erreur lors de la récupération de l\'image', {cause: signedUrlResponse.error});
+    }
+
     return signedUrlResponse.data?.signedUrl;
   }
 
   async getSignedUrls(bucketName: StorageService.BucketName, filePath: string[]): Promise<Map<string, string>> {
     const signedUrlResponse = await this.supabaseService.client.storage.from(bucketName).createSignedUrls(filePath, 300);
+
+    if (signedUrlResponse.error) {
+      throw new Error('Erreur lors de la récupération des images', {cause: signedUrlResponse.error});
+    }
+
     const signedUrlArray = signedUrlResponse.data ?? [];
     return signedUrlArray.reduce((map, data) => {
       if (data.path) {
@@ -52,7 +62,7 @@ export class StorageService {
   async deleteFromBucket(bucketName: StorageService.BucketName, filePath: string): Promise<void> {
     const response = await this.supabaseService.client.storage.from(bucketName).remove([filePath]);
     if (response.error) {
-      throw new Error(response.error.message);
+      throw new Error('Erreur lors de la suppression de l\'image', {cause: response.error});
     }
   }
 }
