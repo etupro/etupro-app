@@ -20,7 +20,7 @@ export class PostsService {
       .limit(100);
 
     if (response.error) {
-      throw response.error;
+      throw new Error('Erreur lors de la récupération des posts', {cause: response.error});
     }
 
     return response.data;
@@ -35,7 +35,7 @@ export class PostsService {
       .limit(100);
 
     if (response.error) {
-      throw response.error;
+      throw new Error('Erreur lors de la récupération des posts', {cause: response.error});
     }
 
     return response.data;
@@ -49,7 +49,7 @@ export class PostsService {
       .maybeSingle();
 
     if (response.error) {
-      throw response.error;
+      throw new Error('Erreur lors de la récupération du post', {cause: response.error});
     }
 
     return response.data;
@@ -63,7 +63,7 @@ export class PostsService {
       .single();
 
     if (response.error) {
-      throw response.error;
+      throw new Error('Erreur lors de la création du post', {cause: response.error});
     }
 
     return response.data;
@@ -82,7 +82,7 @@ export class PostsService {
       .single();
 
     if (response.error) {
-      throw response.error;
+      throw new Error('Erreur lors de la mise à jour du post', {cause: response.error});
     }
 
     return response.data;
@@ -95,7 +95,7 @@ export class PostsService {
       .eq('id', id);
 
     if (response.error) {
-      throw response.error;
+      throw new Error('Erreur lors de la suppression du post', {cause: response.error});
     }
   }
 }

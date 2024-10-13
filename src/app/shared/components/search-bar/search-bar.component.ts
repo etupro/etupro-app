@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { Subscription } from "rxjs";
-import { TagsService } from "../../services/tags.service";
-import { CommonModule } from "@angular/common";
-import { AutocompleteInputComponent } from "../autocomplete-input/autocomplete-input.component";
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { TagsService } from '../../services/tags.service';
+import { CommonModule } from '@angular/common';
+import { AutocompleteInputComponent } from '../autocomplete-input/autocomplete-input.component';
 
 @Component({
   selector: 'app-search-bar',
@@ -31,8 +31,8 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.tagsService.getAll().then(response => {
-      this.allTags = response.data?.map(d => d.value) ?? [];
+    this.tagsService.getAll().then(tags => {
+      this.allTags = tags.map(d => d.value) ?? [];
     });
 
     this.watcher.add(this.searchForm.valueChanges.subscribe(value => {

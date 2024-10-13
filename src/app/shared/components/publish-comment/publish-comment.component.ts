@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { Comment } from "../../models/comment.model";
-import { CommentsService } from "../../services/comments.service";
-import { AuthService } from "../../services/auth.service";
-import { Router } from "@angular/router";
-import { UserProfileService } from "../../services/user-profile.service";
-import { CommonModule } from "@angular/common";
-import { MatFormField, MatLabel } from "@angular/material/form-field";
-import { MatInput } from "@angular/material/input";
-import { MatButton } from "@angular/material/button";
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Comment } from '../../models/comment.model';
+import { CommentsService } from '../../services/comments.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { UserProfileService } from '../../services/user-profile.service';
+import { CommonModule } from '@angular/common';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-publish-comment',
@@ -47,7 +47,7 @@ export class PublishCommentComponent {
 
     const author = this.authService.userProfile;
     if (!author) {
-      throw new Error('No author found');
+      throw new Error('Une erreur s\'est produite lors de l\'ajout du commentaire', {cause: 'Pas d\'autheur trouvé'});
     }
     const content = this.commentForm.value.comment;
 

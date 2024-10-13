@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AutocompleteInputComponent } from "../autocomplete-input.component";
-import { FormControl } from "@angular/forms";
-import { TagsService } from "../../../services/tags.service";
+import { AutocompleteInputComponent } from '../autocomplete-input.component';
+import { FormControl } from '@angular/forms';
+import { TagsService } from '../../../services/tags.service';
 
 @Component({
   selector: 'app-tags-autocomplete-inputs',
@@ -22,8 +22,8 @@ export class TagsAutocompleteInputsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tagsService.getAll().then(response => {
-      this.allTags = response.data?.map(d => d.value) ?? [];
+    this.tagsService.getAll().then(tags => {
+      this.allTags = tags.map(d => d.value) ?? [];
     });
   }
 }
