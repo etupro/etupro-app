@@ -1,32 +1,38 @@
-<mat-card>
-  <mat-card-title>Connexion</mat-card-title>
-  <mat-card-content>
-    <form (ngSubmit)="login()" [formGroup]="loginForm" class="login-form-container">
-      <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input [formControl]="loginForm.controls.email" autocomplete="on" matInput placeholder="bob@etupro.com"
-               required>
-        <mat-error *ngIf="loginForm.controls.email.errors?.['required']">Ce champs est requis</mat-error>
-        <mat-error *ngIf="loginForm.controls.email.errors?.['email']">Veuillez renseigner un email valide</mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Mot de passe</mat-label>
-        <input [formControl]="loginForm.controls.password" [type]="hide ? 'password' : 'text'" autocomplete="on"
-               matInput required>
-        <button (click)="hide = !hide" [attr.aria-label]="'Cacher le mot de passe'" [attr.aria-pressed]="hide"
-                mat-icon-button
-                matSuffix type="button">
-          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-        <mat-error *ngIf="loginForm.controls.email.errors?.['required']">Ce champs est requis</mat-error>
-        <mat-error *ngIf="loginForm.controls.email.errors?.['minlength']">Le mot de passe doit avoir au moins 8
-          caractères
-        </mat-error>
-      </mat-form-field>
-      <button color="primary" mat-raised-button type="submit">Connexion</button>
-      <div class="bottom-form-links">
-        <a href="/auth/register">Inscription</a>
-      </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+<div class="app-page-container">
+  <mat-card class="app-page-card">
+    <mat-card-title>Connexion</mat-card-title>
+    <mat-card-content>
+      <form (ngSubmit)="login()" [formGroup]="loginForm" class="login-form-container">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input [formControl]="loginForm.controls.email" autocomplete="on" matInput placeholder="bob@etupro.com"
+                 required>
+          @if (loginForm.controls.email.errors?.['required']) {
+            <mat-error>Ce champs est requis</mat-error>
+          }
+          @if (loginForm.controls.email.errors?.['email']) {
+            <mat-error>Veuillez renseigner un email valide</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Mot de passe</mat-label>
+          <input [formControl]="loginForm.controls.password" [type]="hide ? 'password' : 'text'" autocomplete="on"
+                 matInput required>
+          <button (click)="hide = !hide" [attr.aria-label]="'Cacher le mot de passe'" [attr.aria-pressed]="hide"
+                  mat-icon-button
+                  matSuffix type="button">
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (loginForm.controls.password.errors?.['required']) {
+            <mat-error>Ce champs est requis</mat-error>
+          }
+        </mat-form-field>
+        <button color="primary" mat-raised-button type="submit">Connexion</button>
+        <div class="bottom-form-links">
+          <a href="/auth/password-reset">Mot de passe oublié</a>
+          <a href="/auth/register">Inscription</a>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

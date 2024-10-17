@@ -1,57 +1,70 @@
-<mat-card>
-  <mat-card-title>Inscription</mat-card-title>
-  <mat-card-content>
-    <form (ngSubmit)="register()" [formGroup]="registerForm" class="register-form-container">
+<div class="app-page-container">
+  <mat-card class="app-page-card">
+    <mat-card-title>Inscription</mat-card-title>
+    <mat-card-content>
+      <form (ngSubmit)="register()" [formGroup]="registerForm" class="register-form-container">
         <mat-form-field>
           <mat-label>Nom complet</mat-label>
           <input [formControl]="registerForm.controls.displayName" matInput placeholder="Bob Razowski" required>
-          <mat-error *ngIf="registerForm.controls.displayName.errors?.['required']">Ce champs est requis</mat-error>
+          @if (registerForm.controls.displayName.errors?.['required']) {
+            <mat-error>Ce champs est requis</mat-error>
+          }
         </mat-form-field>
-      <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input [formControl]="registerForm.controls.email" autocomplete="on" matInput
-               placeholder="bob.razowski@etupro.com" required>
-        <mat-error *ngIf="registerForm.controls.email.errors?.['required']">Ce champs est requis</mat-error>
-        <mat-error *ngIf="registerForm.controls.email.errors?.['email']">Veuillez renseigner un email valide</mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Mot de passe</mat-label>
-        <input [formControl]="registerForm.controls.password" [type]="hidePassword ? 'password' : 'text'"
-               autocomplete="on" matInput
-               required>
-        <button (click)="hidePassword = !hidePassword" [attr.aria-label]="'Cacher le mot de passe'"
-                [attr.aria-pressed]="hidePassword" mat-icon-button
-                matSuffix type="button">
-          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-        <mat-error *ngIf="registerForm.controls.password.errors?.['required']">Ce champs est requis</mat-error>
-        <mat-error *ngIf="registerForm.controls.password.errors?.['minlength']">Le mot de passe doit avoir au moins 8
-          caractères
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Confirmation du mot de passe</mat-label>
-        <input [formControl]="registerForm.controls.confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'"
-               autocomplete="off"
-               matInput
-               required>
-        <button (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Cacher le mot de passe'"
-                [attr.aria-pressed]="hideConfirmPassword" mat-icon-button
-                matSuffix type="button">
-          <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-        <mat-error *ngIf="registerForm.controls.confirmPassword.errors?.['required']">Ce champs est requis</mat-error>
-        <mat-error *ngIf="registerForm.controls.confirmPassword.errors?.['minlength']">Le mot de passe doit avoir au
-          moins 8 caractères
-        </mat-error>
-      </mat-form-field>
-      <mat-error *ngIf="registerForm.errors?.['passwordMismatch']">Le mot de passe et la confirmation doivent être
-        identique
-      </mat-error>
-      <button color="primary" mat-raised-button type="submit">Inscription</button>
-      <div class="bottom-form-links">
-        <a href="/auth/login">Connexion</a>
-      </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input [formControl]="registerForm.controls.email" autocomplete="on" matInput
+                 placeholder="bob.razowski@etupro.com" required>
+          @if (registerForm.controls.email.errors?.['required']) {
+            <mat-error>Ce champs est requis</mat-error>
+          }
+          @if (registerForm.controls.email.errors?.['email']) {
+            <mat-error>Veuillez renseigner un email valide</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Mot de passe</mat-label>
+          <input [formControl]="registerForm.controls.password" [type]="hidePassword ? 'password' : 'text'"
+                 autocomplete="on" matInput
+                 required>
+          <button (click)="hidePassword = !hidePassword" [attr.aria-label]="'Cacher le mot de passe'"
+                  [attr.aria-pressed]="hidePassword" mat-icon-button
+                  matSuffix type="button">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (registerForm.controls.password.errors?.['required']) {
+            <mat-error>Ce champs est requis</mat-error>
+          }
+          @if (registerForm.controls.password.errors?.['minlength']) {
+            <mat-error>Le mot de passe doit avoir au moins 8 caractères</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Confirmation du mot de passe</mat-label>
+          <input [formControl]="registerForm.controls.confirmPassword"
+                 [type]="hideConfirmPassword ? 'password' : 'text'"
+                 autocomplete="off"
+                 matInput
+                 required>
+          <button (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Cacher le mot de passe'"
+                  [attr.aria-pressed]="hideConfirmPassword" mat-icon-button
+                  matSuffix type="button">
+            <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (registerForm.controls.confirmPassword.errors?.['required']) {
+            <mat-error>Ce champs est requis</mat-error>
+          }
+          @if (registerForm.controls.confirmPassword.errors?.['minlength']) {
+            <mat-error>Le mot de passe doit avoir au moins 8 caractères</mat-error>
+          }
+        </mat-form-field>
+        @if (registerForm.errors?.['passwordMismatch']) {
+          <mat-error>Le mot de passe et la confirmation doivent être identique</mat-error>
+        }
+        <button color="primary" mat-raised-button type="submit">Inscription</button>
+        <div class="bottom-form-links">
+          <a href="/auth/login">Connexion</a>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

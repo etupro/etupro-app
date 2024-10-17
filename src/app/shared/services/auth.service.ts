@@ -104,4 +104,23 @@ export class AuthService {
     await this.supabaseService.client.auth.signOut();
   }
 
+  async resetPassword(email: string): Promise<void> {
+    const response = await this.supabaseService.client.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://app.etupro.fr/auth/password-change',
+    });
+
+    if (response.error) {
+      throw new Error('Erreur lors de la réinitialisation du mot de passe', {cause: response.error});
+    }
+  }
+
+  async updateUserPassword(password: string): Promise<void> {
+    const response = await this.supabaseService.client.auth.updateUser({password: password});
+
+
+    if (response.error) {
+      throw new Error('Erreur lors du changement du mot de passe', {cause: response.error});
+    }
+  }
+
 }
