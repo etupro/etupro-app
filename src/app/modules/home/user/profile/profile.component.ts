@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     displayName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
   }, {
-    updateOn: "submit",
+    updateOn: 'submit',
     validators: [passwordConfirmationValidator()]
   });
 
@@ -85,7 +85,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.isOwner = this.checkIfCurrentUser();
             this.resetForm();
             this.posts = await this.postService.getAllByUserProfileId(userProfile.id);
-            this.coverUrls = await this.storageService.getSignedUrls(StorageService.BucketName.POST_COVERS, this.posts.map(post => post.cover).filter(Boolean) as string[]);
+            if (this.posts.length > 0) {
+              this.coverUrls = await this.storageService.getSignedUrls(StorageService.BucketName.POST_COVERS, this.posts.map(post => post.cover).filter(Boolean) as string[]);
+            }
           } else {
             this.router.navigate(['/']);
           }
@@ -151,7 +153,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     await this.authService.updateUserEmail(email);
     await this.userProfileService.update(this.userProfile.id, {display_name: displayName});
     await this.authService.updateUserProfile();
-    this.snackbarService.openSnackBar("Sauvegardé !");
+    this.snackbarService.openSnackBar('Sauvegardé !');
     this.readonly = true;
   }
 

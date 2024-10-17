@@ -23,6 +23,6 @@
   </div>
 </mat-toolbar>
 
-<div class="content-container">
+<div [ngClass]="{handset: isHandset}" class="content-container">
   <ng-content></ng-content>
 </div>

@@ -15,7 +15,10 @@
 
 .content-container {
   position: relative;
-  height: calc(100vh - var(--mat-toolbar-standard-height));
+  height: calc(100vh - var(--mat-toolbar-standard-height) - var(--mat-toolbar-standard-height));
   width: 100%;
-  overflow: auto;
+
+  &.handset {
+    height: calc(100vh - var(--mat-toolbar-standard-height));
+  }
 }

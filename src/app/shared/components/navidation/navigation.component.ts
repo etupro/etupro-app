@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
@@ -6,6 +6,8 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
@@ -24,10 +26,24 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
     MatMenuItem,
   ]
 })
-export class NavigationComponent {
+export class NavigationComponent implements OnInit, OnDestroy {
+
+  isHandset = false;
+
+  watcher = new Subscription();
 
   constructor(private router: Router,
-              protected authService: AuthService) {
+              protected authService: AuthService,
+              private responsive: BreakpointObserver) {
+  }
+
+  ngOnInit() {
+    this.watcher.add(this.responsive.observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+      .subscribe(result => this.isHandset = result.matches));
+  }
+
+  ngOnDestroy() {
+    this.watcher.unsubscribe();
   }
 
   async handleLogout() {

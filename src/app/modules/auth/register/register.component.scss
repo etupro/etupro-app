@@ -1,42 +1,22 @@
-:host {
+mat-card-title {
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+}
+
+.register-form-container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
 
-  mat-card {
-    width: 480px;
+  .register-names-container {
+    display: flex;
+    gap: 0.5rem;
+  }
 
-    mat-card-title {
-      padding: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-    }
-
-    mat-card-content {
-      padding: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .register-form-container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-
-        .register-names-container {
-          display: flex;
-          gap: 0.5rem;
-        }
-
-        .bottom-form-links {
-          display: flex;
-          justify-content: flex-end;
-        }
-      }
-    }
+  .bottom-form-links {
+    display: flex;
+    justify-content: flex-end;
   }
 }

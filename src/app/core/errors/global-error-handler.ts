@@ -1,5 +1,5 @@
-import { ErrorHandler, Injectable, NgZone } from "@angular/core";
-import { SnackbarService } from "../../shared/services/snackbar.service";
+import { ErrorHandler, Injectable, NgZone } from '@angular/core';
+import { SnackbarService } from '../../shared/services/snackbar.service';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -12,7 +12,7 @@ export class GlobalErrorHandler implements ErrorHandler {
   handleError(error: any) {
     this.zone.run(() =>
       this.snackbarService.openSnackBar(
-        error?.message || 'Une erreur technique s\'est produite'
+        (error?.message ?? 'Une erreur technique s\'est produite') + (error?.cause ? ' : ' + error.cause : ''),
       )
     );
 
