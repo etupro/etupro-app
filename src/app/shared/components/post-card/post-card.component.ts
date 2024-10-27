@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
 import { MatChipListbox, MatChipOption } from '@angular/material/chips';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { Department } from '../../models/department.model';
+import { QueryPostTags } from '../../models/query-post-tags.model';
 
 @Component({
   selector: 'app-post-card',
@@ -26,14 +28,23 @@ export class PostCardComponent {
   @Input() coverUrl?: SafeResourceUrl | string;
 
   @Output() postClick = new EventEmitter<number>();
-  @Output() tagClick = new EventEmitter<string>();
+  @Output() tagClick = new EventEmitter<QueryPostTags>();
 
   handlePostClick() {
     this.postClick.emit(this.post.id);
   }
 
+  handleDepartmentClick(department: Department, event: MouseEvent) {
+    event.stopPropagation();
+    this.tagClick.emit(new QueryPostTags({
+      departmentId: department.id,
+    }));
+  }
+
   handleTagClick(tag: string, event: MouseEvent) {
     event.stopPropagation();
-    this.tagClick.emit(tag);
+    this.tagClick.emit(new QueryPostTags({
+      tags: [tag],
+    }));
   }
 }

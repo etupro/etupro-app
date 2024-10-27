@@ -23,6 +23,7 @@ export class PostCardPreviewComponent implements OnChanges {
     content: 'Contenu',
     cover: null,
     tags: ['tag1', 'tag2'],
+    department_id: null,
     author_name: null,
     user_profile_id: 0,
     user_profiles: null,

@@ -7,9 +7,13 @@
       </button>
     </mat-card-title>
 
-    <form [formGroup]="searchForm">
+    <form [formGroup]="searchForm"
+          autocomplete="off">
 
-      <app-tags-autocomplete-inputs [valuesControl]="searchForm.controls.tags"></app-tags-autocomplete-inputs>
+      <app-department-autocomplete-input
+        [valueControl]="searchForm.controls.departmentId"></app-department-autocomplete-input>
+
+      <app-tags-autocomplete-chips-input [valuesControl]="searchForm.controls.tags"></app-tags-autocomplete-chips-input>
 
     </form>
 

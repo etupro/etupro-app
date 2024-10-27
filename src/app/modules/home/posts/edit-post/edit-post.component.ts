@@ -7,7 +7,6 @@ import { NgIf } from '@angular/common';
 import { PostCardPreviewComponent } from '../../../../shared/components/post-card/preview/preview.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SinglePictureInputComponent } from '../../../../shared/components/single-picture-input/single-picture-input.component';
-import { TagsAutocompleteInputsComponent } from '../../../../shared/components/autocomplete-input/tags-autocomplete-inputs/tags-autocomplete-inputs.component';
 import { Post } from '../../../../shared/models/post.model';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
@@ -19,6 +18,8 @@ import { StorageService } from '../../../../shared/services/storage.service';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem } from '@angular/material/menu';
+import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
+import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/department-autocomplete-input/department-autocomplete-input.component';
 
 @Component({
   selector: 'app-edit-post',
@@ -34,7 +35,7 @@ import { MatMenu, MatMenuItem } from '@angular/material/menu';
     PostCardPreviewComponent,
     ReactiveFormsModule,
     SinglePictureInputComponent,
-    TagsAutocompleteInputsComponent,
+    TagsAutocompleteChipsInputComponent,
     MatCard,
     MatCardTitle,
     MatIcon,
@@ -42,7 +43,8 @@ import { MatMenu, MatMenuItem } from '@angular/material/menu';
     MatMenu,
     MatMenuItem,
     MatCardContent,
-    MatCardFooter
+    MatCardFooter,
+    DepartmentAutocompleteInputComponent
   ],
   templateUrl: './edit-post.component.html',
   styleUrl: './edit-post.component.scss'
@@ -53,6 +55,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     content: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
     cover: new FormControl<File | undefined>(undefined),
     author: new FormControl(''),
+    departmentId: new FormControl<number | null>(null),
     tags: new FormControl<string[]>([], {nonNullable: true}),
   });
 
@@ -91,6 +94,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
               content: post.content,
               cover: null,
               author: post.author_name ?? this.authService.userProfile?.display_name ?? null,
+              departmentId: post.department_id,
               tags: post.tags,
             });
           } else {
@@ -107,6 +111,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
         title: value.title && value.title !== '' ? value.title : undefined,
         content: value.content && value.content !== '' ? value.content : undefined,
         tags: value.tags && value.tags.length !== 0 ? value.tags : undefined,
+        department_id: value.departmentId ? value.departmentId : undefined,
         author_name: value.author && value.author !== '' ? value.author : undefined,
       };
     }));
@@ -139,6 +144,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     const content = this.postForm.value.content ?? '';
     const cover = this.postForm.value.cover ?? '';
     const author = this.postForm.value.author ?? null;
+    const departmentId = this.postForm.value.departmentId ?? null;
     const tags = this.postForm.value.tags ?? [];
 
     this.updateLoading = true;
@@ -154,6 +160,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
       content,
       cover: uploadPath,
       author_name: author,
+      department_id: departmentId,
       tags,
     };
 

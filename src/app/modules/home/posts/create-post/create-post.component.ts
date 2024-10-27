@@ -13,14 +13,14 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { SinglePictureInputComponent } from '../../../../shared/components/single-picture-input/single-picture-input.component';
-import { AutocompleteInputComponent } from '../../../../shared/components/autocomplete-input/autocomplete-input.component';
 import { MatToolbar } from '@angular/material/toolbar';
-import { TagsAutocompleteInputsComponent } from '../../../../shared/components/autocomplete-input/tags-autocomplete-inputs/tags-autocomplete-inputs.component';
 import { PostCardPreviewComponent } from '../../../../shared/components/post-card/preview/preview.component';
 import { Subscription } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MarkdownEditorComponent } from '../../../../shared/components/markdown-editor/markdown-editor.component';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
+import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
+import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/department-autocomplete-input/department-autocomplete-input.component';
 
 @Component({
   selector: 'app-create-post',
@@ -34,18 +34,18 @@ import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/m
     MatFormField,
     MatInput,
     SinglePictureInputComponent,
-    AutocompleteInputComponent,
+    TagsAutocompleteChipsInputComponent,
     MatButton,
     MatToolbar,
     MatError,
     MatLabel,
-    TagsAutocompleteInputsComponent,
     PostCardPreviewComponent,
     MarkdownEditorComponent,
     MatCard,
     MatCardTitle,
     MatCardContent,
-    MatCardFooter
+    MatCardFooter,
+    DepartmentAutocompleteInputComponent
   ],
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
@@ -57,6 +57,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     content: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
     cover: new FormControl<File | undefined>(undefined),
     author: new FormControl(''),
+    departmentId: new FormControl<number | null>(null),
     tags: new FormControl<string[]>([], {nonNullable: true}),
   });
 
@@ -84,6 +85,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         content: value.content && value.content !== '' ? value.content : undefined,
         tags: value.tags && value.tags.length !== 0 ? value.tags : undefined,
         author_name: value.author && value.author !== '' ? value.author : undefined,
+        department_id: value.departmentId ? value.departmentId : undefined,
       };
     }));
 
@@ -115,6 +117,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     const content = this.postForm.value.content ?? '';
     const cover = this.postForm.value.cover ?? '';
     const author = this.postForm.value.author ?? null;
+    const departmentId = this.postForm.value.departmentId ?? null;
     const tags = this.postForm.value.tags ?? [];
 
     let uploadPath: string | undefined;
@@ -128,6 +131,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       content,
       cover: uploadPath,
       author_name: author,
+      department_id: departmentId,
       tags,
     };
 

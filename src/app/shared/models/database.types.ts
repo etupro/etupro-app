@@ -76,6 +76,33 @@ export type Database = {
           },
         ]
       }
+      departments: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+          number: string
+          region: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+          number: string
+          region: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+          number?: string
+          region?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       organizations: {
         Row: {
           created_at: string
@@ -106,6 +133,7 @@ export type Database = {
           content: string
           cover: string | null
           created_at: string
+          department_id: number | null
           id: number
           tags: string[]
           title: string
@@ -117,6 +145,7 @@ export type Database = {
           content: string
           cover?: string | null
           created_at?: string
+          department_id?: number | null
           id?: number
           tags: string[]
           title: string
@@ -128,6 +157,7 @@ export type Database = {
           content?: string
           cover?: string | null
           created_at?: string
+          department_id?: number | null
           id?: number
           tags?: string[]
           title?: string
@@ -135,6 +165,13 @@ export type Database = {
           user_profile_id?: number
         }
         Relationships: [
+          {
+            foreignKeyName: 'posts_department_id_fkey'
+            columns: ['department_id']
+            isOneToOne: false
+            referencedRelation: 'departments'
+            referencedColumns: ['id']
+          },
           {
             foreignKeyName: "posts_user_profile_id_fkey"
             columns: ["user_profile_id"]

@@ -23,7 +23,10 @@
           <input [formControl]="postForm.controls.author" matInput>
         </mat-form-field>
 
-        <app-tags-autocomplete-inputs [valuesControl]="postForm.controls.tags"></app-tags-autocomplete-inputs>
+        <app-department-autocomplete-input
+          [valueControl]="postForm.controls.departmentId"></app-department-autocomplete-input>
+
+        <app-tags-autocomplete-chips-input [valuesControl]="postForm.controls.tags"></app-tags-autocomplete-chips-input>
 
       </form>
     </mat-card-content>
