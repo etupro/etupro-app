@@ -8,6 +8,14 @@
     </div>
     <div class="filter-list">
       <mat-chip-set aria-label="Filtres">
+        @if (department) {
+          <mat-chip (removed)="handleDepartmentRemoveClick()" [removable]="true">
+            {{ department.number + ' - ' + department.name }}
+            <button matChipRemove aria-label="Remove">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        }
         @for (tag of tags; track tag) {
           <mat-chip (removed)="handleTagRemoveClick(tag)" [removable]="true">
             {{ tag }}
@@ -32,7 +40,7 @@
     <app-post-card [post]="post"
                    [coverUrl]="coverUrls.get(post.cover ?? '')"
                    (postClick)="navigateToPost($event)"
-                   (tagClick)="handleTagFilterClick($event)"/>
+                   (tagClick)="queryNavigation($event)"/>
   }
 </div>
 

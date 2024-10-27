@@ -4,7 +4,6 @@ import { Post } from '../../../../shared/models/post.model';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavigationComponent } from '../../../../shared/components/navidation/navigation.component';
-import { SearchBarComponent } from '../../../../shared/components/search-bar/search-bar.component';
 import { MatButton, MatFabButton, MatIconButton } from '@angular/material/button';
 import { PostCardComponent } from '../../../../shared/components/post-card/post-card.component';
 import { MatIcon } from '@angular/material/icon';
@@ -16,6 +15,9 @@ import { MatChip, MatChipRemove, MatChipSet } from '@angular/material/chips';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 import { MatBadge } from '@angular/material/badge';
+import { Department } from '../../../../shared/models/department.model';
+import { DepartmentsService } from '../../../../shared/services/departments.service';
+import { QueryPostTags } from '../../../../shared/models/query-post-tags.model';
 
 @Component({
   selector: 'app-posts',
@@ -23,7 +25,6 @@ import { MatBadge } from '@angular/material/badge';
   imports: [
     CommonModule,
     NavigationComponent,
-    SearchBarComponent,
     MatButton,
     PostCardComponent,
     MatFabButton,
@@ -46,6 +47,8 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   posts: Post[] = [];
   coverUrls: Map<string, string> = Map<string, string>();
+  departmentId: number | undefined = undefined;
+  department: Department | null = null;
   tags: string[] = [];
   postsLoading = false;
   isHandset = false;
@@ -54,6 +57,7 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   constructor(private postsService: PostsService,
               private storageService: StorageService,
+              private departmentsService: DepartmentsService,
               private router: Router,
               private route: ActivatedRoute,
               private responsive: BreakpointObserver) {
@@ -61,11 +65,10 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.watcher.add(this.route.queryParams.subscribe(params => {
-        this.tags = [];
-        if (params['tags']) {
-          this.tags = params['tags'].split(',');
-        }
-        this.searchPosts(this.tags);
+      this.departmentId = params['departmentId'] ? parseInt(params['departmentId'], 10) : undefined;
+      this.searchDepartment();
+      this.tags = params['tags'] ? params['tags'].split(',') : [];
+      this.searchPosts();
       }
     ));
 
@@ -77,15 +80,28 @@ export class PostsComponent implements OnInit, OnDestroy {
     this.watcher.unsubscribe();
   }
 
-  searchPosts(tags: string[]) {
+  searchPosts() {
     this.postsLoading = true;
-    this.postsService.getAllByTags(tags).then(posts => {
+    this.postsService.getAllByTags(this.departmentId, this.tags).then(posts => {
       this.posts = posts;
     }).finally(() => {
       this.postsLoading = false;
     }).then(async () => {
-      this.coverUrls = await this.storageService.getSignedUrls(StorageService.BucketName.POST_COVERS, this.posts.map(post => post.cover).filter(Boolean) as string[]);
+      const covers = this.posts.map(post => post.cover).filter(Boolean) as string[];
+      if (covers.length > 0) {
+        this.coverUrls = await this.storageService.getSignedUrls(StorageService.BucketName.POST_COVERS, covers);
+      }
     });
+  }
+
+  searchDepartment() {
+    if (this.departmentId) {
+      this.departmentsService.getById(this.departmentId).then(department => {
+        this.department = department;
+      });
+    } else {
+      this.department = null;
+    }
   }
 
   navigateToPostCreation() {
@@ -93,8 +109,13 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   navigateToSearchPosts() {
+    const query: QueryPostTags = new QueryPostTags({
+      departmentId: this.departmentId,
+      tags: this.tags,
+    });
+
     const navigationExtras: NavigationExtras = {
-      queryParams: {'tags': this.tags.length ? this.tags.join(',') : undefined},
+      queryParams: query.toQueryParams(),
     };
 
     this.router.navigate(['/', 'posts', 'search'], navigationExtras);
@@ -104,21 +125,29 @@ export class PostsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'posts', postId]);
   }
 
-  handleTagFilterClick(tag: string) {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {'tags': tag},
-    };
+  handleDepartmentRemoveClick() {
+    const query: QueryPostTags = new QueryPostTags({
+      tags: this.tags,
+    });
 
-    this.router.navigate(['/posts'], navigationExtras);
+    this.queryNavigation(query);
   }
 
   handleTagRemoveClick(tag: string) {
     this.tags = this.tags.filter(t => t !== tag);
 
-    const navigationExtras: NavigationExtras = {
-      queryParams: {'tags': this.tags.length ? this.tags.join(',') : undefined},
-    };
+    const query: QueryPostTags = new QueryPostTags({
+      departmentId: this.departmentId ?? undefined,
+      tags: this.tags,
+    });
 
+    this.queryNavigation(query);
+  }
+
+  queryNavigation(query: QueryPostTags) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: query.toQueryParams()
+    };
     this.router.navigate(['/posts'], navigationExtras);
   }
 

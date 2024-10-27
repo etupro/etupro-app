@@ -85,8 +85,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.isOwner = this.checkIfCurrentUser();
             this.resetForm();
             this.posts = await this.postService.getAllByUserProfileId(userProfile.id);
-            if (this.posts.length > 0) {
-              this.coverUrls = await this.storageService.getSignedUrls(StorageService.BucketName.POST_COVERS, this.posts.map(post => post.cover).filter(Boolean) as string[]);
+            const covers = this.posts.map(post => post.cover).filter(Boolean) as string[];
+            if (covers.length > 0) {
+              this.coverUrls = await this.storageService.getSignedUrls(StorageService.BucketName.POST_COVERS, covers);
             }
           } else {
             this.router.navigate(['/']);

@@ -11,11 +11,20 @@ export class PostsService {
   constructor(private supabaseService: SupabaseService) {
   }
 
-  async getAllByTags(tags: string[] = []): Promise<Post[]> {
-    const response = await this.supabaseService.client
+  async getAllByTags(departmentId: number | undefined, tags: string[]): Promise<Post[]> {
+    let query = this.supabaseService.client
       .from('posts')
-      .select('*, user_profiles(*)')
-      .contains('tags', tags)
+      .select('*, user_profiles(*), departments(*)');
+
+    if (departmentId) {
+      query = query.eq('department_id', departmentId);
+    }
+
+    if (tags.length > 0) {
+      query = query.contains('tags', tags);
+    }
+
+    const response = await query
       .order('updated_at', {ascending: false})
       .limit(100);
 
@@ -44,7 +53,7 @@ export class PostsService {
   async getById(id: number): Promise<Post | null> {
     const response = await this.supabaseService.client
       .from('posts')
-      .select('*, user_profiles(*)')
+      .select('*, user_profiles(*), departments(*)')
       .eq('id', id)
       .maybeSingle();
 
