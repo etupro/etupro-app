@@ -21,6 +21,7 @@ import { MarkdownEditorComponent } from '../../../../shared/components/markdown-
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
 import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
 import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/department-autocomplete-input/department-autocomplete-input.component';
+import { EmitorStatusSelectInputComponent } from '../../../../shared/components/emitor-status-select-input/emitor-status-select-input.component';
 
 @Component({
   selector: 'app-create-post',
@@ -45,7 +46,8 @@ import { DepartmentAutocompleteInputComponent } from '../../../../shared/compone
     MatCardTitle,
     MatCardContent,
     MatCardFooter,
-    DepartmentAutocompleteInputComponent
+    DepartmentAutocompleteInputComponent,
+    EmitorStatusSelectInputComponent
   ],
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
@@ -57,6 +59,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     content: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
     cover: new FormControl<File | undefined>(undefined),
     author: new FormControl(''),
+    emitorStatus: new FormControl<string | null>(null),
     departmentId: new FormControl<number | null>(null),
     tags: new FormControl<string[]>([], {nonNullable: true}),
   });
@@ -85,6 +88,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         content: value.content && value.content !== '' ? value.content : undefined,
         tags: value.tags && value.tags.length !== 0 ? value.tags : undefined,
         author_name: value.author && value.author !== '' ? value.author : undefined,
+        emitor_status: value.emitorStatus && value.emitorStatus !== '' ? value.emitorStatus : undefined,
         department_id: value.departmentId ? value.departmentId : undefined,
       };
     }));
@@ -118,6 +122,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     const cover = this.postForm.value.cover ?? '';
     const author = this.postForm.value.author ?? null;
     const departmentId = this.postForm.value.departmentId ?? null;
+    const emitorStatus = this.postForm.value.emitorStatus ?? null;
     const tags = this.postForm.value.tags ?? [];
 
     let uploadPath: string | undefined;
@@ -132,6 +137,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       cover: uploadPath,
       author_name: author,
       department_id: departmentId,
+      emitor_status: emitorStatus,
       tags,
     };
 

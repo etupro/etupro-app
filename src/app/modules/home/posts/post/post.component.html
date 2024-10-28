@@ -30,8 +30,14 @@
     <mat-card-footer>
       de {{ post?.author_name ?? post?.user_profiles?.display_name ?? 'Anonyme' }}
       <mat-chip-listbox aria-label="Post tags">
+        @if (post?.emitor_status) {
+          <mat-chip-option [selectable]="false" class="emitor-chip">
+            {{ post?.emitor_status | emitorStatus }}
+          </mat-chip-option>
+        }
         @if (post?.departments) {
-          <mat-chip-option [selectable]="false">{{ post?.departments?.number + ' - ' + post?.departments?.name }}
+          <mat-chip-option [selectable]="false" class="department-chip">
+            {{ post?.departments?.number + ' - ' + post?.departments?.name }}
           </mat-chip-option>
         }
         @for (tag of post?.tags; track tag) {

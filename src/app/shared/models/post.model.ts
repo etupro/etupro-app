@@ -10,6 +10,7 @@ export class Post implements Tables<'posts'> {
   cover: string | null;
   tags: string[];
   author_name: string | null;
+  emitor_status: string | null;
   department_id: number | null;
   created_at: string;
   updated_at: string;

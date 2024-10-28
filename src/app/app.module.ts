@@ -8,6 +8,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CoreModule } from './core/core.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideMarkdown } from 'ngx-markdown';
+import { EmitorStatusPipe } from './shared/pipes/emitor-status/emitor-status.pipe';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { provideMarkdown } from 'ngx-markdown';
   ],
   providers: [
     provideAnimationsAsync(),
-    provideMarkdown()
+    provideMarkdown(),
+    EmitorStatusPipe
   ],
   bootstrap: [AppComponent]
 })

@@ -8,6 +8,14 @@
     </div>
     <div class="filter-list">
       <mat-chip-set aria-label="Filtres">
+        @if (query.emitorStatus) {
+          <mat-chip (removed)="handleEmitorStatusRemoveClick()" [removable]="true">
+            {{ query.emitorStatus | emitorStatus }}
+            <button matChipRemove aria-label="Remove">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        }
         @if (department) {
           <mat-chip (removed)="handleDepartmentRemoveClick()" [removable]="true">
             {{ department.number + ' - ' + department.name }}
@@ -16,7 +24,7 @@
             </button>
           </mat-chip>
         }
-        @for (tag of tags; track tag) {
+        @for (tag of query.tags; track tag) {
           <mat-chip (removed)="handleTagRemoveClick(tag)" [removable]="true">
             {{ tag }}
             <button matChipRemove aria-label="Remove">
@@ -51,8 +59,8 @@
     </button>
 
     <button (click)="navigateToSearchPosts()"
-            [matBadgeHidden]="tags.length === 0"
-            [matBadge]="tags.length"
+            [matBadgeHidden]="query.filterCount() === 0"
+            [matBadge]="query.filterCount()"
             matBadgeSize="medium"
             class="search-post-fab"
             color="none"

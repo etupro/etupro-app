@@ -134,6 +134,7 @@ export type Database = {
           cover: string | null
           created_at: string
           department_id: number | null
+          emitor_status: string | null
           id: number
           tags: string[]
           title: string
@@ -146,6 +147,7 @@ export type Database = {
           cover?: string | null
           created_at?: string
           department_id?: number | null
+          emitor_status?: string | null
           id?: number
           tags: string[]
           title: string
@@ -158,6 +160,7 @@ export type Database = {
           cover?: string | null
           created_at?: string
           department_id?: number | null
+          emitor_status?: string | null
           id?: number
           tags?: string[]
           title?: string

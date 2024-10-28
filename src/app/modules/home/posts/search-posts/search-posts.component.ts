@@ -12,6 +12,7 @@ import { DepartmentAutocompleteInputComponent } from '../../../../shared/compone
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatInput } from '@angular/material/input';
 import { QueryPostTags } from '../../../../shared/models/query-post-tags.model';
+import { EmitorStatusSelectInputComponent } from '../../../../shared/components/emitor-status-select-input/emitor-status-select-input.component';
 
 @Component({
   selector: 'app-posts-search',
@@ -29,7 +30,8 @@ import { QueryPostTags } from '../../../../shared/models/query-post-tags.model';
     MatCardTitle,
     DepartmentAutocompleteInputComponent,
     MatAutocompleteTrigger,
-    MatInput
+    MatInput,
+    EmitorStatusSelectInputComponent
   ],
   templateUrl: './search-posts.component.html',
   styleUrl: './search-posts.component.scss'
@@ -38,11 +40,11 @@ export class SearchPostsComponent implements OnInit, OnDestroy {
 
   searchForm = new FormGroup({
     departmentId: new FormControl<number | null>(null),
+    emitorStatus: new FormControl<string | null>(null),
     tags: new FormControl<string[]>([], {nonNullable: true})
   });
 
-  previousDepartmentId: number | undefined;
-  previousTags: string[] = [];
+  previousQuery = new QueryPostTags();
   isHandset = false;
 
   watcher = new Subscription();
@@ -55,12 +57,13 @@ export class SearchPostsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.watcher.add(this.route.queryParams.subscribe(params => {
         this.searchForm.reset();
-      this.previousDepartmentId = params['departmentId'] ? parseInt(params['departmentId'], 10) : undefined;
-      this.previousTags = params['tags'] ? params['tags'].split(',') : [];
+
+      this.previousQuery = QueryPostTags.fromQueryParams(params);
 
       this.searchForm.setValue({
-        departmentId: this.previousDepartmentId ?? null,
-        tags: this.previousTags
+        departmentId: this.previousQuery.departmentId ?? null,
+        emitorStatus: this.previousQuery.emitorStatus ?? null,
+        tags: this.previousQuery.tags ?? [],
       });
       }
     ));
@@ -74,21 +77,21 @@ export class SearchPostsComponent implements OnInit, OnDestroy {
   }
 
   handleGoBack() {
-    const query: QueryPostTags = new QueryPostTags({
-      departmentId: this.previousDepartmentId ?? undefined,
-      tags: this.previousTags ?? undefined,
-    });
-
-    this.queryNavigation(query);
+    this.queryNavigation(this.previousQuery);
   }
 
   handleSubmit() {
     const query: QueryPostTags = new QueryPostTags({
       departmentId: this.searchForm.value.departmentId ?? undefined,
+      emitorStatus: this.searchForm.value.emitorStatus ?? undefined,
       tags: this.searchForm.value.tags ?? undefined,
     });
 
     this.queryNavigation(query);
+  }
+
+  handleReset() {
+    this.searchForm.reset();
   }
 
   queryNavigation(query: QueryPostTags) {

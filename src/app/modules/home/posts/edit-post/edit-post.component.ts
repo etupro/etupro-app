@@ -20,6 +20,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem } from '@angular/material/menu';
 import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
 import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/department-autocomplete-input/department-autocomplete-input.component';
+import { EmitorStatusSelectInputComponent } from '../../../../shared/components/emitor-status-select-input/emitor-status-select-input.component';
 
 @Component({
   selector: 'app-edit-post',
@@ -44,7 +45,8 @@ import { DepartmentAutocompleteInputComponent } from '../../../../shared/compone
     MatMenuItem,
     MatCardContent,
     MatCardFooter,
-    DepartmentAutocompleteInputComponent
+    DepartmentAutocompleteInputComponent,
+    EmitorStatusSelectInputComponent
   ],
   templateUrl: './edit-post.component.html',
   styleUrl: './edit-post.component.scss'
@@ -55,6 +57,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     content: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
     cover: new FormControl<File | undefined>(undefined),
     author: new FormControl(''),
+    emitorStatus: new FormControl<string | null>(null),
     departmentId: new FormControl<number | null>(null),
     tags: new FormControl<string[]>([], {nonNullable: true}),
   });
@@ -94,6 +97,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
               content: post.content,
               cover: null,
               author: post.author_name ?? this.authService.userProfile?.display_name ?? null,
+              emitorStatus: post.emitor_status,
               departmentId: post.department_id,
               tags: post.tags,
             });
@@ -113,6 +117,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
         tags: value.tags && value.tags.length !== 0 ? value.tags : undefined,
         department_id: value.departmentId ? value.departmentId : undefined,
         author_name: value.author && value.author !== '' ? value.author : undefined,
+        emitor_status: value.emitorStatus && value.emitorStatus !== '' ? value.emitorStatus : undefined,
       };
     }));
 
@@ -144,6 +149,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     const content = this.postForm.value.content ?? '';
     const cover = this.postForm.value.cover ?? '';
     const author = this.postForm.value.author ?? null;
+    const emitorStatus = this.postForm.value.emitorStatus ?? null;
     const departmentId = this.postForm.value.departmentId ?? null;
     const tags = this.postForm.value.tags ?? [];
 
@@ -160,6 +166,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
       content,
       cover: uploadPath,
       author_name: author,
+      emitor_status: emitorStatus,
       department_id: departmentId,
       tags,
     };

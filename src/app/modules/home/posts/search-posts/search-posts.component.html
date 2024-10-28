@@ -13,10 +13,14 @@
       <app-department-autocomplete-input
         [valueControl]="searchForm.controls.departmentId"></app-department-autocomplete-input>
 
+      <app-emitor-status-select-input
+        [valueControl]="searchForm.controls.emitorStatus"></app-emitor-status-select-input>
+
       <app-tags-autocomplete-chips-input [valuesControl]="searchForm.controls.tags"></app-tags-autocomplete-chips-input>
 
     </form>
 
     <button (click)="handleSubmit()" color="primary" mat-flat-button>Sauvegarder</button>
+    <button (click)="handleReset()" color="warn" mat-flat-button>Supprimer</button>
   </mat-card>
 </div>
