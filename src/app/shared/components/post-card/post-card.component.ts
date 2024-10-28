@@ -6,6 +6,7 @@ import { MatChipListbox, MatChipOption } from '@angular/material/chips';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { Department } from '../../models/department.model';
 import { QueryPostTags } from '../../models/query-post-tags.model';
+import { EmitorStatusPipe } from '../../pipes/emitor-status/emitor-status.pipe';
 
 @Component({
   selector: 'app-post-card',
@@ -20,6 +21,7 @@ import { QueryPostTags } from '../../models/query-post-tags.model';
     MatCardFooter,
     MatChipListbox,
     MatChipOption,
+    EmitorStatusPipe,
   ]
 })
 export class PostCardComponent {
@@ -32,6 +34,13 @@ export class PostCardComponent {
 
   handlePostClick() {
     this.postClick.emit(this.post.id);
+  }
+
+  handleEmitorStatusClick(emitorStatus: string, event: MouseEvent) {
+    event.stopPropagation();
+    this.tagClick.emit(new QueryPostTags({
+      emitorStatus: emitorStatus,
+    }));
   }
 
   handleDepartmentClick(department: Department, event: MouseEvent) {

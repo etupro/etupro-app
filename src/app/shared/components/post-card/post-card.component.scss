@@ -1,4 +1,6 @@
 @use '@angular/material' as mat;
+@use 'sass:map';
+@use 'palettes';
 @use 'theme';
 
 .post-card-container {
@@ -60,6 +62,14 @@
     .post-infos-tags {
       max-height: 80px;
       overflow: hidden;
+
+      .department-chip {
+        background-color: map.get(palettes.$ethical-colors, 'light');
+      }
+
+      .emitor-chip {
+        background-color: map.get(palettes.$professional-colors, 'light');
+      }
     }
   }
 

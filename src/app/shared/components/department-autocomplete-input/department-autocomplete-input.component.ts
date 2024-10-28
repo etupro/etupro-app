@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AutocompleteElement } from '../../models/autocomplete-element.model';
+import { SelectElement } from '../../models/select-element.model';
 import { DepartmentsService } from '../../services/departments.service';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -28,7 +28,7 @@ export class DepartmentAutocompleteInputComponent implements OnInit {
 
   @Input() valueControl = new FormControl<number | null>(null);
 
-  allDepartments: AutocompleteElement<number>[] = [];
+  allDepartments: SelectElement<number>[] = [];
 
   constructor(private departmentsService: DepartmentsService) {
   }

@@ -20,6 +20,7 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfimDeleteDialogComponent } from '../../../../shared/components/dialogs/confim-delete-dialog/confim-delete-dialog.component';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { EmitorStatusPipe } from '../../../../shared/pipes/emitor-status/emitor-status.pipe';
 import BucketName = StorageService.BucketName;
 
 @Component({
@@ -43,6 +44,7 @@ import BucketName = StorageService.BucketName;
     MatMenu,
     MatMenuTrigger,
     MatMenuItem,
+    EmitorStatusPipe,
   ],
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']

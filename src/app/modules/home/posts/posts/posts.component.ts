@@ -18,6 +18,7 @@ import { MatBadge } from '@angular/material/badge';
 import { Department } from '../../../../shared/models/department.model';
 import { DepartmentsService } from '../../../../shared/services/departments.service';
 import { QueryPostTags } from '../../../../shared/models/query-post-tags.model';
+import { EmitorStatusPipe } from '../../../../shared/pipes/emitor-status/emitor-status.pipe';
 
 @Component({
   selector: 'app-posts',
@@ -39,6 +40,7 @@ import { QueryPostTags } from '../../../../shared/models/query-post-tags.model';
     MatIconButton,
     MatChipRemove,
     MatBadge,
+    EmitorStatusPipe,
   ],
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss']
@@ -47,9 +49,8 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   posts: Post[] = [];
   coverUrls: Map<string, string> = Map<string, string>();
-  departmentId: number | undefined = undefined;
+  query: QueryPostTags = new QueryPostTags();
   department: Department | null = null;
-  tags: string[] = [];
   postsLoading = false;
   isHandset = false;
 
@@ -65,9 +66,8 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.watcher.add(this.route.queryParams.subscribe(params => {
-      this.departmentId = params['departmentId'] ? parseInt(params['departmentId'], 10) : undefined;
+      this.query = QueryPostTags.fromQueryParams(params);
       this.searchDepartment();
-      this.tags = params['tags'] ? params['tags'].split(',') : [];
       this.searchPosts();
       }
     ));
@@ -82,7 +82,7 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   searchPosts() {
     this.postsLoading = true;
-    this.postsService.getAllByTags(this.departmentId, this.tags).then(posts => {
+    this.postsService.getAllByTags(this.query).then(posts => {
       this.posts = posts;
     }).finally(() => {
       this.postsLoading = false;
@@ -95,8 +95,8 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   searchDepartment() {
-    if (this.departmentId) {
-      this.departmentsService.getById(this.departmentId).then(department => {
+    if (this.query.departmentId) {
+      this.departmentsService.getById(this.query.departmentId).then(department => {
         this.department = department;
       });
     } else {
@@ -109,13 +109,8 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   navigateToSearchPosts() {
-    const query: QueryPostTags = new QueryPostTags({
-      departmentId: this.departmentId,
-      tags: this.tags,
-    });
-
     const navigationExtras: NavigationExtras = {
-      queryParams: query.toQueryParams(),
+      queryParams: this.query.toQueryParams(),
     };
 
     this.router.navigate(['/', 'posts', 'search'], navigationExtras);
@@ -125,23 +120,24 @@ export class PostsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'posts', postId]);
   }
 
-  handleDepartmentRemoveClick() {
-    const query: QueryPostTags = new QueryPostTags({
-      tags: this.tags,
-    });
+  handleEmitorStatusRemoveClick() {
+    this.query.emitorStatus = undefined;
 
-    this.queryNavigation(query);
+    this.queryNavigation(this.query);
+  }
+
+  handleDepartmentRemoveClick() {
+    this.query.departmentId = undefined;
+
+    this.queryNavigation(this.query);
   }
 
   handleTagRemoveClick(tag: string) {
-    this.tags = this.tags.filter(t => t !== tag);
+    if (this.query.tags) {
+      this.query.tags = this.query.tags.filter(t => t !== tag);
 
-    const query: QueryPostTags = new QueryPostTags({
-      departmentId: this.departmentId ?? undefined,
-      tags: this.tags,
-    });
-
-    this.queryNavigation(query);
+      this.queryNavigation(this.query);
+    }
   }
 
   queryNavigation(query: QueryPostTags) {

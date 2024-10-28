@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Post } from '../models/post.model';
 import { SupabaseService } from './supabase.service';
 import { DateTime } from 'luxon';
+import { QueryPostTags } from '../models/query-post-tags.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +12,21 @@ export class PostsService {
   constructor(private supabaseService: SupabaseService) {
   }
 
-  async getAllByTags(departmentId: number | undefined, tags: string[]): Promise<Post[]> {
+  async getAllByTags(queryPostTags: QueryPostTags): Promise<Post[]> {
     let query = this.supabaseService.client
       .from('posts')
       .select('*, user_profiles(*), departments(*)');
 
-    if (departmentId) {
-      query = query.eq('department_id', departmentId);
+    if (queryPostTags.departmentId) {
+      query = query.eq('department_id', queryPostTags.departmentId);
     }
 
-    if (tags.length > 0) {
-      query = query.contains('tags', tags);
+    if (queryPostTags.emitorStatus) {
+      query = query.eq('emitor_status', queryPostTags.emitorStatus);
+    }
+
+    if (queryPostTags.tags && queryPostTags.tags.length > 0) {
+      query = query.contains('tags', queryPostTags.tags);
     }
 
     const response = await query
@@ -38,7 +43,7 @@ export class PostsService {
   async getAllByUserProfileId(id: number): Promise<Post[]> {
     const response = await this.supabaseService.client
       .from('posts')
-      .select('*, user_profiles(*)')
+      .select('*, user_profiles(*), departments(*)')
       .eq('user_profile_id', id)
       .order('updated_at', {ascending: false})
       .limit(100);

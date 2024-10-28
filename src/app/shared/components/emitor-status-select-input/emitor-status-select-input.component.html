@@ -1,0 +1,8 @@
+<mat-form-field class="values-form-field">
+  <mat-label>Émetteur</mat-label>
+  <mat-select [formControl]="valueControl">
+    @for (status of emitorStatuses; track status) {
+      <mat-option [value]="status.value">{{ status.label }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
