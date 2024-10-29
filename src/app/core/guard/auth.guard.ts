@@ -23,8 +23,11 @@ export const noAuthGuard: CanActivateFn = () => {
   return inject(AuthService).userProfile$.pipe(
     first(),
     map(userProfile => {
-      router.navigate(['/']);
-      return !userProfile;
+      if (userProfile) {
+        router.navigate(['/']);
+        return false;
+      }
+      return true;
     })
   );
 };
