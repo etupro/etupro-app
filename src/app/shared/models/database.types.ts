@@ -169,11 +169,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'posts_department_id_fkey'
-            columns: ['department_id']
+            foreignKeyName: "posts_department_id_fkey"
+            columns: ["department_id"]
             isOneToOne: false
-            referencedRelation: 'departments'
-            referencedColumns: ['id']
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "posts_user_profile_id_fkey"
@@ -208,6 +208,7 @@ export type Database = {
           display_name: string
           id: number
           organization_id: number | null
+          role: Database["public"]["Enums"]["roles"]
           updated_at: string
           user_id: string
         }
@@ -216,6 +217,7 @@ export type Database = {
           display_name: string
           id?: number
           organization_id?: number | null
+          role?: Database["public"]["Enums"]["roles"]
           updated_at?: string
           user_id: string
         }
@@ -224,6 +226,7 @@ export type Database = {
           display_name?: string
           id?: number
           organization_id?: number | null
+          role?: Database["public"]["Enums"]["roles"]
           updated_at?: string
           user_id?: string
         }
@@ -252,7 +255,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      roles: "SUPER_ADMIN" | "ADMIN" | "USER"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -263,23 +266,24 @@ export type Database = {
 type PublicSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
-  PublicTableNameOrOptions extends | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
+  PublicTableNameOrOptions extends
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-      Database[PublicTableNameOrOptions['schema']]['Views'])
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-    Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
   : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
-      PublicSchema['Views'])
+        PublicSchema["Views"])
     ? (PublicSchema["Tables"] &
-      PublicSchema['Views'])[PublicTableNameOrOptions] extends {
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -287,7 +291,8 @@ export type Tables<
     : never
 
 export type TablesInsert<
-  PublicTableNameOrOptions extends | keyof PublicSchema['Tables']
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
@@ -307,7 +312,8 @@ export type TablesInsert<
     : never
 
 export type TablesUpdate<
-  PublicTableNameOrOptions extends | keyof PublicSchema['Tables']
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
@@ -327,7 +333,8 @@ export type TablesUpdate<
     : never
 
 export type Enums<
-  PublicEnumNameOrOptions extends | keyof PublicSchema['Enums']
+  PublicEnumNameOrOptions extends
+    | keyof PublicSchema["Enums"]
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]

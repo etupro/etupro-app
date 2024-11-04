@@ -5,4 +5,9 @@
       <mat-option [value]="status.value">{{ status.label }}</mat-option>
     }
   </mat-select>
+  @if (valueControl.hasError('required')) {
+    <mat-error>
+      Ce champ est <strong>requis</strong>
+    </mat-error>
+  }
 </mat-form-field>

@@ -8,7 +8,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 import { MatCard, MatCardTitle } from '@angular/material/card';
 import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
-import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/department-autocomplete-input/department-autocomplete-input.component';
+import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/autocomplete-input/department-autocomplete-input/department-autocomplete-input.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatInput } from '@angular/material/input';
 import { QueryPostTags } from '../../../../shared/models/query-post-tags.model';

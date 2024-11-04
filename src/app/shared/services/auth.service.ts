@@ -5,6 +5,7 @@ import { BehaviorSubject, filter, Observable } from 'rxjs';
 import { UserProfileService } from './user-profile.service';
 import { UserProfile } from '../models/user-profile.model';
 import { SnackbarService } from './snackbar.service';
+import { Role } from '../models/enum/role.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +53,10 @@ export class AuthService {
 
   get userProfileId(): number | undefined {
     return this._userProfile?.id;
+  }
+
+  get userProfileRole(): Role | undefined {
+    return this._userProfile?.role;
   }
 
   async updateUserProfile() {

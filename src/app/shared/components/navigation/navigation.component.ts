@@ -8,6 +8,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
+import { UserProfile } from '../../models/user-profile.model';
 
 @Component({
   selector: 'app-navigation',
@@ -30,6 +31,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   isHandset = false;
 
+  currentUser: UserProfile | null = null;
+
   watcher = new Subscription();
 
   constructor(private router: Router,
@@ -40,6 +43,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.watcher.add(this.responsive.observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
       .subscribe(result => this.isHandset = result.matches));
+
+    this.watcher.add(this.authService.userProfile$.subscribe(userProfile => this.currentUser = userProfile));
   }
 
   ngOnDestroy() {
@@ -51,6 +56,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
     await this.router.navigate(['/']);
   }
 
+  async handleAdmin() {
+    await this.router.navigate(['/', 'admin']);
+  }
+
   async handlePosts() {
     await this.router.navigate(['/', 'posts']);
   }
@@ -60,6 +69,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   async handleProfile() {
-    await this.router.navigate(['/', 'user', this.authService.userProfileId]);
+    await this.router.navigate(['/', 'user', this.currentUser?.id]);
   }
 }

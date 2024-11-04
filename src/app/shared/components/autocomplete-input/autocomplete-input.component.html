@@ -1,12 +1,19 @@
 <mat-form-field class="values-form-field">
-  <mat-label>Départements</mat-label>
+  <mat-label>{{ label }}</mat-label>
   <input [formControl]="valueControl"
          [matAutocomplete]="auto"
          matInput
+         [readonly]="readonly"
+         [required]="required"
          placeholder="Nouvelle valeur..."
   />
+  @if (valueControl.hasError('required')) {
+    <mat-error>
+      Ce champ est <strong>requis</strong>
+    </mat-error>
+  }
   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn()">
-    @for (value of allDepartments; track value) {
+    @for (value of selectElements; track value) {
       <mat-option [value]="value.value">
         {{ value.label }}
       </mat-option>

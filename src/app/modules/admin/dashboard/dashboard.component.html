@@ -1,0 +1,5 @@
+@for (dashboardLink of dashboardLinks; track dashboardLink) {
+  <button (click)="navigateToDashboardLink(dashboardLink.link)" class="dashboard-link-fab" extended mat-fab>
+    <mat-icon>{{ dashboardLink.icon }}</mat-icon> {{ dashboardLink.title }}
+  </button>
+}

@@ -3,6 +3,7 @@ import { Post } from '../../../models/post.model';
 import { PostCardComponent } from '../post-card.component';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { DepartmentsService } from '../../../services/departments.service';
+import { UserProfileService } from '../../../services/user-profile.service';
 
 @Component({
   selector: 'app-post-card-preview',
@@ -33,7 +34,8 @@ export class PostCardPreviewComponent implements OnChanges {
     updated_at: '',
   };
 
-  constructor(private departmentsService: DepartmentsService) {
+  constructor(private departmentsService: DepartmentsService,
+              private userProfileService: UserProfileService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -47,12 +49,20 @@ export class PostCardPreviewComponent implements OnChanges {
         });
       }
 
+      if (this.post?.user_profile_id) {
+        this.userProfileService.getById(this.post.user_profile_id).then(userProfile => {
+          this.postPreview = {
+            ...this.postPreview,
+            user_profiles: userProfile,
+          };
+        });
+      }
+
       this.postPreview = {
         ...this.postPreview,
         title: this.post?.title ?? 'Titre',
         content: this.post?.content ?? 'Contenu',
         tags: this.post?.tags ?? ['tag1', 'tag2'],
-        author_name: this.post?.author_name ?? null,
         emitor_status: this.post?.emitor_status ?? null,
       };
     }

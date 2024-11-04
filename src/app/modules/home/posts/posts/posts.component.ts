@@ -3,7 +3,7 @@ import { PostsService } from '../../../../shared/services/posts.service';
 import { Post } from '../../../../shared/models/post.model';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { NavigationComponent } from '../../../../shared/components/navidation/navigation.component';
+import { NavigationComponent } from '../../../../shared/components/navigation/navigation.component';
 import { MatButton, MatFabButton, MatIconButton } from '@angular/material/button';
 import { PostCardComponent } from '../../../../shared/components/post-card/post-card.component';
 import { MatIcon } from '@angular/material/icon';

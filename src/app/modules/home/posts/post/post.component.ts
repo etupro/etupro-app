@@ -6,7 +6,7 @@ import { Post } from '../../../../shared/models/post.model';
 import { CommentsService } from '../../../../shared/services/comments.service';
 import { Comment } from '../../../../shared/models/comment.model';
 import { CommonModule } from '@angular/common';
-import { NavigationComponent } from '../../../../shared/components/navidation/navigation.component';
+import { NavigationComponent } from '../../../../shared/components/navigation/navigation.component';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
@@ -67,7 +67,7 @@ export class PostComponent implements OnInit, OnDestroy {
               private postsService: PostsService,
               private storageService: StorageService,
               private commentsService: CommentsService,
-              private authService: AuthService,
+              protected authService: AuthService,
               private dialog: MatDialog) {
   }
 
