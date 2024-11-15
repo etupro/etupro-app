@@ -17,41 +17,36 @@ import { TagsService } from '../../../../shared/services/tags.service';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import { MatMenu, MatMenuItem } from '@angular/material/menu';
 import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
 import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/autocomplete-input/department-autocomplete-input/department-autocomplete-input.component';
-import { EmitorStatusSelectInputComponent } from '../../../../shared/components/emitor-status-select-input/emitor-status-select-input.component';
-import {
-    UserAutocompleteInputComponent
-} from '../../../../shared/components/autocomplete-input/user-autocomplete-input/user-autocomplete-input.component';
+import { EmitorStatusSelectInputComponent } from '../../../../shared/components/select-input/emitor-status-select-input/emitor-status-select-input.component';
+import { UserAutocompleteInputComponent } from '../../../../shared/components/autocomplete-input/user-autocomplete-input/user-autocomplete-input.component';
 
 @Component({
   selector: 'app-edit-post',
   standalone: true,
-    imports: [
-        MarkdownEditorComponent,
-        MatButton,
-        MatError,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        NgIf,
-        PostCardPreviewComponent,
-        ReactiveFormsModule,
-        SinglePictureInputComponent,
-        TagsAutocompleteChipsInputComponent,
-        MatCard,
-        MatCardTitle,
-        MatIcon,
-        MatIconButton,
-        MatMenu,
-        MatMenuItem,
-        MatCardContent,
-        MatCardFooter,
-        DepartmentAutocompleteInputComponent,
-        EmitorStatusSelectInputComponent,
-        UserAutocompleteInputComponent
-    ],
+  imports: [
+    MarkdownEditorComponent,
+    MatButton,
+    MatError,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    NgIf,
+    PostCardPreviewComponent,
+    ReactiveFormsModule,
+    SinglePictureInputComponent,
+    TagsAutocompleteChipsInputComponent,
+    MatCard,
+    MatCardTitle,
+    MatIcon,
+    MatIconButton,
+    MatCardContent,
+    MatCardFooter,
+    DepartmentAutocompleteInputComponent,
+    EmitorStatusSelectInputComponent,
+    UserAutocompleteInputComponent
+  ],
   templateUrl: './edit-post.component.html',
   styleUrl: './edit-post.component.scss'
 })

@@ -6,14 +6,12 @@ import { Post } from '../../../../shared/models/post.model';
 import { CommentsService } from '../../../../shared/services/comments.service';
 import { Comment } from '../../../../shared/models/comment.model';
 import { CommonModule } from '@angular/common';
-import { NavigationComponent } from '../../../../shared/components/navigation/navigation.component';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
 import { MatChipListbox, MatChipOption } from '@angular/material/chips';
 import { PublishCommentComponent } from '../../../../shared/components/publish-comment/publish-comment.component';
 import { CommentCardComponent } from '../../../../shared/components/comment-card/comment-card.component';
-import { MatToolbar } from '@angular/material/toolbar';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { MarkdownComponent } from 'ngx-markdown';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
@@ -28,7 +26,6 @@ import BucketName = StorageService.BucketName;
   standalone: true,
   imports: [
     CommonModule,
-    NavigationComponent,
     MatIconButton,
     MatIcon,
     MatCard,
@@ -39,7 +36,6 @@ import BucketName = StorageService.BucketName;
     MatChipOption,
     PublishCommentComponent,
     CommentCardComponent,
-    MatToolbar,
     MarkdownComponent,
     MatMenu,
     MatMenuTrigger,

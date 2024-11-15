@@ -1,26 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatOption, MatSelect } from '@angular/material/select';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SelectElement } from '../../models/select-element.model';
-import { EmitorStatus } from '../../models/enum/emitor-status.enum';
-import { EmitorStatusPipe } from '../../pipes/emitor-status/emitor-status.pipe';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatInput } from '@angular/material/input';
+import { FormControl } from '@angular/forms';
+import { SelectElement } from '../../../models/select-element.model';
+import { EmitorStatus } from '../../../models/enum/emitor-status.enum';
+import { EmitorStatusPipe } from '../../../pipes/emitor-status/emitor-status.pipe';
+import { SelectInputComponent } from '../select-input.component';
 
 @Component({
   selector: 'app-emitor-status-select-input',
   standalone: true,
   imports: [
-    MatFormField,
-    MatSelect,
-    FormsModule,
-    MatOption,
-    ReactiveFormsModule,
-    MatLabel,
-    MatAutocompleteTrigger,
-    MatError,
-    MatInput
+    SelectInputComponent
   ],
   templateUrl: './emitor-status-select-input.component.html',
   styleUrl: './emitor-status-select-input.component.scss'
@@ -37,4 +26,5 @@ export class EmitorStatusSelectInputComponent {
 
   constructor(private emitoStatusPipe: EmitorStatusPipe) {
   }
+
 }

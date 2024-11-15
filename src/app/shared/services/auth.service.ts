@@ -91,8 +91,11 @@ export class AuthService {
       throw new Error('Erreur lors de l\'inscription', {cause: response.error});
     }
 
-    await this.userProfileService.create({user_id: response.data.user.id, display_name: displayName});
-    await this.updateUserProfile();
+    const userProfile = await this.userProfileService.create({
+      user_id: response.data.user.id,
+      display_name: displayName
+    });
+    this._userProfile$.next(userProfile);
   }
 
   async updateUserEmail(email: string) {

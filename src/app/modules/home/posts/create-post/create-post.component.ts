@@ -7,13 +7,10 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { CommonModule } from '@angular/common';
-import { NavigationComponent } from '../../../../shared/components/navigation/navigation.component';
-import { MatIcon } from '@angular/material/icon';
-import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatButton } from '@angular/material/button';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { SinglePictureInputComponent } from '../../../../shared/components/single-picture-input/single-picture-input.component';
-import { MatToolbar } from '@angular/material/toolbar';
 import { PostCardPreviewComponent } from '../../../../shared/components/post-card/preview/preview.component';
 import { Subscription } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -21,7 +18,7 @@ import { MarkdownEditorComponent } from '../../../../shared/components/markdown-
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
 import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
 import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/autocomplete-input/department-autocomplete-input/department-autocomplete-input.component';
-import { EmitorStatusSelectInputComponent } from '../../../../shared/components/emitor-status-select-input/emitor-status-select-input.component';
+import { EmitorStatusSelectInputComponent } from '../../../../shared/components/select-input/emitor-status-select-input/emitor-status-select-input.component';
 import { UserAutocompleteInputComponent } from '../../../../shared/components/autocomplete-input/user-autocomplete-input/user-autocomplete-input.component';
 
 @Component({
@@ -29,16 +26,12 @@ import { UserAutocompleteInputComponent } from '../../../../shared/components/au
   standalone: true,
   imports: [
     CommonModule,
-    NavigationComponent,
-    MatIcon,
-    MatIconButton,
     ReactiveFormsModule,
     MatFormField,
     MatInput,
     SinglePictureInputComponent,
     TagsAutocompleteChipsInputComponent,
     MatButton,
-    MatToolbar,
     MatError,
     MatLabel,
     PostCardPreviewComponent,

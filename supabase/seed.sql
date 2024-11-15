@@ -169,3 +169,29 @@ VALUES (11, DEFAULT, DEFAULT,
         20, 'https://example.com/cover_photo.jpg');
 SELECT setval('"public"."user_profiles_id_seq"'::regclass, (SELECT MAX("id") FROM "public"."user_profiles"));
 SELECT setval('"public"."posts_id_seq"'::regclass, (SELECT MAX("id") FROM "public"."posts"));
+
+INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, invited_at,
+                        confirmation_token, confirmation_sent_at, recovery_token, recovery_sent_at,
+                        email_change_token_new, email_change, email_change_sent_at, last_sign_in_at, raw_app_meta_data,
+                        raw_user_meta_data, is_super_admin, created_at, updated_at, phone, phone_confirmed_at,
+                        phone_change, phone_change_token, phone_change_sent_at, email_change_token_current,
+                        email_change_confirm_status, banned_until, reauthentication_token, reauthentication_sent_at,
+                        is_sso_user, deleted_at, is_anonymous)
+VALUES ('00000000-0000-0000-0000-000000000000', '92cecf8f-2bb3-41eb-86a4-680f7495d559', 'authenticated',
+        'authenticated', 'maxime.lozach@protonmail.com', '$2a$10$mIP/v6YPOaLmiAo98C.AOeH5uDZWkjijiMpKQKhDvo940zl1eH.rK',
+        '2024-11-07 14:50:06.699201 +00:00', null, '', null, '', null, '', '', null,
+        '2024-11-07 14:50:06.701383 +00:00', '{
+    "provider": "email",
+    "providers": [
+      "email"
+    ]
+  }', '{
+    "sub": "92cecf8f-2bb3-41eb-86a4-680f7495d559",
+    "email": "maxime.lozach@protonmail.com",
+    "email_verified": false,
+    "phone_verified": false
+  }', null, '2024-11-07 14:50:06.691705 +00:00', '2024-11-07 14:50:06.703652 +00:00', null, null, '', '', null, '', 0,
+        null, '', null, false, null, false);
+INSERT INTO public.user_profiles (id, created_at, updated_at, display_name, user_id, organization_id, role)
+VALUES (22, '2024-11-07 14:50:06.729835 +00:00', '2024-11-07 14:50:06.729835 +00:00', 'Lozach Maxime',
+        '92cecf8f-2bb3-41eb-86a4-680f7495d559', null, 'SUPER_ADMIN');
