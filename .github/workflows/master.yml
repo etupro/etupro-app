@@ -13,5 +13,5 @@ jobs:
 
   firebase_deploy:
     needs: build_and_test
-    uses: ./.github/workflows/firebase-deploy.yml
+    uses: ./.github/workflows/project-deploy.yml
     secrets: inherit

@@ -37,8 +37,11 @@ jobs:
         with:
           version: latest
 
+      - name: link supabase project
+        run: supabase link --project-ref $PROJECT_ID
+
       - name: push bd changes
-        run: supabase db push --project-ref $PROJECT_ID
+        run: supabase db push
 
       - name: deploy edge functions
-        run: supabase functions deploy --project-ref $PROJECT_ID
+        run: supabase functions deploy
