@@ -5,6 +5,8 @@ import { BehaviorSubject, filter, Observable } from 'rxjs';
 import { UserProfileService } from './user-profile.service';
 import { UserProfile } from '../models/user-profile.model';
 import { SnackbarService } from './snackbar.service';
+import { Role } from '../models/enum/role.enum';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +56,10 @@ export class AuthService {
     return this._userProfile?.id;
   }
 
+  get userProfileRole(): Role | undefined {
+    return this._userProfile?.role;
+  }
+
   async updateUserProfile() {
     let userProfile: UserProfile | null | undefined;
     if (this._user) {
@@ -86,8 +92,11 @@ export class AuthService {
       throw new Error('Erreur lors de l\'inscription', {cause: response.error});
     }
 
-    await this.userProfileService.create({user_id: response.data.user.id, display_name: displayName});
-    await this.updateUserProfile();
+    const userProfile = await this.userProfileService.create({
+      user_id: response.data.user.id,
+      display_name: displayName
+    });
+    this._userProfile$.next(userProfile);
   }
 
   async updateUserEmail(email: string) {
@@ -106,7 +115,7 @@ export class AuthService {
 
   async resetPassword(email: string): Promise<void> {
     const response = await this.supabaseService.client.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://app.etupro.fr/auth/password-change',
+      redirectTo: `${environment.angular.url}/auth/password-change`,
     });
 
     if (response.error) {

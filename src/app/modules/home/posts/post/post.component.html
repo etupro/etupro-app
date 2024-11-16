@@ -2,7 +2,7 @@
   <mat-card class="app-page-card">
     <mat-card-title class="post-title-container">
       <h1>{{ post?.title }}</h1>
-      @if (isUserPost) {
+      @if (isUserPost || authService.userProfileRole === 'SUPER_ADMIN') {
         <button mat-icon-button [matMenuTriggerFor]="postMenu">
           <mat-icon>more_vert</mat-icon>
         </button>

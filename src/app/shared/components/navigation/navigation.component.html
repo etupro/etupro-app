@@ -4,6 +4,11 @@
   </a>
 
   <div class="toolbar-buttons">
+    @if (currentUser?.role === 'SUPER_ADMIN') {
+      <button (click)="handleAdmin()" mat-icon-button>
+        <mat-icon>key</mat-icon>
+      </button>
+    }
     <button (click)="handlePosts()" mat-icon-button>
       <mat-icon>home</mat-icon>
     </button>

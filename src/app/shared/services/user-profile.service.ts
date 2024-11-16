@@ -11,6 +11,18 @@ export class UserProfileService {
   constructor(private supabaseService: SupabaseService) {
   }
 
+  async getAll(): Promise<UserProfile[]> {
+    const response = await this.supabaseService.client
+      .from('user_profiles')
+      .select('*');
+
+    if (response.error) {
+      throw new Error('Erreur lors de la récupération des profils utilisateurs', {cause: response.error});
+    }
+
+    return response.data;
+  }
+
   async getById(id: number): Promise<UserProfile | null> {
     const response = await this.supabaseService.client
       .from('user_profiles')

@@ -1,14 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SelectElement } from '../../models/select-element.model';
 import { DepartmentsService } from '../../services/departments.service';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { TitleCasePipe } from '@angular/common';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-department-autocomplete-input',
+  selector: 'app-autocomplete-input',
   standalone: true,
   imports: [
     FormsModule,
@@ -18,36 +18,33 @@ import { TitleCasePipe } from '@angular/common';
     MatInput,
     MatLabel,
     MatOption,
-    TitleCasePipe,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatError,
+    NgIf
   ],
-  templateUrl: './department-autocomplete-input.component.html',
-  styleUrl: './department-autocomplete-input.component.scss'
+  templateUrl: './autocomplete-input.component.html',
+  styleUrl: './autocomplete-input.component.scss'
 })
-export class DepartmentAutocompleteInputComponent implements OnInit {
+export class AutocompleteInputComponent implements OnChanges {
 
   @Input() valueControl = new FormControl<number | null>(null);
-
-  allDepartments: SelectElement<number>[] = [];
+  @Input() selectElements: SelectElement<number>[] = [];
+  @Input() label = 'Valeur';
+  @Input() required = false;
+  @Input() readonly = false;
 
   constructor(private departmentsService: DepartmentsService) {
   }
 
-  ngOnInit() {
-    this.departmentsService.getAll().then(departments => {
-      this.allDepartments = departments.map(d => {
-        return {
-          value: d.id,
-          label: d.number + ' - ' + d.name
-        };
-      }) ?? [];
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['selectElements']) {
       this.valueControl.setValue(this.valueControl.value, {emitEvent: false});
-    });
+    }
   }
 
   displayFn() {
     return (value: number): string => {
-      return this.allDepartments.find(e => e.value === value)?.label ?? '';
+      return this.selectElements.find(e => e.value === value)?.label ?? '';
     };
   }
 }

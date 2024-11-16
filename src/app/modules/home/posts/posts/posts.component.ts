@@ -3,11 +3,9 @@ import { PostsService } from '../../../../shared/services/posts.service';
 import { Post } from '../../../../shared/models/post.model';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { NavigationComponent } from '../../../../shared/components/navidation/navigation.component';
-import { MatButton, MatFabButton, MatIconButton } from '@angular/material/button';
+import { MatButton, MatFabButton } from '@angular/material/button';
 import { PostCardComponent } from '../../../../shared/components/post-card/post-card.component';
 import { MatIcon } from '@angular/material/icon';
-import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { Map } from 'immutable';
 import { MatToolbar } from '@angular/material/toolbar';
@@ -25,19 +23,13 @@ import { EmitorStatusPipe } from '../../../../shared/pipes/emitor-status/emitor-
   standalone: true,
   imports: [
     CommonModule,
-    NavigationComponent,
     MatButton,
     PostCardComponent,
     MatFabButton,
     MatIcon,
-    MatAccordion,
-    MatExpansionPanel,
-    MatExpansionPanelHeader,
-    MatExpansionPanelTitle,
     MatToolbar,
     MatChipSet,
     MatChip,
-    MatIconButton,
     MatChipRemove,
     MatBadge,
     EmitorStatusPipe,

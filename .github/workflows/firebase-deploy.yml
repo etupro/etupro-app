@@ -4,11 +4,6 @@ name: Deploy to Firebase Hosting
 jobs:
   firebase_deploy:
     runs-on: ubuntu-latest
-    env:
-      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
-      PROJECT_ID: jhshraxeznmhpigjdzcq
-
     steps:
       - uses: actions/checkout@v4
 
@@ -29,11 +24,21 @@ jobs:
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
 
-# TODO find the right SUPABASE_ACCESS_TOKEN
-#      - uses: supabase/setup-cli@v1
-#
-#      - name: link supabase project
-#        run: supabase link --project-ref $PROJECT_ID
-#
-#      - name: push bd changes
-#        run: supabase db push
+  supabase_deploy:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      PROJECT_ID: jhshraxeznmhpigjdzcq
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: push bd changes
+        run: supabase db push --project-ref $PROJECT_ID
+
+      - name: deploy edge functions
+        run: supabase functions deploy --project-ref $PROJECT_ID

@@ -17,5 +17,6 @@ export class GlobalErrorHandler implements ErrorHandler {
     );
 
     console.error('Error from global error handler', error);
+    console.error('Error cause', error.cause);
   }
 }

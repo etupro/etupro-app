@@ -1,0 +1,23 @@
+<mat-form-field class="values-form-field">
+  <mat-label>{{ label }}</mat-label>
+  @if (readonly) {
+    <input [value]="getReadOnlyValueLabel()"
+           [readonly]="readonly"
+           matInput
+           placeholder="Bob Razowski"
+           [required]="!readonly">
+  } @else {
+    <mat-select [formControl]="valueControl">
+      @for (value of values; track value) {
+        <mat-option [value]="value.value">{{ value.label }}</mat-option>
+      }
+    </mat-select>
+  }
+  @if (!readonly && valueControl.hasError('required')) {
+    <mat-error>
+      Ce champ est <strong>requis</strong>
+    </mat-error>
+  }
+</mat-form-field>
+
+

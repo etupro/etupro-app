@@ -1,0 +1,59 @@
+<mat-toolbar class="admin-user-toolbar">
+  <div class="back-button">
+    <button (click)="navigateBack()" color="none" mat-raised-button>
+      <mat-icon>arrow_backward</mat-icon>
+      Retour
+    </button>
+  </div>
+</mat-toolbar>
+
+<div class="app-page-container">
+  <mat-card class="app-page-card">
+    <mat-card-content>
+      <form (submit)="saveForm()" [formGroup]="userForm">
+        <mat-form-field class="full-width-form-field">
+          <mat-label>Nom complet</mat-label>
+          <input [formControl]="userForm.controls.displayName"
+                 [readonly]="readonly"
+                 [required]="!readonly"
+                 matInput
+                 placeholder="Bob Razowski">
+          @if (!readonly && userForm.controls.displayName.errors?.['required']) {
+            <mat-error>Ce champs est requis</mat-error>
+          }
+        </mat-form-field>
+
+        <app-user-role-select-input [readonly]="readonly"
+                                    [required]="true"
+                                    [valueControl]="userForm.controls.role"></app-user-role-select-input>
+
+        <mat-form-field class="full-width-form-field">
+          <mat-label>Email</mat-label>
+          <input [formControl]="userForm.controls.email"
+                 [readonly]="readonly"
+                 [required]="!readonly"
+                 autocomplete="on"
+                 matInput
+                 placeholder="bob.razowski@etupro.com">
+          @if (!readonly && userForm.controls.email.errors?.['required']) {
+            <mat-error>Ce champs est requis</mat-error>
+          }
+          @if (!readonly && userForm.controls.email.errors?.['email']) {
+            <mat-error>Veuillez renseigner un email valide</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="form-buttons">
+          @if (readonly) {
+            <button (click)="setFormEditMode()" color="primary" mat-button>Modifier</button>
+          } @else {
+            @if (userId) {
+              <button (click)="setFormReadOnly()" color="warn" mat-button>Annuler</button>
+            }
+            <button type="submit" color="primary" mat-button>Sauvegarder</button>
+          }
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

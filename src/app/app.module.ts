@@ -9,6 +9,7 @@ import { CoreModule } from './core/core.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideMarkdown } from 'ngx-markdown';
 import { EmitorStatusPipe } from './shared/pipes/emitor-status/emitor-status.pipe';
+import { RolePipe } from './shared/pipes/role/role.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { EmitorStatusPipe } from './shared/pipes/emitor-status/emitor-status.pip
   providers: [
     provideAnimationsAsync(),
     provideMarkdown(),
-    EmitorStatusPipe
+    EmitorStatusPipe,
+    RolePipe
   ],
   bootstrap: [AppComponent]
 })

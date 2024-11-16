@@ -17,10 +17,10 @@ import { TagsService } from '../../../../shared/services/tags.service';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import { MatMenu, MatMenuItem } from '@angular/material/menu';
 import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
-import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/department-autocomplete-input/department-autocomplete-input.component';
-import { EmitorStatusSelectInputComponent } from '../../../../shared/components/emitor-status-select-input/emitor-status-select-input.component';
+import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/select-input/department-autocomplete-input/department-autocomplete-input.component';
+import { EmitorStatusSelectInputComponent } from '../../../../shared/components/select-input/emitor-status-select-input/emitor-status-select-input.component';
+import { UserAutocompleteInputComponent } from '../../../../shared/components/select-input/user-autocomplete-input/user-autocomplete-input.component';
 
 @Component({
   selector: 'app-edit-post',
@@ -41,12 +41,11 @@ import { EmitorStatusSelectInputComponent } from '../../../../shared/components/
     MatCardTitle,
     MatIcon,
     MatIconButton,
-    MatMenu,
-    MatMenuItem,
     MatCardContent,
     MatCardFooter,
     DepartmentAutocompleteInputComponent,
-    EmitorStatusSelectInputComponent
+    EmitorStatusSelectInputComponent,
+    UserAutocompleteInputComponent
   ],
   templateUrl: './edit-post.component.html',
   styleUrl: './edit-post.component.scss'
@@ -56,9 +55,9 @@ export class EditPostComponent implements OnInit, OnDestroy {
     title: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
     content: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
     cover: new FormControl<File | undefined>(undefined),
-    author: new FormControl(''),
-    emitorStatus: new FormControl<string | null>(null),
-    departmentId: new FormControl<number | null>(null),
+    author: new FormControl<number>(0, {nonNullable: true, validators: [Validators.required]}),
+    emitorStatus: new FormControl<string>('STUDENT', {nonNullable: true, validators: [Validators.required]}),
+    departmentId: new FormControl<number>(1, {nonNullable: true, validators: [Validators.required]}),
     tags: new FormControl<string[]>([], {nonNullable: true}),
   });
 
@@ -82,6 +81,10 @@ export class EditPostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.watcher.add(this.authService.userProfile$.subscribe(userProfile => {
+      this.postForm.controls.author.setValue(userProfile?.id ?? 0);
+    }));
+
     this.watcher.add(this.route.params.subscribe(params => {
       this.postId = params['id'];
       if (this.postId) {
@@ -89,16 +92,16 @@ export class EditPostComponent implements OnInit, OnDestroy {
         this.postsService.getById(this.postId).then(post => {
           this.post = post;
           if (post) {
-            if (post.user_profile_id !== this.authService.userProfileId) {
+            if (this.authService.userProfileRole !== 'SUPER_ADMIN' && post.user_profile_id !== this.authService.userProfileId) {
               this.router.navigate(['/', 'posts', this.postId]);
             }
             this.postForm.setValue({
               title: post.title,
               content: post.content,
               cover: null,
-              author: post.author_name ?? this.authService.userProfile?.display_name ?? null,
-              emitorStatus: post.emitor_status,
-              departmentId: post.department_id,
+              author: post.user_profile_id,
+              emitorStatus: post.emitor_status ?? 'STUDENT',
+              departmentId: post.department_id ?? 1,
               tags: post.tags,
             });
           } else {
@@ -116,7 +119,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
         content: value.content && value.content !== '' ? value.content : undefined,
         tags: value.tags && value.tags.length !== 0 ? value.tags : undefined,
         department_id: value.departmentId ? value.departmentId : undefined,
-        author_name: value.author && value.author !== '' ? value.author : undefined,
+        user_profile_id: value.author && value.author !== 0 ? value.author : undefined,
         emitor_status: value.emitorStatus && value.emitorStatus !== '' ? value.emitorStatus : undefined,
       };
     }));
@@ -148,7 +151,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     const title = this.postForm.value.title ?? '';
     const content = this.postForm.value.content ?? '';
     const cover = this.postForm.value.cover ?? '';
-    const author = this.postForm.value.author ?? null;
+    const author = this.postForm.value.author;
     const emitorStatus = this.postForm.value.emitorStatus ?? null;
     const departmentId = this.postForm.value.departmentId ?? null;
     const tags = this.postForm.value.tags ?? [];
@@ -160,12 +163,15 @@ export class EditPostComponent implements OnInit, OnDestroy {
       uploadPath = await this.storageService.uploadToBucket(StorageService.BucketName.POST_COVERS, cover);
     }
 
+    if (!author) {
+      throw new Error('Une erreur s\'est produite lors de la création du post', {cause: 'Id de l\'auteur manquant'});
+    }
+
     const post: Post.Update = {
-      user_profile_id: userProfileId,
       title,
       content,
       cover: uploadPath,
-      author_name: author,
+      user_profile_id: author,
       emitor_status: emitorStatus,
       department_id: departmentId,
       tags,
