@@ -3,6 +3,9 @@ import { UserProfileService } from '../../../../shared/services/user-profile.ser
 import { UserProfile } from '../../../../shared/models/user-profile.model';
 import { MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatToolbar } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-admin-users-list',
@@ -17,7 +20,10 @@ import { ActivatedRoute, Router } from '@angular/router';
     MatHeaderCell,
     MatHeaderCellDef,
     MatCellDef,
-    MatCell
+    MatCell,
+    MatButton,
+    MatIcon,
+    MatToolbar
   ],
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.scss'
@@ -39,5 +45,13 @@ export class UsersListComponent implements OnInit {
 
   navigateToUser(userProfile: UserProfile) {
     this.router.navigate([userProfile.id], {relativeTo: this.route});
+  }
+
+  navigateBack() {
+    this.router.navigate(['/', 'admin']);
+  }
+
+  navigateToUserCreation() {
+    this.router.navigate(['new'], {relativeTo: this.route});
   }
 }

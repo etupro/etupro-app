@@ -1,3 +1,18 @@
+<mat-toolbar class="admin-users-list-toolbar">
+  <div class="back-button">
+    <button (click)="navigateBack()" color="none" mat-raised-button>
+      <mat-icon>arrow_backward</mat-icon>
+      Retour
+    </button>
+  </div>
+  <div class="add-user-button">
+    <button (click)="navigateToUserCreation()" color="primary" mat-raised-button>
+      Créer un utilisateur
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
 <table mat-table [dataSource]="userLists" class="mat-elevation-z8">
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> Id </th>

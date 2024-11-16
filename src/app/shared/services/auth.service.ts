@@ -6,6 +6,7 @@ import { UserProfileService } from './user-profile.service';
 import { UserProfile } from '../models/user-profile.model';
 import { SnackbarService } from './snackbar.service';
 import { Role } from '../models/enum/role.enum';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -114,7 +115,7 @@ export class AuthService {
 
   async resetPassword(email: string): Promise<void> {
     const response = await this.supabaseService.client.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://app.etupro.fr/auth/password-change',
+      redirectTo: `${environment.angular.url}/auth/password-change`,
     });
 
     if (response.error) {

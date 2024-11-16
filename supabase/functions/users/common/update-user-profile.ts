@@ -8,6 +8,7 @@ export async function updateUserProfile(id: number, userProfile: TablesUpdate<'u
     .update({
       ...userProfile,
       id,
+      user: undefined,
       updated_at: DateTime.now().toISO()
     })
     .eq('id', id)

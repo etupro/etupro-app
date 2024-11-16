@@ -1,16 +1,16 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SelectElement } from '../../../models/select-element.model';
-import { AutocompleteInputComponent } from '../autocomplete-input.component';
 import { UserProfileService } from '../../../services/user-profile.service';
 import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
+import { SelectInputComponent } from '../select-input.component';
 
 @Component({
   selector: 'app-user-autocomplete-input',
   standalone: true,
   imports: [
-    AutocompleteInputComponent
+    SelectInputComponent
   ],
   templateUrl: './user-autocomplete-input.component.html',
   styleUrl: './user-autocomplete-input.component.scss'

@@ -17,9 +17,9 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MarkdownEditorComponent } from '../../../../shared/components/markdown-editor/markdown-editor.component';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
 import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
-import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/autocomplete-input/department-autocomplete-input/department-autocomplete-input.component';
+import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/select-input/department-autocomplete-input/department-autocomplete-input.component';
 import { EmitorStatusSelectInputComponent } from '../../../../shared/components/select-input/emitor-status-select-input/emitor-status-select-input.component';
-import { UserAutocompleteInputComponent } from '../../../../shared/components/autocomplete-input/user-autocomplete-input/user-autocomplete-input.component';
+import { UserAutocompleteInputComponent } from '../../../../shared/components/select-input/user-autocomplete-input/user-autocomplete-input.component';
 
 @Component({
   selector: 'app-create-post',

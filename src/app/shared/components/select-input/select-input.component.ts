@@ -29,4 +29,8 @@ export class SelectInputComponent<T> {
   @Input() required = true;
   @Input() label = '';
   @Input() values: SelectElement<T>[] = [];
+
+  getReadOnlyValueLabel(): string {
+    return this.values.find(value => value.value === this.valueControl.value)?.label ?? '';
+  }
 }

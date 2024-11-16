@@ -9,6 +9,9 @@ import { MatInput } from '@angular/material/input';
 import { UserRoleSelectInputComponent } from '../../../../shared/components/select-input/user-role-select-input/user-role-select-input.component';
 import { AdminService } from '../../../../shared/services/admin.service';
 import { Role } from '../../../../shared/models/enum/role.enum';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatToolbar } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-admin-user',
@@ -22,7 +25,10 @@ import { Role } from '../../../../shared/models/enum/role.enum';
     MatInput,
     MatLabel,
     ReactiveFormsModule,
-    UserRoleSelectInputComponent
+    UserRoleSelectInputComponent,
+    MatButton,
+    MatIcon,
+    MatToolbar
   ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
@@ -32,10 +38,12 @@ export class UserComponent implements OnInit {
   userForm = new FormGroup({
     displayName: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
     role: new FormControl<Role>('USER', {nonNullable: true, validators: [Validators.required]}),
-    email: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
+    email: new FormControl('', {nonNullable: true, validators: [Validators.required, Validators.email]}),
+  }, {
+    updateOn: 'submit',
   });
 
-  userId: string;
+  userId: string | undefined;
   userProfile: UserProfile | null = null;
   readonly = true;
 
@@ -74,14 +82,16 @@ export class UserComponent implements OnInit {
 
   async saveForm(): Promise<void> {
     if (this.userId && this.userId !== 'new' && this.userId !== '') {
+      console.log('update user');
       await this.updateUser();
     } else {
+      console.log('create user');
       await this.createUser();
     }
   }
 
   async updateUser(): Promise<void> {
-    if (!this.userProfile?.user) {
+    if (!this.userProfile?.user || !this.userId) {
       return;
     }
 
@@ -132,5 +142,32 @@ export class UserComponent implements OnInit {
 
     this.userProfile = await this.adminService.insertUserProfileByIdWithAuthUser(userProfileInsert);
     this.router.navigate(['/admin/users/' + this.userProfile?.id]);
+  }
+
+  resetForm() {
+    if (!this.userProfile) {
+      return;
+    }
+
+    this.userForm.setValue({
+      displayName: this.userProfile.display_name,
+      role: this.userProfile.role,
+      email: this.userProfile.user?.email ?? '',
+    }, {
+      emitEvent: true
+    });
+  }
+
+  setFormEditMode() {
+    this.readonly = false;
+  }
+
+  setFormReadOnly() {
+    this.resetForm();
+    this.readonly = true;
+  }
+
+  navigateBack() {
+    this.router.navigate(['/', 'admin', 'users']);
   }
 }

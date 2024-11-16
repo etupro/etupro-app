@@ -7,7 +7,7 @@ export async function createAuthUser(user: User): Promise<User> {
     throw new Error('Email is required');
   }
 
-  const userResponse = await getServiceClient().auth.signInWithPassword({
+  const userResponse = await getServiceClient().auth.signUp({
     email: user.email,
     password: randomUUID(),
   });
@@ -15,6 +15,10 @@ export async function createAuthUser(user: User): Promise<User> {
   if (userResponse.error) {
     console.error(userResponse.error);
     throw new Error(userResponse.error.message, {cause: userResponse.error});
+  }
+
+  if (!userResponse.data.user) {
+    throw new Error('User not found');
   }
 
   return userResponse.data.user;

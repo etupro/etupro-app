@@ -1,3 +1,12 @@
+<mat-toolbar class="admin-user-toolbar">
+  <div class="back-button">
+    <button (click)="navigateBack()" color="none" mat-raised-button>
+      <mat-icon>arrow_backward</mat-icon>
+      Retour
+    </button>
+  </div>
+</mat-toolbar>
+
 <div class="app-page-container">
   <mat-card class="app-page-card">
     <mat-card-content>
@@ -9,7 +18,7 @@
                  [required]="!readonly"
                  matInput
                  placeholder="Bob Razowski">
-          @if (readonly && userForm.controls.displayName.errors?.['required']) {
+          @if (!readonly && userForm.controls.displayName.errors?.['required']) {
             <mat-error>Ce champs est requis</mat-error>
           }
         </mat-form-field>
@@ -26,15 +35,24 @@
                  autocomplete="on"
                  matInput
                  placeholder="bob.razowski@etupro.com">
-          @if (readonly) {
-            @if (userForm.controls.email.errors?.['required']) {
-              <mat-error>Ce champs est requis</mat-error>
-            }
-            @if (userForm.controls.email.errors?.['email']) {
-              <mat-error>Veuillez renseigner un email valide</mat-error>
-            }
+          @if (!readonly && userForm.controls.email.errors?.['required']) {
+            <mat-error>Ce champs est requis</mat-error>
+          }
+          @if (!readonly && userForm.controls.email.errors?.['email']) {
+            <mat-error>Veuillez renseigner un email valide</mat-error>
           }
         </mat-form-field>
+
+        <div class="form-buttons">
+          @if (readonly) {
+            <button (click)="setFormEditMode()" color="primary" mat-button>Modifier</button>
+          } @else {
+            @if (userId) {
+              <button (click)="setFormReadOnly()" color="warn" mat-button>Annuler</button>
+            }
+            <button type="submit" color="primary" mat-button>Sauvegarder</button>
+          }
+        </div>
       </form>
     </mat-card-content>
   </mat-card>

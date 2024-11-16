@@ -78,6 +78,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     });
   } catch (error: any) {
     console.error(`[${method}] ${url.pathname} : `, error.message);
+    console.error(`cause : `, error.cause);
     return new Response(JSON.stringify(error), {
       headers: edgeHeaders,
       status: 500,

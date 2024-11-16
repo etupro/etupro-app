@@ -4,7 +4,10 @@ import { getServiceClient } from './service-client.ts';
 export async function createUserProfile(userProfile: TablesInsert<'user_profiles'>): Promise<Tables<'user_profiles'>> {
   const response = await getServiceClient()
     .from('user_profiles')
-    .insert(userProfile)
+    .insert({
+      ...userProfile,
+      user: undefined
+    })
     .select('*')
     .single();
 

@@ -1,7 +1,7 @@
 <mat-form-field class="values-form-field">
   <mat-label>{{ label }}</mat-label>
   @if (readonly) {
-    <input [formControl]="valueControl"
+    <input [value]="getReadOnlyValueLabel()"
            [readonly]="readonly"
            matInput
            placeholder="Bob Razowski"
@@ -13,7 +13,7 @@
       }
     </mat-select>
   }
-  @if (valueControl.hasError('required')) {
+  @if (!readonly && valueControl.hasError('required')) {
     <mat-error>
       Ce champ est <strong>requis</strong>
     </mat-error>
