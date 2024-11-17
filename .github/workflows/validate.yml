@@ -33,17 +33,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: echo SUPABASE_ACCESS_TOKEN=$SUPABASE_ACCESS_TOKEN
-      - run: echo SUPABASE_DB_PASSWORD=SUPABASE_DB_PASSWORD
-      - run: echo PROJECT_ID=PROJECT_ID
-
       - uses: supabase/setup-cli@v1
 
       - name: link supabase project
         run: supabase link --project-ref $PROJECT_ID
 
-#      - name: push bd changes
-#        run: supabase db push
-#
-#      - name: deploy edge functions
-#        run: supabase functions deploy
+      - name: push bd changes
+        run: supabase db push
+
+      - name: deploy edge functions
+        run: supabase functions deploy
