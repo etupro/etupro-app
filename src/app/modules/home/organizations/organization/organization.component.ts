@@ -1,21 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { SnackbarService } from '../../../../shared/services/snackbar.service';
-import { OrganizationService } from '../../../../shared/services/organization.service';
+import { OrganizationsService } from '../../../../shared/services/organizations.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { passwordConfirmationValidator } from '../../../../shared/validators/password-confirmation.validator';
 import { Organization } from '../../../../shared/models/organiazation.model';
-import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { SinglePictureInputComponent } from '../../../../shared/components/single-picture-input/single-picture-input.component';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
 import { StorageService } from '../../../../shared/services/storage.service';
-import { UserProfile } from '../../../../shared/models/user-profile.model';
-import { UserProfileService } from '../../../../shared/services/user-profile.service';
 import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { UserOrganisationsService } from '../../../../shared/services/user-organisations.service';
 
 @Component({
   selector: 'app-organization',
@@ -23,7 +22,6 @@ import { Subscription } from 'rxjs';
   imports: [
     ReactiveFormsModule,
     MatCard,
-    MatCardHeader,
     MatCardContent,
     MatFormField,
     MatCardActions,
@@ -42,7 +40,6 @@ import { Subscription } from 'rxjs';
 export class OrganizationComponent implements OnInit, OnDestroy {
 
   readonly = true;
-  userProfile: UserProfile | null = null;
   isOwner = false;
   organization: Organization | null = null;
   pictureUrl: string | undefined;
@@ -55,12 +52,13 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     validators: [passwordConfirmationValidator()]
   });
 
-  profileId: number | null = null;
+  organizationId: number | null = null;
+  userProfileId: number | null = null;
   watcher = new Subscription();
 
   constructor(private authService: AuthService,
-              private organizationService: OrganizationService,
-              private userProfileService: UserProfileService,
+              private organizationService: OrganizationsService,
+              private userOrganisationsService: UserOrganisationsService,
               private storageService: StorageService,
               private router: Router,
               private route: ActivatedRoute,
@@ -70,40 +68,35 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.readonly = true;
 
+    this.watcher.add(this.authService.userProfile$.subscribe(userProfile => {
+      this.userProfileId = userProfile?.id ?? null;
+    }));
+
     this.watcher.add(this.route.params.subscribe(params => {
-      this.profileId = params['id'];
-      if (this.profileId) {
-        this.userProfileService.getById(this.profileId).then(async userProfile => {
-          if (userProfile) {
-            this.userProfile = userProfile;
-            this.isOwner = this.checkIfCurrentUser();
-            await this.updateOrganization();
-            this.resetForm();
+      this.organizationId = params['id'] === 'new' ? null : parseInt(params['id']);
+
+      if (this.organizationId) {
+        this.organizationService.getById(this.organizationId).then(async organization => {
+          if (organization) {
+            this.organization = organization;
+            this.isOwner = this.authService.userProfileId === this.organization?.owner;
+            if (this.organization?.picture) {
+              this.pictureUrl = await this.storageService.getSignedUrl(StorageService.BucketName.ORGANIZATION_IMAGES, this.organization.picture);
+            }
+            this.setFormReadOnly();
           } else {
             this.router.navigate(['/']);
           }
         });
+      } else {
+        this.isOwner = true;
+        this.setFormEditMode();
       }
     }));
   }
 
   ngOnDestroy() {
     this.watcher.unsubscribe();
-  }
-
-  checkIfCurrentUser(): boolean {
-    return this.authService.userProfileId === this.userProfile?.id;
-  }
-
-  async updateOrganization() {
-    if (this.userProfile?.organization_id) {
-      this.organization = await this.organizationService.getById(this.userProfile.organization_id);
-      this.resetForm();
-
-      if (this.organization?.picture) {
-        this.pictureUrl = await this.storageService.getSignedUrl(StorageService.BucketName.ORGANIZATION_IMAGES, this.organization.picture);
-      }
-    }
   }
 
   resetForm() {
@@ -129,7 +122,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   }
 
   async editOrganization() {
-    if (!this.organizationForm.valid) {
+    if (!this.organizationForm.valid || !this.userProfileId) {
       return;
     }
 
@@ -143,29 +136,38 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     }
 
     let newOrganization: Organization | null;
-    if (this.organization) {
-      newOrganization = await this.organizationService.update(this.organization.id, {
+    if (this.organizationId) {
+      newOrganization = await this.organizationService.update(this.organizationId, {
         name,
         picture: uploadPath
       });
+
+      this.snackbarService.openSnackBar('Sauvegardé !');
+      this.organization = newOrganization;
+      this.resetForm();
+      this.setFormReadOnly();
     } else {
       newOrganization = await this.organizationService.create({
         name,
-        picture: uploadPath
+        picture: uploadPath,
+        owner: this.userProfileId
       });
-    }
+      if (newOrganization) {
+        await this.userOrganisationsService.insert(this.userProfileId, newOrganization.id);
+      }
 
-    if (this.userProfile) {
-      await this.userProfileService.update(this.userProfile.id, {organization_id: newOrganization?.id ?? null});
+      this.snackbarService.openSnackBar('Sauvegardé !');
+      this.router.navigate(['/', 'organizations', newOrganization?.id]);
     }
-
-    this.snackbarService.openSnackBar("Sauvegardé !");
-    await this.updateOrganization();
-    this.setFormReadOnly();
   }
 
   cancel() {
-    this.router.navigate(['/', 'user', this.profileId]);
+    const lastNavigation = this.router.lastSuccessfulNavigation?.previousNavigation;
+    if (lastNavigation) {
+      this.router.navigateByUrl(lastNavigation.extractedUrl.toString());
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
 }

@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
-import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIconButton } from '@angular/material/button';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
@@ -21,7 +21,6 @@ import { UserProfile } from '../../models/user-profile.model';
     MatIcon,
     MatIconButton,
     NgOptimizedImage,
-    MatButton,
     MatMenuTrigger,
     MatMenu,
     MatMenuItem,
@@ -69,6 +68,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   async handleProfile() {
-    await this.router.navigate(['/', 'user', this.currentUser?.id]);
+    await this.router.navigate(['/', 'users', this.currentUser?.id]);
   }
 }

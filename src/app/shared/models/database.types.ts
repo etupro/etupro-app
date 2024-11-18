@@ -108,6 +108,7 @@ export type Database = {
           created_at: string
           id: number
           name: string
+          owner: number | null
           picture: string | null
           updated_at: string
         }
@@ -115,6 +116,7 @@ export type Database = {
           created_at?: string
           id?: number
           name: string
+          owner?: number | null
           picture?: string | null
           updated_at?: string
         }
@@ -122,10 +124,19 @@ export type Database = {
           created_at?: string
           id?: number
           name?: string
+          owner?: number | null
           picture?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: 'organizations_owner_fkey'
+            columns: ['owner']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['id']
+          },
+        ]
       }
       posts: {
         Row: {
@@ -202,12 +213,41 @@ export type Database = {
         }
         Relationships: []
       }
+      user_organizations: {
+        Row: {
+          organization_id: number
+          user_profile_id: number
+        }
+        Insert: {
+          organization_id: number
+          user_profile_id: number
+        }
+        Update: {
+          organization_id?: number
+          user_profile_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'user_organizations_organization_id_fkey'
+            columns: ['organization_id']
+            isOneToOne: false
+            referencedRelation: 'organizations'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'user_organizations_user_profile_id_fkey'
+            columns: ['user_profile_id']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       user_profiles: {
         Row: {
           created_at: string
           display_name: string
           id: number
-          organization_id: number | null
           role: Database["public"]["Enums"]["roles"]
           updated_at: string
           user_id: string
@@ -216,7 +256,6 @@ export type Database = {
           created_at?: string
           display_name: string
           id?: number
-          organization_id?: number | null
           role?: Database["public"]["Enums"]["roles"]
           updated_at?: string
           user_id: string
@@ -225,20 +264,11 @@ export type Database = {
           created_at?: string
           display_name?: string
           id?: number
-          organization_id?: number | null
           role?: Database["public"]["Enums"]["roles"]
           updated_at?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "public_user_profiles_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {

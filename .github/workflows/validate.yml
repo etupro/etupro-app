@@ -35,11 +35,8 @@ jobs:
 
       - uses: supabase/setup-cli@v1
 
-      - name: link supabase project
-        run: supabase link --project-ref $PROJECT_ID
+      - run: supabase projects list
 
-      - name: push bd changes
-        run: supabase db push
+      - run: supabase link --project-ref $PROJECT_ID
 
-      - name: deploy edge functions
-        run: supabase functions deploy
+      - run: supabase storage ls

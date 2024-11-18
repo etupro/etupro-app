@@ -1,0 +1,36 @@
+import { Injectable } from '@angular/core';
+import { SupabaseService } from './supabase.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserOrganisationsService {
+
+  constructor(private supabaseService: SupabaseService) {
+  }
+
+  async insert(userProfileId: number, organizationId: number): Promise<void> {
+    const response = await this.supabaseService.client
+      .from('user_organizations')
+      .insert({
+        user_profile_id: userProfileId,
+        organization_id: organizationId,
+      });
+
+    if (response.error) {
+      throw new Error('Erreur lors de l\'affiliation entre un utilisateur et l\'organisation', {cause: response.error});
+    }
+  }
+
+  async delete(userProfileId: number, organizationId: number): Promise<void> {
+    const response = await this.supabaseService.client
+      .from('user_organizations')
+      .delete()
+      .eq('user_profile_id', userProfileId)
+      .eq('organization_id', organizationId);
+
+    if (response.error) {
+      throw new Error('Erreur lors de la suppression de l\'organisation pour l\'utilisateur', {cause: response.error});
+    }
+  }
+}

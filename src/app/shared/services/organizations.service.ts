@@ -6,15 +6,28 @@ import { Organization } from '../models/organiazation.model';
 @Injectable({
   providedIn: 'root'
 })
-export class OrganizationService {
+export class OrganizationsService {
 
   constructor(private supabaseService: SupabaseService) {
+  }
+
+  async getAll(): Promise<Organization[]> {
+    const response = await this.supabaseService.client
+      .from('organizations')
+      .select('*')
+      .order('id', {ascending: true});
+
+    if (response.error) {
+      throw new Error('Erreur lors de la récupération de l\'organisation', {cause: response.error});
+    }
+
+    return response.data;
   }
 
   async getById(id: number): Promise<Organization | null> {
     const response = await this.supabaseService.client
       .from('organizations')
-      .select('*')
+      .select('*, owner_profile:user_profiles(*), users:user_profiles!user_organizations(*)')
       .eq('id', id)
       .maybeSingle();
 
@@ -25,11 +38,11 @@ export class OrganizationService {
     return response.data;
   }
 
-  async create(Organization: Organization.Insert): Promise<Organization | null> {
+  async create(Organization: Organization.Insert): Promise<Organization> {
     const response = await this.supabaseService.client
       .from('organizations')
       .insert(Organization)
-      .select('*')
+      .select('*, owner_profile:user_profiles(*), users:user_profiles!user_organizations(*)')
       .single();
 
     if (response.error) {
@@ -48,7 +61,7 @@ export class OrganizationService {
         updated_at: DateTime.now().toISO()
       })
       .eq('id', id)
-      .select('*')
+      .select('*, owner_profile:user_profiles(*), users:user_profiles!user_organizations(*)')
       .single();
 
     if (response.error) {

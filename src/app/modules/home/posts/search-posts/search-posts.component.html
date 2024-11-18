@@ -10,8 +10,8 @@
     <form [formGroup]="searchForm"
           autocomplete="off">
 
-      <app-department-autocomplete-input
-        [valueControl]="searchForm.controls.departmentId"></app-department-autocomplete-input>
+      <app-department-select-input
+        [valueControl]="searchForm.controls.departmentId"></app-department-select-input>
 
       <app-emitor-status-select-input
         [valueControl]="searchForm.controls.emitorStatus"></app-emitor-status-select-input>

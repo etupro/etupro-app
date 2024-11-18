@@ -168,45 +168,38 @@ VALUES (11, DEFAULT, DEFAULT, 'Mia Patel', 'e4b1d357-403c-54da-bed9-9fed7ed0839a
        (18, DEFAULT, DEFAULT, 'Ethan Martin', 'b14deeef-8b95-55fa-ba3f-fed8ccd64531'),
        (19, DEFAULT, DEFAULT, 'Axel Lee', '0f6c15ce-a0c9-54ab-9ef0-2d0d104c484e'),
        (20, DEFAULT, DEFAULT, 'Gavin Kim', '5db27777-c023-548d-b68a-b2d1f8e1b232');
-INSERT INTO public.posts (id, created_at, updated_at, content, title, tags, user_profile_id, cover)
+INSERT INTO public.posts (id, created_at, updated_at, content, title, tags, user_profile_id)
 VALUES (11, DEFAULT, DEFAULT,
         'I''m so proud of myself for finally starting my own business! [link] #entrepreneur #newbusiness',
         'The Power of Positive Thinking',
-        '{"mpcixrue","mjswp","y","dzwl","efbnj","ngmktxmgjjz","iezdyilu","zbeeldtuuzv","wrtm","esivtphkj"}', 11,
-        'https://www.facebook.com/photo/?fbid=1234567890123456&set=a.123456789012345'),
+        '{"mpcixrue","mjswp","y","dzwl","efbnj","ngmktxmgjjz","iezdyilu","zbeeldtuuzv","wrtm","esivtphkj"}', 11),
        (12, DEFAULT, DEFAULT,
         'New workout routine alert! Check out my latest fitness video [link] #fitnessmotivation #workoutinspo',
         'Unleash Your Creative Potential',
-        '{"bl","twmq","mtyxt","mpcixrue","mjswp","y","dzwl","efbnj","ngmktxmgjjz","iezdyilu"}', 12,
-        'https://www.instagram.com/p/CXYZ123456/?utm_source=ig_web_copy_link'),
+        '{"bl","twmq","mtyxt","mpcixrue","mjswp","y","dzwl","efbnj","ngmktxmgjjz","iezdyilu"}', 12),
        (13, DEFAULT, DEFAULT,
         'I''m so grateful for my amazing friends who always know how to make me laugh [image of friends]',
-        'Discover Your Hidden Talent', '{"bl","twmq","mtyxt","mpcixrue"}', 13, 'https://example.com/image3.gif'),
+        'Discover Your Hidden Talent', '{"bl","twmq","mtyxt","mpcixrue"}', 13),
        (14, DEFAULT, DEFAULT, 'Check out my latest blog post about sustainable fashion [link] #sustainability #fashion',
         'The Most Influential People of the Year',
         '{"yzyzahwq","ztvbgfoqidz","icvpzmui","bl","twmq","mtyxt","mpcixrue","mjswp","y","dzwl","efbnj","ngmktxmgjjz","iezdyilu","zbeeldtuuzv","wrtm","esivtphkj","b"}',
-        14, 'https://www.tiktok.com/@username/video/1234567890123456'),
+        14),
        (15, DEFAULT, DEFAULT, 'Does anyone have any tips for staying motivated and focused?',
-        'Motivational Quotes to Live By', '{"iezdyilu","zbeeldtuuzv","wrtm"}', 15,
-        'https://example.com/post-image.jpg'),
+        'Motivational Quotes to Live By', '{"iezdyilu","zbeeldtuuzv","wrtm"}', 15),
        (16, DEFAULT, DEFAULT, 'Does anyone have any recommendations for good coffee shops in the area?',
-        'The Most Influential People of the Year', '{"dzwl","efbnj","ngmktxmgjjz","iezdyilu"}', 16,
-        'https://example.com/video-preview.jpg'),
+        'The Most Influential People of the Year', '{"dzwl","efbnj","ngmktxmgjjz","iezdyilu"}', 16),
        (17, DEFAULT, DEFAULT, 'Who''s ready for the weekend? I know I am! #FridayVibes #weekendgetaway',
         'Discover Your Hidden Talent',
-        '{"ztvbgfoqidz","icvpzmui","bl","twmq","mtyxt","mpcixrue","mjswp","y","dzwl","efbnj","ngmktxmgjjz"}', 17,
-        'https://example.com/image3.gif'),
+        '{"ztvbgfoqidz","icvpzmui","bl","twmq","mtyxt","mpcixrue","mjswp","y","dzwl","efbnj","ngmktxmgjjz"}', 17),
        (18, DEFAULT, DEFAULT, 'Just got back from the most amazing trip to Japan! [image of Tokyo]',
-        'Life-Changing Books You Need to Read', '{"mtyxt","mpcixrue","mjswp"}', 18,
-        'https://example.com/post_image_12345.jpg'),
+        'Life-Changing Books You Need to Read', '{"mtyxt","mpcixrue","mjswp"}', 18),
        (19, DEFAULT, DEFAULT,
         'I''m so grateful for my amazing friends who always know how to make me laugh [image of friends]',
-        'How to Boost Your Confidence', '{"zbeeldtuuzv","wrtm","esivtphkj","b","clyohs"}', 19,
-        'https://example.com/post-image.jpg'),
+        'How to Boost Your Confidence', '{"zbeeldtuuzv","wrtm","esivtphkj","b","clyohs"}', 19),
        (20, DEFAULT, DEFAULT, 'Who else is loving the new season of [TV show]? I''m obsessed!',
         'The Best Podcasts of the Year',
         '{"mpcixrue","mjswp","y","dzwl","efbnj","ngmktxmgjjz","iezdyilu","zbeeldtuuzv","wrtm","esivtphkj","b","clyohs"}',
-        20, 'https://example.com/cover_photo.jpg');
+        20);
 SELECT setval('"public"."user_profiles_id_seq"'::regclass, (SELECT MAX("id") FROM "public"."user_profiles"));
 SELECT setval('"public"."posts_id_seq"'::regclass, (SELECT MAX("id") FROM "public"."posts"));
 
@@ -232,9 +225,9 @@ VALUES ('00000000-0000-0000-0000-000000000000', '92cecf8f-2bb3-41eb-86a4-680f749
     "phone_verified": false
   }', null, '2024-11-07 14:50:06.691705 +00:00', '2024-11-07 14:50:06.703652 +00:00', null, null, '', '', null, '', 0,
         null, '', null, false, null, false);
-INSERT INTO public.user_profiles (id, created_at, updated_at, display_name, user_id, organization_id, role)
+INSERT INTO public.user_profiles (id, created_at, updated_at, display_name, user_id, role)
 VALUES (22, '2024-11-07 14:50:06.729835 +00:00', '2024-11-07 14:50:06.729835 +00:00', 'Lozach Maxime',
-        '92cecf8f-2bb3-41eb-86a4-680f7495d559', null, 'SUPER_ADMIN');
+        '92cecf8f-2bb3-41eb-86a4-680f7495d559', 'SUPER_ADMIN');
 
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, invited_at,
                         confirmation_token, confirmation_sent_at, recovery_token, recovery_sent_at,
@@ -258,6 +251,6 @@ VALUES ('00000000-0000-0000-0000-000000000000', 'f5a609a3-e1a5-4b76-b190-08d36e9
     "phone_verified": false
   }', null, '2024-11-16 13:34:30.865130 +00:00', '2024-11-16 14:11:23.490802 +00:00', null, null, '', '', null, '', 0,
         null, '', null, false, null, false);
-INSERT INTO public.user_profiles (id, created_at, updated_at, display_name, user_id, organization_id, role)
+INSERT INTO public.user_profiles (id, created_at, updated_at, display_name, user_id, role)
 VALUES (21, '2024-11-16 13:34:30.881687 +00:00', '2024-11-16 13:34:30.881687 +00:00', 'Test user',
-        'f5a609a3-e1a5-4b76-b190-08d36e9f7d26', null, 'USER');
+        'f5a609a3-e1a5-4b76-b190-08d36e9f7d26', 'USER');

@@ -5,17 +5,17 @@ import { DepartmentsService } from '../../../services/departments.service';
 import { SelectInputComponent } from '../select-input.component';
 
 @Component({
-  selector: 'app-department-autocomplete-input',
+  selector: 'app-department-select-input',
   standalone: true,
   imports: [
     FormsModule,
     ReactiveFormsModule,
     SelectInputComponent
   ],
-  templateUrl: './department-autocomplete-input.component.html',
-  styleUrl: './department-autocomplete-input.component.scss'
+  templateUrl: './department-select-input.component.html',
+  styleUrl: './department-select-input.component.scss'
 })
-export class DepartmentAutocompleteInputComponent implements OnInit {
+export class DepartmentSelectInputComponent implements OnInit {
 
   @Input() valueControl = new FormControl<number | null>(null);
   @Input() required = false;

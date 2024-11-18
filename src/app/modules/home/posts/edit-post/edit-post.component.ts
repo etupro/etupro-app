@@ -17,10 +17,10 @@ import { TagsService } from '../../../../shared/services/tags.service';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
-import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/select-input/department-autocomplete-input/department-autocomplete-input.component';
+import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/autocomplete-chips-input/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
+import { DepartmentSelectInputComponent } from '../../../../shared/components/select-input/department-select-input/department-select-input.component';
 import { EmitorStatusSelectInputComponent } from '../../../../shared/components/select-input/emitor-status-select-input/emitor-status-select-input.component';
-import { UserAutocompleteInputComponent } from '../../../../shared/components/select-input/user-autocomplete-input/user-autocomplete-input.component';
+import { UserSelectInputComponent } from '../../../../shared/components/select-input/user-select-input/user-select-input.component';
 
 @Component({
   selector: 'app-edit-post',
@@ -43,9 +43,9 @@ import { UserAutocompleteInputComponent } from '../../../../shared/components/se
     MatIconButton,
     MatCardContent,
     MatCardFooter,
-    DepartmentAutocompleteInputComponent,
+    DepartmentSelectInputComponent,
     EmitorStatusSelectInputComponent,
-    UserAutocompleteInputComponent
+    UserSelectInputComponent
   ],
   templateUrl: './edit-post.component.html',
   styleUrl: './edit-post.component.scss'

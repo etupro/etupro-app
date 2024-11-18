@@ -6,8 +6,8 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 import { MatCard, MatCardTitle } from '@angular/material/card';
-import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
-import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/select-input/department-autocomplete-input/department-autocomplete-input.component';
+import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/autocomplete-chips-input/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
+import { DepartmentSelectInputComponent } from '../../../../shared/components/select-input/department-select-input/department-select-input.component';
 import { QueryPostTags } from '../../../../shared/models/query-post-tags.model';
 import { EmitorStatusSelectInputComponent } from '../../../../shared/components/select-input/emitor-status-select-input/emitor-status-select-input.component';
 
@@ -23,7 +23,7 @@ import { EmitorStatusSelectInputComponent } from '../../../../shared/components/
     ReactiveFormsModule,
     MatCard,
     MatCardTitle,
-    DepartmentAutocompleteInputComponent,
+    DepartmentSelectInputComponent,
     EmitorStatusSelectInputComponent
   ],
   templateUrl: './search-posts.component.html',

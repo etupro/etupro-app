@@ -2,14 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { UserProfile } from '../../../../shared/models/user-profile.model';
-import { MatIcon } from '@angular/material/icon';
-import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { passwordConfirmationValidator } from '../../../../shared/validators/password-confirmation.validator';
 import { UserProfileService } from '../../../../shared/services/user-profile.service';
 import { SnackbarService } from '../../../../shared/services/snackbar.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,32 +16,29 @@ import { Subscription } from 'rxjs';
 import { PostsService } from '../../../../shared/services/posts.service';
 import { Map } from 'immutable';
 import { StorageService } from '../../../../shared/services/storage.service';
+import { OrganizationsAutocompleteChipsInputComponent } from '../../../../shared/components/autocomplete-chips-input/organizations-autocomplete-chips-input/organizations-autocomplete-chips-input.component';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'app-user',
   standalone: true,
   imports: [
     CommonModule,
-    MatIcon,
-    MatIconButton,
-    MatToolbar,
     MatCard,
-    MatCardHeader,
     MatCardTitle,
     MatCardContent,
-    MatCardActions,
     MatButton,
     MatError,
     MatFormField,
     MatInput,
     MatLabel,
     ReactiveFormsModule,
-    PostCardComponent
+    PostCardComponent,
+    OrganizationsAutocompleteChipsInputComponent
   ],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+  templateUrl: './user.component.html',
+  styleUrl: './user.component.scss'
 })
-export class ProfileComponent implements OnInit, OnDestroy {
+export class UserComponent implements OnInit, OnDestroy {
 
   userProfile: UserProfile | null = null;
   currentProfile: UserProfile | null = null;
@@ -53,9 +47,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   profileForm = new FormGroup({
     displayName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
+    organizations: new FormControl<number[]>([], {nonNullable: true}),
   }, {
     updateOn: 'submit',
-    validators: [passwordConfirmationValidator()]
   });
 
   readonly = true;
@@ -120,6 +114,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.profileForm.setValue({
         displayName: this.currentProfile.display_name,
         email: this.currentProfile.user?.email ?? null,
+        organizations: this.currentProfile.organisations?.map(o => o.id) ?? [],
       }, {
         emitEvent: true
       });
@@ -127,6 +122,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.profileForm.setValue({
         displayName: this.userProfile?.display_name,
         email: null,
+        organizations: this.currentProfile.organisations?.map(o => o.id) ?? [],
       }, {
         emitEvent: true
       });
@@ -158,8 +154,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.readonly = true;
   }
 
-  editOrganization() {
-    this.router.navigate(['/', 'user', this.profileId, 'organization']);
+  addOrganization() {
+    this.router.navigate(['/', 'organizations', 'new']);
   }
 
   navigateToPost(postId: number) {

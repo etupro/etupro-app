@@ -18,12 +18,12 @@
 
         <app-markdown-editor [controller]="postForm.controls.content"></app-markdown-editor>
 
-        <app-user-autocomplete-input label="Autheur"
+        <app-user-select-input [valueControl]="postForm.controls.author"
                                      [required]="true"
-                                     [valueControl]="postForm.controls.author"></app-user-autocomplete-input>
+                               label="Autheur"></app-user-select-input>
 
-        <app-department-autocomplete-input [required]="true"
-                                           [valueControl]="postForm.controls.departmentId"></app-department-autocomplete-input>
+        <app-department-select-input [required]="true"
+                                     [valueControl]="postForm.controls.departmentId"></app-department-select-input>
 
         <app-emitor-status-select-input [required]="true"
                                         [valueControl]="postForm.controls.emitorStatus"></app-emitor-status-select-input>
