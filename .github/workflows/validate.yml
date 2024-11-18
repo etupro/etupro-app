@@ -39,4 +39,4 @@ jobs:
 
       - run: supabase link --project-ref $PROJECT_ID
 
-      - run: supabase storage ls
+      - run: supabase migration list
