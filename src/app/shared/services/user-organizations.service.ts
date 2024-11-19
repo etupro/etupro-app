@@ -4,7 +4,7 @@ import { SupabaseService } from './supabase.service';
 @Injectable({
   providedIn: 'root'
 })
-export class UserOrganisationsService {
+export class UserOrganizationsService {
 
   constructor(private supabaseService: SupabaseService) {
   }
@@ -22,15 +22,11 @@ export class UserOrganisationsService {
     }
   }
 
-  async delete(userProfileId: number, organizationId: number): Promise<void> {
-    const response = await this.supabaseService.client
-      .from('user_organizations')
-      .delete()
-      .eq('user_profile_id', userProfileId)
-      .eq('organization_id', organizationId);
+  async update(userProfileId: number, organizationIds: number[]): Promise<void> {
+    await this.supabaseService.client.from('user_organizations').delete().eq('user_profile_id', userProfileId);
 
-    if (response.error) {
-      throw new Error('Erreur lors de la suppression de l\'organisation pour l\'utilisateur', {cause: response.error});
+    for (const organizationId of organizationIds) {
+      await this.insert(userProfileId, organizationId);
     }
   }
 }

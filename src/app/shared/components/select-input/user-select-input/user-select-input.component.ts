@@ -22,7 +22,7 @@ export class UserSelectInputComponent implements OnInit, OnDestroy {
   @Input() required = false;
   @Input() readonly = false;
 
-  allUsers: SelectElement<number>[] = [];
+  allUsers: SelectElement<number | null>[] = [];
   isSuperAdmin = false;
 
   watcher = new Subscription();
@@ -43,6 +43,9 @@ export class UserSelectInputComponent implements OnInit, OnDestroy {
               label: d.display_name
             };
           }) ?? [];
+          if (!this.required) {
+            this.allUsers = [{value: null, label: ''}, ...this.allUsers];
+          }
         });
       } else {
         this.allUsers = [ { value: userProfile?.id ?? 0, label: userProfile?.display_name ?? 'Anonyme' } ];

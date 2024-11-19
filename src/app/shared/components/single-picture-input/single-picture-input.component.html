@@ -7,7 +7,9 @@
     <mat-icon>add_photo_alternate</mat-icon>
     <h3>Déposez votre image ici</h3>
     <h5>ou cliquez pour choisir un fichier</h5>
-    <h5>Format 16:9</h5>
+    @if (withFormat) {
+      <h5>Format 16:9</h5>
+    }
     <div (change)="onFileChange($event)"
          (click)="fileDropRef.click()"
          (keydown)="fileDropRef.click()"

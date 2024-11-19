@@ -3,9 +3,8 @@ import { AuthService } from '../../../../shared/services/auth.service';
 import { SnackbarService } from '../../../../shared/services/snackbar.service';
 import { OrganizationsService } from '../../../../shared/services/organizations.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { passwordConfirmationValidator } from '../../../../shared/validators/password-confirmation.validator';
 import { Organization } from '../../../../shared/models/organiazation.model';
-import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { SinglePictureInputComponent } from '../../../../shared/components/single-picture-input/single-picture-input.component';
 import { MatButton, MatIconButton } from '@angular/material/button';
@@ -14,7 +13,8 @@ import { StorageService } from '../../../../shared/services/storage.service';
 import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UserOrganisationsService } from '../../../../shared/services/user-organisations.service';
+import { UserOrganizationsService } from '../../../../shared/services/user-organizations.service';
+import { UserSelectInputComponent } from '../../../../shared/components/select-input/user-select-input/user-select-input.component';
 
 @Component({
   selector: 'app-organization',
@@ -24,7 +24,6 @@ import { UserOrganisationsService } from '../../../../shared/services/user-organ
     MatCard,
     MatCardContent,
     MatFormField,
-    MatCardActions,
     MatCardTitle,
     SinglePictureInputComponent,
     MatError,
@@ -33,6 +32,8 @@ import { UserOrganisationsService } from '../../../../shared/services/user-organ
     MatInput,
     MatIcon,
     MatIconButton,
+    UserSelectInputComponent,
+
   ],
   templateUrl: './organization.component.html',
   styleUrl: './organization.component.scss'
@@ -45,11 +46,11 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   pictureUrl: string | undefined;
 
   organizationForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    picture: new FormControl<File | undefined>(undefined),
+    name: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
+    picture: new FormControl<File | null>(null),
+    owner: new FormControl<number | null>(null, {validators: [Validators.required]}),
   }, {
-    updateOn: "submit",
-    validators: [passwordConfirmationValidator()]
+    updateOn: 'submit',
   });
 
   organizationId: number | null = null;
@@ -58,7 +59,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthService,
               private organizationService: OrganizationsService,
-              private userOrganisationsService: UserOrganisationsService,
+              private userOrganizationsService: UserOrganizationsService,
               private storageService: StorageService,
               private router: Router,
               private route: ActivatedRoute,
@@ -70,6 +71,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
 
     this.watcher.add(this.authService.userProfile$.subscribe(userProfile => {
       this.userProfileId = userProfile?.id ?? null;
+      this.organizationForm.controls.owner.setValue(this.userProfileId, {emitEvent: false});
     }));
 
     this.watcher.add(this.route.params.subscribe(params => {
@@ -100,11 +102,12 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   }
 
   resetForm() {
-    this.organizationForm.patchValue({
-      name: this.organization?.name,
-      picture: undefined,
+    this.organizationForm.setValue({
+      name: this.organization?.name ?? '',
+      picture: null,
+      owner: this.organization?.owner ?? null
     }, {
-      emitEvent: true
+      emitEvent: false
     });
   }
 
@@ -118,16 +121,18 @@ export class OrganizationComponent implements OnInit, OnDestroy {
   }
 
   handleCoverUpload(coverFile: File) {
-    this.organizationForm.controls.picture.setValue(coverFile);
+    this.organizationForm.controls.picture.setValue(coverFile, {emitEvent: false});
   }
 
-  async editOrganization() {
+  async saveOrganization() {
     if (!this.organizationForm.valid || !this.userProfileId) {
+      this.organizationForm.markAllAsTouched();
       return;
     }
 
     const name = this.organizationForm.value.name ?? '';
     const picture = this.organizationForm.value.picture;
+    const owner = this.organizationForm.value.owner ?? null;
 
     let uploadPath: string | undefined;
 
@@ -139,7 +144,8 @@ export class OrganizationComponent implements OnInit, OnDestroy {
     if (this.organizationId) {
       newOrganization = await this.organizationService.update(this.organizationId, {
         name,
-        picture: uploadPath
+        picture: uploadPath,
+        owner
       });
 
       this.snackbarService.openSnackBar('Sauvegardé !');
@@ -150,10 +156,10 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       newOrganization = await this.organizationService.create({
         name,
         picture: uploadPath,
-        owner: this.userProfileId
+        owner
       });
       if (newOrganization) {
-        await this.userOrganisationsService.insert(this.userProfileId, newOrganization.id);
+        await this.userOrganizationsService.insert(this.userProfileId, newOrganization.id);
       }
 
       this.snackbarService.openSnackBar('Sauvegardé !');

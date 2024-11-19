@@ -82,10 +82,8 @@ export class UserComponent implements OnInit {
 
   async saveForm(): Promise<void> {
     if (this.userId && this.userId !== 'new' && this.userId !== '') {
-      console.log('update user');
       await this.updateUser();
     } else {
-      console.log('create user');
       await this.createUser();
     }
   }

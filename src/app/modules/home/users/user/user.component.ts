@@ -17,6 +17,7 @@ import { PostsService } from '../../../../shared/services/posts.service';
 import { Map } from 'immutable';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { OrganizationsAutocompleteChipsInputComponent } from '../../../../shared/components/autocomplete-chips-input/organizations-autocomplete-chips-input/organizations-autocomplete-chips-input.component';
+import { UserOrganizationsService } from '../../../../shared/services/user-organizations.service';
 
 @Component({
   selector: 'app-user',
@@ -60,6 +61,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthService,
               private userProfileService: UserProfileService,
+              private userOrganizationsService: UserOrganizationsService,
               private snackbarService: SnackbarService,
               private postService: PostsService,
               private storageService: StorageService,
@@ -114,7 +116,7 @@ export class UserComponent implements OnInit, OnDestroy {
       this.profileForm.setValue({
         displayName: this.currentProfile.display_name,
         email: this.currentProfile.user?.email ?? null,
-        organizations: this.currentProfile.organisations?.map(o => o.id) ?? [],
+        organizations: this.currentProfile.organizations?.map(o => o.id) ?? [],
       }, {
         emitEvent: true
       });
@@ -122,7 +124,7 @@ export class UserComponent implements OnInit, OnDestroy {
       this.profileForm.setValue({
         displayName: this.userProfile?.display_name,
         email: null,
-        organizations: this.currentProfile.organisations?.map(o => o.id) ?? [],
+        organizations: this.userProfile.organizations?.map(o => o.id) ?? [],
       }, {
         emitEvent: true
       });
@@ -146,9 +148,11 @@ export class UserComponent implements OnInit, OnDestroy {
 
     const displayName = this.profileForm.value.displayName ?? '';
     const email = this.profileForm.value.email ?? '';
+    const organizations = this.profileForm.value.organizations ?? [];
 
     await this.authService.updateUserEmail(email);
     await this.userProfileService.update(this.userProfile.id, {display_name: displayName});
+    await this.userOrganizationsService.update(this.userProfile.id, organizations);
     await this.authService.updateUserProfile();
     this.snackbarService.openSnackBar('Sauvegardé !');
     this.readonly = true;

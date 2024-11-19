@@ -79,23 +79,20 @@ export class AutocompleteChipsInputComponent<T> implements OnInit, OnChanges, On
 
   add(event: MatChipInputEvent): void {
     const newValue = (event.value || '').trim();
-    console.log('newValue', newValue);
 
     if (newValue) {
       const values = this.valuesControl.value ?? [];
       let value = this.allValues.filter(v => v.label === newValue).pop()?.value;
-      console.log('value', value);
 
       if (this.allowNewValue) value = value ?? newValue as T;
-      console.log('value', value);
 
-      if (value) values.push(value);
-      this.valuesControl.setValue(values);
+      if (value && !values.includes(value)) {
+        values.push(value);
+        this.valuesControl.setValue(values);
+        event.chipInput.clear();
+        this.inputControl.setValue(null);
+      }
     }
-
-    console.log('valuesControl', this.valuesControl.value);
-    event.chipInput.clear();
-    this.inputControl.setValue(null);
   }
 
   remove(tag: T): void {
@@ -111,10 +108,12 @@ export class AutocompleteChipsInputComponent<T> implements OnInit, OnChanges, On
   selected(event: MatAutocompleteSelectedEvent): void {
     const values = this.valuesControl.value ?? [];
     const value = this.allValues.filter(v => v.label === event.option.viewValue).pop()?.value;
-    if (value) values.push(value);
-    this.valuesControl.setValue(values);
-    if (this.valueInput) this.valueInput.nativeElement.value = '';
-    this.inputControl.setValue(null);
+    if (value && !values.includes(value)) {
+      values.push(value);
+      this.valuesControl.setValue(values);
+      if (this.valueInput) this.valueInput.nativeElement.value = '';
+      this.inputControl.setValue(null);
+    }
   }
 
   private _filter(value: string): string[] {

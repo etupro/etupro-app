@@ -1,14 +1,25 @@
 <div class="app-page-container">
   <mat-card class="app-page-card">
     <mat-card-title class="post-title-container">
-      <h1>Organization</h1>
       <button (click)="cancel()" mat-icon-button>
         <mat-icon>close</mat-icon>
       </button>
     </mat-card-title>
 
     <mat-card-content>
-      <form [formGroup]="organizationForm">
+      <form (reset)="setFormReadOnly()" (submit)="saveOrganization()" [formGroup]="organizationForm"
+            class="organization-form">
+
+        <div class="organization-picture-container">
+          @if (!readonly) {
+            <app-single-picture-input class="organization-picture-drop"
+                                      [withFormat]="false"
+                                      (fileSaved)="handleCoverUpload($event)"></app-single-picture-input>
+          } @else if (pictureUrl) {
+            <img class="organization-picture" [src]="pictureUrl" [alt]="'Cover image for organization'"/>
+          }
+        </div>
+
         <mat-form-field class="full-width-form-field">
           <mat-label>Nom</mat-label>
           <input [formControl]="organizationForm.controls.name"
@@ -16,28 +27,29 @@
                  matInput
                  placeholder="Organization"
                  [required]="!readonly">
-          @if (readonly && organizationForm.controls.name.errors?.['required']) {
+          @if (!readonly && organizationForm.controls.name.hasError('required')) {
             <mat-error>Ce champs est requis</mat-error>
           }
         </mat-form-field>
-        @if (!readonly) {
-          <app-single-picture-input (fileSaved)="handleCoverUpload($event)"></app-single-picture-input>
-        } @else if (pictureUrl) {
-          <img [src]="pictureUrl" [alt]="'Cover image for organization'"/>
+
+        <app-user-select-input [label]="'Propriétaire'"
+                               [readonly]="readonly"
+                               [required]="false"
+                               [valueControl]="organizationForm.controls.owner"></app-user-select-input>
+
+        @if (isOwner) {
+          <div class="form-buttons">
+            @if (readonly && organizationId) {
+              <button type="button" (click)="setFormEditMode()" color="primary" mat-button>Modifier</button>
+            } @else {
+              @if (organizationId) {
+                <button type="reset" color="warn" mat-button>Annuler</button>
+              }
+              <button type="submit" color="primary" mat-button>Sauvegarder</button>
+            }
+          </div>
         }
       </form>
     </mat-card-content>
-    @if (isOwner) {
-      <mat-card-actions>
-        @if (readonly && organizationId) {
-          <button (click)="setFormEditMode()" color="primary" mat-button>Modifier</button>
-        } @else {
-          @if (organizationId) {
-            <button (click)="setFormReadOnly()" color="warn" mat-button>Annuler</button>
-          }
-          <button (click)="editOrganization()" color="primary" mat-button>Sauvegarder</button>
-        }
-      </mat-card-actions>
-    }
   </mat-card>
 </div>

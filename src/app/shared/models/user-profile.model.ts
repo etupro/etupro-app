@@ -12,7 +12,7 @@ export class UserProfile implements Tables<'user_profiles'> {
   updated_at: string;
 
   user?: User;
-  organisations?: Organization[];
+  organizations?: Organization[];
 }
 
 export namespace UserProfile {

@@ -27,7 +27,7 @@ export class OrganizationsService {
   async getById(id: number): Promise<Organization | null> {
     const response = await this.supabaseService.client
       .from('organizations')
-      .select('*, owner_profile:user_profiles(*), users:user_profiles!user_organizations(*)')
+      .select('*, owner_profile:user_profiles!organizations_owner_fkey(*), users:user_profiles!user_organizations(*)')
       .eq('id', id)
       .maybeSingle();
 
@@ -38,11 +38,11 @@ export class OrganizationsService {
     return response.data;
   }
 
-  async create(Organization: Organization.Insert): Promise<Organization> {
+  async create(organization: Organization.Insert): Promise<Organization> {
     const response = await this.supabaseService.client
       .from('organizations')
-      .insert(Organization)
-      .select('*, owner_profile:user_profiles(*), users:user_profiles!user_organizations(*)')
+      .insert(organization)
+      .select('*, owner_profile:user_profiles!organizations_owner_fkey(*), users:user_profiles!user_organizations(*)')
       .single();
 
     if (response.error) {
@@ -52,16 +52,16 @@ export class OrganizationsService {
     return response.data;
   }
 
-  async update(id: number, Organization: Organization.Update): Promise<Organization | null> {
+  async update(id: number, organization: Organization.Update): Promise<Organization | null> {
     const response = await this.supabaseService.client
       .from('organizations')
       .update({
-        ...Organization,
+        ...organization,
         id,
         updated_at: DateTime.now().toISO()
       })
       .eq('id', id)
-      .select('*, owner_profile:user_profiles(*), users:user_profiles!user_organizations(*)')
+      .select('*, owner_profile:user_profiles!organizations_owner_fkey(*), users:user_profiles!user_organizations(*)')
       .single();
 
     if (response.error) {
