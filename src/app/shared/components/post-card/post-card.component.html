@@ -9,17 +9,8 @@
       <img [src]="coverUrl" alt="post cover image" class="cover-image-16-9"/>
     }
 
-    <div class="organization-logos">
-      @for (organizationId of organizationLogos.keys(); track organizationId) {
-        <img tabindex="0"
-             role="button"
-             [src]="organizationLogos.get(organizationId)"
-             class="organization-logo"
-             (click)="handleOrganizationClick($event, organizationId)"
-             (keydown)="handleKeyDown($event, organizationId)"
-             alt="logo de l'organisation">
-      }
-    </div>
+    <app-organization-miniatures (organizationClick)="organizationClick.emit($event)"
+                                 [organizations]="post.organizations ?? []"></app-organization-miniatures>
   </div>
 
   <div class="post-infos-container">

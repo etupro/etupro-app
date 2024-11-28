@@ -29,6 +29,8 @@
 
     <mat-card-footer>
       de {{ post?.author_name ?? post?.author?.display_name ?? 'Anonyme' }}
+      <app-organization-miniatures (organizationClick)="handleOrganizationClick($event)"
+                                   [organizations]="post?.organizations ?? []"></app-organization-miniatures>
       <mat-chip-listbox aria-label="Post tags">
         @if (post?.emitor_status) {
           <mat-chip-option [selectable]="false" class="emitor-chip">

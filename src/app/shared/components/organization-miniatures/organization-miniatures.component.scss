@@ -1,0 +1,26 @@
+.organization-logos {
+  display: flex;
+  gap: 0.5rem;
+  box-sizing: border-box;
+  padding: 0.5rem;
+
+  .organization-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+  }
+
+  .more-organizations {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 12px;
+  }
+}
