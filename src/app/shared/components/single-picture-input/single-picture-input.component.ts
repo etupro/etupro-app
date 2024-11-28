@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
@@ -16,6 +16,8 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
   ]
 })
 export class SinglePictureInputComponent {
+
+  @Input() withFormat = true;
 
   @Output() fileSaved = new EventEmitter<File>();
 

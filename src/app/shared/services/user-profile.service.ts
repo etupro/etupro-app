@@ -14,7 +14,7 @@ export class UserProfileService {
   async getAll(): Promise<UserProfile[]> {
     const response = await this.supabaseService.client
       .from('user_profiles')
-      .select('*');
+      .select('*, organizations!user_organizations(*)');
 
     if (response.error) {
       throw new Error('Erreur lors de la récupération des profils utilisateurs', {cause: response.error});
@@ -26,7 +26,7 @@ export class UserProfileService {
   async getById(id: number): Promise<UserProfile | null> {
     const response = await this.supabaseService.client
       .from('user_profiles')
-      .select('*')
+      .select('*, organizations!user_organizations(*)')
       .eq('id', id)
       .single();
 
@@ -40,7 +40,7 @@ export class UserProfileService {
   async getByUserId(id: string): Promise<UserProfile | null> {
     const response = await this.supabaseService.client
       .from('user_profiles')
-      .select('*')
+      .select('*, organizations!user_organizations(*)')
       .eq('user_id', id)
       .single();
 
@@ -55,7 +55,7 @@ export class UserProfileService {
     const response = await this.supabaseService.client
       .from('user_profiles')
       .insert(userProfile)
-      .select('*')
+      .select('*, organizations!user_organizations(*)')
       .single();
 
     if (response.error) {
@@ -74,7 +74,7 @@ export class UserProfileService {
         updated_at: DateTime.now().toISO()
       })
       .eq('id', id)
-      .select('*')
+      .select('*, organizations!user_organizations(*)')
       .single();
 
     if (response.error) {
@@ -83,4 +83,5 @@ export class UserProfileService {
 
     return response.data;
   }
+
 }

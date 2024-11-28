@@ -7,22 +7,22 @@ import { Subscription } from 'rxjs';
 import { SelectInputComponent } from '../select-input.component';
 
 @Component({
-  selector: 'app-user-autocomplete-input',
+  selector: 'app-user-select-input',
   standalone: true,
   imports: [
     SelectInputComponent
   ],
-  templateUrl: './user-autocomplete-input.component.html',
-  styleUrl: './user-autocomplete-input.component.scss'
+  templateUrl: './user-select-input.component.html',
+  styleUrl: './user-select-input.component.scss'
 })
-export class UserAutocompleteInputComponent  implements OnInit, OnDestroy {
+export class UserSelectInputComponent implements OnInit, OnDestroy {
 
   @Input() valueControl = new FormControl<number | null>(null);
   @Input() label = 'Utilisateurs';
   @Input() required = false;
   @Input() readonly = false;
 
-  allUsers: SelectElement<number>[] = [];
+  allUsers: SelectElement<number | null>[] = [];
   isSuperAdmin = false;
 
   watcher = new Subscription();
@@ -43,6 +43,9 @@ export class UserAutocompleteInputComponent  implements OnInit, OnDestroy {
               label: d.display_name
             };
           }) ?? [];
+          if (!this.required) {
+            this.allUsers = [{value: null, label: ''}, ...this.allUsers];
+          }
         });
       } else {
         this.allUsers = [ { value: userProfile?.id ?? 0, label: userProfile?.display_name ?? 'Anonyme' } ];

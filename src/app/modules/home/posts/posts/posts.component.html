@@ -48,7 +48,8 @@
     <app-post-card [post]="post"
                    [coverUrl]="coverUrls.get(post.cover ?? '')"
                    (postClick)="navigateToPost($event)"
-                   (tagClick)="queryNavigation($event)"/>
+                   (tagClick)="queryNavigation($event)"
+                   (organizationClick)="navigateToOrganization($event)"/>
   }
 </div>
 

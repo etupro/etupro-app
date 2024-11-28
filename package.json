@@ -13,6 +13,7 @@
     "deploy": "npm ci && npm run build && firebase deploy",
     "supabase:db-pull": "npx supabase db pull --local --schema public,storage",
     "supabase:db-push": "npx supabase db push",
+    "supabase:edge-push": "npx supabase functions deploy",
     "supabase:update-database-type": "npm run supabase:update-database-type-app && npm run supabase:update-database-type-edge",
     "supabase:update-database-type-app": "npx supabase gen types typescript --local > src/app/shared/models/database.types.ts",
     "supabase:update-database-type-edge": "npx supabase gen types typescript --local > supabase/functions/_shared/database.types.ts",

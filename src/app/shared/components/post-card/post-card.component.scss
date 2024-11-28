@@ -29,9 +29,15 @@
     }
 
     &:hover {
-      img {
+      img.cover-image-16-9 {
         display: none;
       }
+    }
+
+    app-organization-miniatures {
+      position: absolute;
+      top: 0;
+      right: 0;
     }
   }
 

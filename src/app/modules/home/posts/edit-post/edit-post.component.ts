@@ -17,10 +17,12 @@ import { TagsService } from '../../../../shared/services/tags.service';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
-import { DepartmentAutocompleteInputComponent } from '../../../../shared/components/select-input/department-autocomplete-input/department-autocomplete-input.component';
+import { TagsAutocompleteChipsInputComponent } from '../../../../shared/components/autocomplete-chips-input/tags-autocomplete-chips-input/tags-autocomplete-chips-input.component';
+import { DepartmentSelectInputComponent } from '../../../../shared/components/select-input/department-select-input/department-select-input.component';
 import { EmitorStatusSelectInputComponent } from '../../../../shared/components/select-input/emitor-status-select-input/emitor-status-select-input.component';
-import { UserAutocompleteInputComponent } from '../../../../shared/components/select-input/user-autocomplete-input/user-autocomplete-input.component';
+import { UserSelectInputComponent } from '../../../../shared/components/select-input/user-select-input/user-select-input.component';
+import { OrganizationsAutocompleteChipsInputComponent } from '../../../../shared/components/autocomplete-chips-input/organizations-autocomplete-chips-input/organizations-autocomplete-chips-input.component';
+import { PostOrganizationsService } from '../../../../shared/services/post-organizations.service';
 
 @Component({
   selector: 'app-edit-post',
@@ -43,9 +45,10 @@ import { UserAutocompleteInputComponent } from '../../../../shared/components/se
     MatIconButton,
     MatCardContent,
     MatCardFooter,
-    DepartmentAutocompleteInputComponent,
+    DepartmentSelectInputComponent,
     EmitorStatusSelectInputComponent,
-    UserAutocompleteInputComponent
+    UserSelectInputComponent,
+    OrganizationsAutocompleteChipsInputComponent
   ],
   templateUrl: './edit-post.component.html',
   styleUrl: './edit-post.component.scss'
@@ -58,6 +61,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     author: new FormControl<number>(0, {nonNullable: true, validators: [Validators.required]}),
     emitorStatus: new FormControl<string>('STUDENT', {nonNullable: true, validators: [Validators.required]}),
     departmentId: new FormControl<number>(1, {nonNullable: true, validators: [Validators.required]}),
+    organizations: new FormControl<number[]>([], {nonNullable: true}),
     tags: new FormControl<string[]>([], {nonNullable: true}),
   });
 
@@ -66,7 +70,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
   postId: number | null = null;
   postLoading = false;
   post: Post | null = null;
-  postPreview: Post.Update = {};
+  postPreview: Post.Preview = {};
   coverUrl?: SafeResourceUrl;
 
   watcher = new Subscription();
@@ -75,6 +79,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
               private router: Router,
               private route: ActivatedRoute,
               private postsService: PostsService,
+              private postOrganizationService: PostOrganizationsService,
               private tagsService: TagsService,
               private storageService: StorageService,
               private readonly dom: DomSanitizer) {
@@ -103,6 +108,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
               emitorStatus: post.emitor_status ?? 'STUDENT',
               departmentId: post.department_id ?? 1,
               tags: post.tags,
+              organizations: post.organizations ? post.organizations.map(o => o.id) : [],
             });
           } else {
             this.router.navigate(['/']);
@@ -121,6 +127,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
         department_id: value.departmentId ? value.departmentId : undefined,
         user_profile_id: value.author && value.author !== 0 ? value.author : undefined,
         emitor_status: value.emitorStatus && value.emitorStatus !== '' ? value.emitorStatus : undefined,
+        organization_ids: value.organizations ? value.organizations : [],
       };
     }));
 
@@ -154,6 +161,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     const author = this.postForm.value.author;
     const emitorStatus = this.postForm.value.emitorStatus ?? null;
     const departmentId = this.postForm.value.departmentId ?? null;
+    const organizations = this.postForm.value.organizations ?? [];
     const tags = this.postForm.value.tags ?? [];
 
     this.updateLoading = true;
@@ -184,6 +192,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
         .map(async tag => await this.tagsService.create({value: tag}));
 
       const updatedPost = await this.postsService.update(this.postId, post);
+      await this.postOrganizationService.update(updatedPost.id, organizations);
 
       if (uploadPath && this.post?.cover) {
         await this.storageService.deleteFromBucket(StorageService.BucketName.POST_COVERS, this.post.cover);

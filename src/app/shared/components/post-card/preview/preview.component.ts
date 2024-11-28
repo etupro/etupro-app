@@ -29,7 +29,7 @@ export class PostCardPreviewComponent implements OnChanges {
     author_name: null,
     emitor_status: null,
     user_profile_id: 0,
-    user_profiles: null,
+    author: null,
     created_at: '',
     updated_at: '',
   };
@@ -53,7 +53,7 @@ export class PostCardPreviewComponent implements OnChanges {
         this.userProfileService.getById(this.post.user_profile_id).then(userProfile => {
           this.postPreview = {
             ...this.postPreview,
-            user_profiles: userProfile,
+            author: userProfile,
           };
         });
       }

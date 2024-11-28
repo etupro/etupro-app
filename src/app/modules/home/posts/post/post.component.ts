@@ -19,6 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfimDeleteDialogComponent } from '../../../../shared/components/dialogs/confim-delete-dialog/confim-delete-dialog.component';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { EmitorStatusPipe } from '../../../../shared/pipes/emitor-status/emitor-status.pipe';
+import { OrganizationMiniaturesComponent } from '../../../../shared/components/organization-miniatures/organization-miniatures.component';
 import BucketName = StorageService.BucketName;
 
 @Component({
@@ -41,6 +42,7 @@ import BucketName = StorageService.BucketName;
     MatMenuTrigger,
     MatMenuItem,
     EmitorStatusPipe,
+    OrganizationMiniaturesComponent,
   ],
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
@@ -130,6 +132,10 @@ export class PostComponent implements OnInit, OnDestroy {
       }
       this.router.navigate(['/']);
     }
+  }
+
+  handleOrganizationClick(organizationId: number) {
+    this.router.navigate(['/', 'organizations', organizationId]);
   }
 
 }

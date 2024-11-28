@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Post } from '../../models/post.model';
 import { CommonModule } from '@angular/common';
-import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
+import { MatCard } from '@angular/material/card';
 import { MatChipListbox, MatChipOption } from '@angular/material/chips';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { Department } from '../../models/department.model';
 import { QueryPostTags } from '../../models/query-post-tags.model';
 import { EmitorStatusPipe } from '../../pipes/emitor-status/emitor-status.pipe';
+import { OrganizationMiniaturesComponent } from '../organization-miniatures/organization-miniatures.component';
 
 @Component({
   selector: 'app-post-card',
@@ -16,12 +17,10 @@ import { EmitorStatusPipe } from '../../pipes/emitor-status/emitor-status.pipe';
   imports: [
     CommonModule,
     MatCard,
-    MatCardTitle,
-    MatCardContent,
-    MatCardFooter,
     MatChipListbox,
     MatChipOption,
     EmitorStatusPipe,
+    OrganizationMiniaturesComponent,
   ]
 })
 export class PostCardComponent {
@@ -31,6 +30,7 @@ export class PostCardComponent {
 
   @Output() postClick = new EventEmitter<number>();
   @Output() tagClick = new EventEmitter<QueryPostTags>();
+  @Output() organizationClick = new EventEmitter<number>();
 
   handlePostClick() {
     this.postClick.emit(this.post.id);
