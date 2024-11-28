@@ -43,6 +43,10 @@ export class StorageService {
   }
 
   async getSignedUrls(bucketName: StorageService.BucketName, filePath: string[]): Promise<Map<string, string>> {
+    if (filePath.length === 0) {
+      return Map<string, string>();
+    }
+
     const signedUrlResponse = await this.supabaseService.client.storage.from(bucketName).createSignedUrls(filePath, 300);
 
     if (signedUrlResponse.error) {

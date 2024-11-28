@@ -112,6 +112,10 @@ export class PostsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'posts', postId]);
   }
 
+  navigateToOrganization(organizationId: number) {
+    this.router.navigate(['/', 'organizations', organizationId]);
+  }
+
   handleEmitorStatusRemoveClick() {
     this.query.emitorStatus = undefined;
 
