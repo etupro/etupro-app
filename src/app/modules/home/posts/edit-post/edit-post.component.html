@@ -31,6 +31,9 @@
         <app-emitor-status-select-input [required]="true"
                                         [valueControl]="postForm.controls.emitorStatus"></app-emitor-status-select-input>
 
+        <app-organizations-autocomplete-chips-input
+          [valuesControl]="postForm.controls.organizations"></app-organizations-autocomplete-chips-input>
+
         <app-tags-autocomplete-chips-input [valuesControl]="postForm.controls.tags"></app-tags-autocomplete-chips-input>
 
       </form>

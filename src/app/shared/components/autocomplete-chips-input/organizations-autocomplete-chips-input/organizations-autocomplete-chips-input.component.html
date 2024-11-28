@@ -2,3 +2,8 @@
                               [valuesControl]="valuesControl"
                               [readonly]="readonly"
                               label="Organisations"></app-autocomplete-chips-input>
+@if (!readonly) {
+  <button type="button" (click)="addOrganization()" [disabled]="readonly" mat-icon-button>
+    <mat-icon>add</mat-icon>
+  </button>
+}

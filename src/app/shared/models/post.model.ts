@@ -1,6 +1,7 @@
 import { Tables, TablesInsert, TablesUpdate } from './database.types';
 import { UserProfile } from './user-profile.model';
 import { Department } from './department.model';
+import { Organization } from './organiazation.model';
 
 export class Post implements Tables<'posts'> {
   id: number;
@@ -15,11 +16,13 @@ export class Post implements Tables<'posts'> {
   created_at: string;
   updated_at: string;
 
-  user_profiles?: UserProfile | null;
+  author?: UserProfile | null;
+  organizations?: Organization[];
   departments?: Department | null;
 }
 
 export namespace Post {
   export type Insert = TablesInsert<'posts'>;
   export type Update = TablesUpdate<'posts'>;
+  export type Preview = TablesUpdate<'posts'> & { organization_ids?: number[] };
 }

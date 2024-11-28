@@ -42,16 +42,12 @@
                                                     [valuesControl]="profileForm.controls.organizations"
                                                     label="Organisations"></app-organizations-autocomplete-chips-input>
 
-        <button (click)="addOrganization()" [disabled]="!readonly" color="primary" mat-raised-button>Ajouter une
-          organisation
-        </button>
-
         @if (isOwner) {
           <div class="form-buttons">
             @if (readonly) {
-              <button (click)="setFormEditMode()" color="primary" mat-button>Modifier</button>
+              <button (click)="setFormEditMode()" type="button" color="primary" mat-button>Modifier</button>
             } @else {
-              <button (click)="setFormReadOnly()" color="warn" mat-button>Annuler</button>
+              <button (click)="setFormReadOnly()" type="button" color="warn" mat-button>Annuler</button>
               <button type="submit" color="primary" mat-button>Sauvegarder</button>
             }
           </div>

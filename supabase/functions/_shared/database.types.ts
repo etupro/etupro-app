@@ -138,6 +138,36 @@ export type Database = {
           },
         ]
       }
+      post_organizations: {
+        Row: {
+          organization_id: number
+          post_id: number
+        }
+        Insert: {
+          organization_id: number
+          post_id: number
+        }
+        Update: {
+          organization_id?: number
+          post_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'post_organizations_organization_id_fkey'
+            columns: ['organization_id']
+            isOneToOne: false
+            referencedRelation: 'organizations'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'post_organizations_post_id_fkey'
+            columns: ['post_id']
+            isOneToOne: false
+            referencedRelation: 'posts'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       posts: {
         Row: {
           author_name: string | null

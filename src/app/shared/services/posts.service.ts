@@ -15,7 +15,7 @@ export class PostsService {
   async getAllByTags(queryPostTags: QueryPostTags): Promise<Post[]> {
     let query = this.supabaseService.client
       .from('posts')
-      .select('*, user_profiles(*), departments(*)');
+      .select('*, organizations!post_organizations(*), author:user_profiles(*), departments(*)');
 
     if (queryPostTags.departmentId) {
       query = query.eq('department_id', queryPostTags.departmentId);
@@ -43,7 +43,7 @@ export class PostsService {
   async getAllByUserProfileId(id: number): Promise<Post[]> {
     const response = await this.supabaseService.client
       .from('posts')
-      .select('*, user_profiles(*), departments(*)')
+      .select('*, organizations!post_organizations(*), author:user_profiles(*), departments(*)')
       .eq('user_profile_id', id)
       .order('updated_at', {ascending: false})
       .limit(100);
@@ -58,7 +58,7 @@ export class PostsService {
   async getById(id: number): Promise<Post | null> {
     const response = await this.supabaseService.client
       .from('posts')
-      .select('*, user_profiles(*), departments(*)')
+      .select('*, organizations!post_organizations(*), author:user_profiles(*), departments(*)')
       .eq('id', id)
       .maybeSingle();
 

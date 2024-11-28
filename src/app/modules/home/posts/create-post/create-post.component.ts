@@ -20,6 +20,8 @@ import { TagsAutocompleteChipsInputComponent } from '../../../../shared/componen
 import { DepartmentSelectInputComponent } from '../../../../shared/components/select-input/department-select-input/department-select-input.component';
 import { EmitorStatusSelectInputComponent } from '../../../../shared/components/select-input/emitor-status-select-input/emitor-status-select-input.component';
 import { UserSelectInputComponent } from '../../../../shared/components/select-input/user-select-input/user-select-input.component';
+import { OrganizationsAutocompleteChipsInputComponent } from '../../../../shared/components/autocomplete-chips-input/organizations-autocomplete-chips-input/organizations-autocomplete-chips-input.component';
+import { PostOrganizationsService } from '../../../../shared/services/post-organizations.service';
 
 @Component({
   selector: 'app-create-post',
@@ -42,7 +44,8 @@ import { UserSelectInputComponent } from '../../../../shared/components/select-i
     MatCardFooter,
     DepartmentSelectInputComponent,
     EmitorStatusSelectInputComponent,
-    UserSelectInputComponent
+    UserSelectInputComponent,
+    OrganizationsAutocompleteChipsInputComponent
   ],
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
@@ -56,12 +59,13 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     author: new FormControl<number>(0, {nonNullable: true, validators: [Validators.required]}),
     emitorStatus: new FormControl<string>('STUDENT', {nonNullable: true, validators: [Validators.required]}),
     departmentId: new FormControl<number>(1, {nonNullable: true, validators: [Validators.required]}),
+    organizations: new FormControl<number[]>([], {nonNullable: true}),
     tags: new FormControl<string[]>([], {nonNullable: true}),
   });
 
   createLoading = false;
 
-  postPreview: Post.Update = {};
+  postPreview: Post.Preview = {};
   coverUrl?: SafeResourceUrl;
 
   watcher = new Subscription();
@@ -69,6 +73,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService,
               private router: Router,
               private postsService: PostsService,
+              private postOrganizationService: PostOrganizationsService,
               private tagsService: TagsService,
               private storageService: StorageService,
               private readonly dom: DomSanitizer) {
@@ -83,6 +88,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         user_profile_id: value.author && value.author !== 0 ? value.author : undefined,
         emitor_status: value.emitorStatus && value.emitorStatus !== '' ? value.emitorStatus : undefined,
         department_id: value.departmentId ? value.departmentId : undefined,
+        organization_ids: value.organizations ? value.organizations : [],
       };
     }));
 
@@ -120,6 +126,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     const author = this.postForm.value.author;
     const departmentId = this.postForm.value.departmentId ?? null;
     const emitorStatus = this.postForm.value.emitorStatus ?? null;
+    const organizations = this.postForm.value.organizations ?? [];
     const tags = this.postForm.value.tags ?? [];
 
     let uploadPath: string | undefined;
@@ -148,8 +155,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       tags.filter(tag => !allTagValues.includes(tag))
         .map(async tag => await this.tagsService.create({value: tag}));
 
-      const postId = await this.postsService.create(post);
-      await this.router.navigate(['/', 'posts', postId]);
+      const createdPost = await this.postsService.create(post);
+      await this.postOrganizationService.update(createdPost.id, organizations);
+      await this.router.navigate(['/', 'posts', post.id]);
     } finally {
       this.createLoading = false;
     }

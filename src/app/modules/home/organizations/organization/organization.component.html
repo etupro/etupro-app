@@ -7,7 +7,7 @@
     </mat-card-title>
 
     <mat-card-content>
-      <form (reset)="setFormReadOnly()" (submit)="saveOrganization()" [formGroup]="organizationForm"
+      <form (submit)="saveOrganization()" [formGroup]="organizationForm"
             class="organization-form">
 
         <div class="organization-picture-container">
@@ -43,7 +43,7 @@
               <button type="button" (click)="setFormEditMode()" color="primary" mat-button>Modifier</button>
             } @else {
               @if (organizationId) {
-                <button type="reset" color="warn" mat-button>Annuler</button>
+                <button type="button" (click)="setFormReadOnly()" color="warn" mat-button>Annuler</button>
               }
               <button type="submit" color="primary" mat-button>Sauvegarder</button>
             }
