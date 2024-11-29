@@ -1,4 +1,4 @@
-import { User } from 'jsr:@supabase/supabase-js@2';
+import { User } from '@supabase/supabase-js';
 import { getServiceClient } from './service-client.ts';
 
 export async function getAuthUser(id: string): Promise<User> {

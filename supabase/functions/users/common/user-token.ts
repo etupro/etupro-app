@@ -1,5 +1,5 @@
 import { getServiceClient } from './service-client.ts';
-import { User } from 'jsr:@supabase/supabase-js@2';
+import { User } from '@supabase/supabase-js';
 
 export async function getUserFromToken(req: Request): Promise<User | null> {
   const authHeader = req.headers.get('Authorization')!;

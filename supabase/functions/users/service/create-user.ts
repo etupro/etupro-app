@@ -1,4 +1,4 @@
-import { User } from 'jsr:@supabase/supabase-js@2';
+import { User } from '@supabase/supabase-js';
 import { isSuperAdmin } from '../common/is-super-admin.ts';
 import { TablesInsert } from '../../_shared/database.types.ts';
 import { createAuthUser } from '../common/create-auth-user.ts';

@@ -1,4 +1,3 @@
-import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
 import { corsHeaders } from '../_shared/cors.ts';
 import { getUserById } from './service/get-user-by-id.ts';
 import { getUserFromToken } from './common/user-token.ts';

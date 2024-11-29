@@ -1,7 +1,7 @@
 import { isSuperAdmin } from '../common/is-super-admin.ts';
 import { getUserProfile } from '../common/get-user-profile.ts';
 import { getAuthUser } from '../common/get-auth-user.ts';
-import { User } from 'jsr:@supabase/supabase-js@2';
+import { User } from '@supabase/supabase-js';
 import { Tables } from '../../_shared/database.types.ts';
 
 type UserWithProfile = Tables<'user_profiles'> & { user: User };

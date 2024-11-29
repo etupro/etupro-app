@@ -1,6 +1,6 @@
 import { Tables, TablesUpdate } from '../../_shared/database.types.ts';
 import { getServiceClient } from './service-client.ts';
-import { DateTime } from 'npm:luxon@3';
+import { DateTime } from 'luxon';
 
 export async function updateUserProfile(id: number, userProfile: TablesUpdate<'user_profiles'>): Promise<Tables<'user_profiles'>> {
   const response = await getServiceClient()

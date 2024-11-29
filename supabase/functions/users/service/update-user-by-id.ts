@@ -1,4 +1,4 @@
-import { User } from 'jsr:@supabase/supabase-js@2';
+import { User } from '@supabase/supabase-js';
 import { isSuperAdmin } from '../common/is-super-admin.ts';
 import { updateUserProfile } from '../common/update-user-profile.ts';
 import { updateAuthUser } from '../common/update-auth-user.ts';

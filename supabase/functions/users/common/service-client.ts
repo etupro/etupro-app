@@ -1,4 +1,4 @@
-import { createClient, SupabaseClient } from 'jsr:@supabase/supabase-js@2';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '../../_shared/database.types.ts';
 
 let serviceClient: SupabaseClient<Database> | null = null;

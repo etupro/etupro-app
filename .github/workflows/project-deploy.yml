@@ -33,7 +33,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - run: deno --version
+
       - uses: supabase/setup-cli@v1
+        with:
+          version: 'latest'
 
       - name: link supabase project
         run: supabase link --project-ref $PROJECT_ID
