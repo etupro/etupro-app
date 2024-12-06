@@ -11,11 +11,3 @@
   object-fit: cover;
   aspect-ratio: 16 / 9;
 }
-
-.department-chip {
-  background-color: map.get(palettes.$ethical-colors, 'light') !important;
-}
-
-.emitor-chip {
-  background-color: map.get(palettes.$professional-colors, 'light') !important;
-}

@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatCard, MatCardContent, MatCardFooter, MatCardTitle } from '@angular/material/card';
-import { MatChipListbox, MatChipOption } from '@angular/material/chips';
 import { PublishCommentComponent } from '../../../../shared/components/publish-comment/publish-comment.component';
 import { CommentCardComponent } from '../../../../shared/components/comment-card/comment-card.component';
 import { StorageService } from '../../../../shared/services/storage.service';
@@ -18,8 +17,8 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfimDeleteDialogComponent } from '../../../../shared/components/dialogs/confim-delete-dialog/confim-delete-dialog.component';
 import { AuthService } from '../../../../shared/services/auth.service';
-import { EmitorStatusPipe } from '../../../../shared/pipes/emitor-status/emitor-status.pipe';
 import { OrganizationMiniaturesComponent } from '../../../../shared/components/organization-miniatures/organization-miniatures.component';
+import { PostChipListComponent } from '../../../../shared/components/post-chip-list/post-chip-list.component';
 import BucketName = StorageService.BucketName;
 
 @Component({
@@ -33,16 +32,14 @@ import BucketName = StorageService.BucketName;
     MatCardTitle,
     MatCardContent,
     MatCardFooter,
-    MatChipListbox,
-    MatChipOption,
     PublishCommentComponent,
     CommentCardComponent,
     MarkdownComponent,
     MatMenu,
     MatMenuTrigger,
     MatMenuItem,
-    EmitorStatusPipe,
     OrganizationMiniaturesComponent,
+    PostChipListComponent,
   ],
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']

@@ -17,6 +17,7 @@ import { Department } from '../../../../shared/models/department.model';
 import { DepartmentsService } from '../../../../shared/services/departments.service';
 import { QueryPostTags } from '../../../../shared/models/query-post-tags.model';
 import { EmitorStatusPipe } from '../../../../shared/pipes/emitor-status/emitor-status.pipe';
+import { PostLifecyclePipe } from '../../../../shared/pipes/post-lifecycle/post-lifecycle.pipe';
 
 @Component({
   selector: 'app-posts',
@@ -33,6 +34,7 @@ import { EmitorStatusPipe } from '../../../../shared/pipes/emitor-status/emitor-
     MatChipRemove,
     MatBadge,
     EmitorStatusPipe,
+    PostLifecyclePipe,
   ],
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss']
@@ -124,6 +126,12 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   handleDepartmentRemoveClick() {
     this.query.departmentId = undefined;
+
+    this.queryNavigation(this.query);
+  }
+
+  handleLifecycleRemoveClick() {
+    this.query.lifecycle = undefined;
 
     this.queryNavigation(this.query);
   }

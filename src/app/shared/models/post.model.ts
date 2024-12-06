@@ -2,6 +2,7 @@ import { Tables, TablesInsert, TablesUpdate } from './database.types';
 import { UserProfile } from './user-profile.model';
 import { Department } from './department.model';
 import { Organization } from './organiazation.model';
+import { PostLifecycle } from './enum/post_lifecycle.enum';
 
 export class Post implements Tables<'posts'> {
   id: number;
@@ -12,6 +13,7 @@ export class Post implements Tables<'posts'> {
   tags: string[];
   author_name: string | null;
   emitor_status: string | null;
+  lifecycle: PostLifecycle;
   department_id: number | null;
   created_at: string;
   updated_at: string;

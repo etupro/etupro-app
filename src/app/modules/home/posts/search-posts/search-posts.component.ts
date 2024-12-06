@@ -10,6 +10,7 @@ import { TagsAutocompleteChipsInputComponent } from '../../../../shared/componen
 import { DepartmentSelectInputComponent } from '../../../../shared/components/select-input/department-select-input/department-select-input.component';
 import { QueryPostTags } from '../../../../shared/models/query-post-tags.model';
 import { EmitorStatusSelectInputComponent } from '../../../../shared/components/select-input/emitor-status-select-input/emitor-status-select-input.component';
+import { PostLifecycleSelectInputComponent } from '../../../../shared/components/select-input/post-lifecycle-select-input/post-lifecycle-select-input.component';
 
 @Component({
   selector: 'app-posts-search',
@@ -24,7 +25,8 @@ import { EmitorStatusSelectInputComponent } from '../../../../shared/components/
     MatCard,
     MatCardTitle,
     DepartmentSelectInputComponent,
-    EmitorStatusSelectInputComponent
+    EmitorStatusSelectInputComponent,
+    PostLifecycleSelectInputComponent
   ],
   templateUrl: './search-posts.component.html',
   styleUrl: './search-posts.component.scss'
@@ -34,6 +36,7 @@ export class SearchPostsComponent implements OnInit, OnDestroy {
   searchForm = new FormGroup({
     departmentId: new FormControl<number | null>(null),
     emitorStatus: new FormControl<string | null>(null),
+    lifecycle: new FormControl<string | null>(null),
     tags: new FormControl<string[]>([], {nonNullable: true})
   });
 
@@ -56,6 +59,7 @@ export class SearchPostsComponent implements OnInit, OnDestroy {
       this.searchForm.setValue({
         departmentId: this.previousQuery.departmentId ?? null,
         emitorStatus: this.previousQuery.emitorStatus ?? null,
+        lifecycle: this.previousQuery.lifecycle ?? null,
         tags: this.previousQuery.tags ?? [],
       });
       }
@@ -77,6 +81,7 @@ export class SearchPostsComponent implements OnInit, OnDestroy {
     const query: QueryPostTags = new QueryPostTags({
       departmentId: this.searchForm.value.departmentId ?? undefined,
       emitorStatus: this.searchForm.value.emitorStatus ?? undefined,
+      lifecycle: this.searchForm.value.lifecycle ?? undefined,
       tags: this.searchForm.value.tags ?? undefined,
     });
 

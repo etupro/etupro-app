@@ -23,6 +23,8 @@ import { EmitorStatusSelectInputComponent } from '../../../../shared/components/
 import { UserSelectInputComponent } from '../../../../shared/components/select-input/user-select-input/user-select-input.component';
 import { OrganizationsAutocompleteChipsInputComponent } from '../../../../shared/components/autocomplete-chips-input/organizations-autocomplete-chips-input/organizations-autocomplete-chips-input.component';
 import { PostOrganizationsService } from '../../../../shared/services/post-organizations.service';
+import { PostLifecycleSelectInputComponent } from '../../../../shared/components/select-input/post-lifecycle-select-input/post-lifecycle-select-input.component';
+import { PostLifecycle } from '../../../../shared/models/enum/post_lifecycle.enum';
 
 @Component({
   selector: 'app-edit-post',
@@ -48,7 +50,8 @@ import { PostOrganizationsService } from '../../../../shared/services/post-organ
     DepartmentSelectInputComponent,
     EmitorStatusSelectInputComponent,
     UserSelectInputComponent,
-    OrganizationsAutocompleteChipsInputComponent
+    OrganizationsAutocompleteChipsInputComponent,
+    PostLifecycleSelectInputComponent
   ],
   templateUrl: './edit-post.component.html',
   styleUrl: './edit-post.component.scss'
@@ -62,10 +65,9 @@ export class EditPostComponent implements OnInit, OnDestroy {
     emitorStatus: new FormControl<string>('STUDENT', {nonNullable: true, validators: [Validators.required]}),
     departmentId: new FormControl<number>(1, {nonNullable: true, validators: [Validators.required]}),
     organizations: new FormControl<number[]>([], {nonNullable: true}),
+    lifecycle: new FormControl<PostLifecycle>('OPEN', {nonNullable: true, validators: [Validators.required]}),
     tags: new FormControl<string[]>([], {nonNullable: true}),
   });
-
-  updateLoading = false;
 
   postId: number | null = null;
   postLoading = false;
@@ -91,7 +93,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     }));
 
     this.watcher.add(this.route.params.subscribe(params => {
-      this.postId = params['id'];
+      this.postId = params['id'] === 'new' ? null : parseInt(params['id']);
       if (this.postId) {
         this.postLoading = true;
         this.postsService.getById(this.postId).then(post => {
@@ -108,6 +110,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
               emitorStatus: post.emitor_status ?? 'STUDENT',
               departmentId: post.department_id ?? 1,
               tags: post.tags,
+              lifecycle: post.lifecycle,
               organizations: post.organizations ? post.organizations.map(o => o.id) : [],
             });
           } else {
@@ -127,6 +130,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
         department_id: value.departmentId ? value.departmentId : undefined,
         user_profile_id: value.author && value.author !== 0 ? value.author : undefined,
         emitor_status: value.emitorStatus && value.emitorStatus !== '' ? value.emitorStatus : undefined,
+        lifecycle: value.lifecycle ? value.lifecycle : 'OPEN',
         organization_ids: value.organizations ? value.organizations : [],
       };
     }));
@@ -142,6 +146,14 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.watcher.unsubscribe();
+  }
+
+  async saveForm(): Promise<void> {
+    if (this.postId) {
+      await this.updatePost();
+    } else {
+      await this.createPost();
+    }
   }
 
   async updatePost() {
@@ -163,8 +175,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     const departmentId = this.postForm.value.departmentId ?? null;
     const organizations = this.postForm.value.organizations ?? [];
     const tags = this.postForm.value.tags ?? [];
-
-    this.updateLoading = true;
+    const lifecycle = this.postForm.value.lifecycle ?? 'OPEN';
 
     let uploadPath: string | undefined;
     if (cover) {
@@ -183,25 +194,71 @@ export class EditPostComponent implements OnInit, OnDestroy {
       emitor_status: emitorStatus,
       department_id: departmentId,
       tags,
+      lifecycle,
     };
 
-    try {
-      const allTags = await this.tagsService.getAll();
-      const allTagValues = allTags.map(d => d.value) ?? [];
-      tags.filter(tag => !allTagValues.includes(tag))
-        .map(async tag => await this.tagsService.create({value: tag}));
+    const allTags = await this.tagsService.getAll();
+    const allTagValues = allTags.map(d => d.value) ?? [];
+    tags.filter(tag => !allTagValues.includes(tag))
+      .map(async tag => await this.tagsService.create({value: tag}));
 
-      const updatedPost = await this.postsService.update(this.postId, post);
-      await this.postOrganizationService.update(updatedPost.id, organizations);
+    const updatedPost = await this.postsService.update(this.postId, post);
+    await this.postOrganizationService.update(updatedPost.id, organizations);
 
-      if (uploadPath && this.post?.cover) {
-        await this.storageService.deleteFromBucket(StorageService.BucketName.POST_COVERS, this.post.cover);
-      }
-
-      await this.router.navigate(['/', 'posts', updatedPost.id]);
-    } finally {
-      this.updateLoading = false;
+    if (uploadPath && this.post?.cover) {
+      await this.storageService.deleteFromBucket(StorageService.BucketName.POST_COVERS, this.post.cover);
     }
+
+    await this.router.navigate(['/', 'posts', updatedPost.id]);
+  }
+
+  async createPost() {
+    const userProfileId = this.authService.userProfileId;
+    if (!userProfileId) {
+      throw new Error('Une erreur s\'est produite lors de la création du post', {cause: 'Id de l\'utilisateur manquant'});
+    }
+
+    if (!this.postForm.valid) {
+      this.postForm.markAllAsTouched();
+      return;
+    }
+
+    const title = this.postForm.value.title ?? '';
+    const content = this.postForm.value.content ?? '';
+    const cover = this.postForm.value.cover ?? '';
+    const author = this.postForm.value.author;
+    const departmentId = this.postForm.value.departmentId ?? null;
+    const emitorStatus = this.postForm.value.emitorStatus ?? null;
+    const organizations = this.postForm.value.organizations ?? [];
+    const tags = this.postForm.value.tags ?? [];
+
+    let uploadPath: string | undefined;
+    if (cover) {
+      uploadPath = await this.storageService.uploadToBucket(StorageService.BucketName.POST_COVERS, cover);
+    }
+
+    if (!author) {
+      throw new Error('Une erreur s\'est produite lors de la création du post', {cause: 'Id de l\'auteur manquant'});
+    }
+
+    const post: Post.Insert = {
+      title,
+      content,
+      cover: uploadPath,
+      user_profile_id: author,
+      department_id: departmentId,
+      emitor_status: emitorStatus,
+      tags,
+    };
+
+    const allTags = await this.tagsService.getAll();
+    const allTagValues = allTags.map(d => d.value) ?? [];
+    tags.filter(tag => !allTagValues.includes(tag))
+      .map(async tag => await this.tagsService.create({value: tag}));
+
+    const createdPost = await this.postsService.create(post);
+    await this.postOrganizationService.update(createdPost.id, organizations);
+    await this.router.navigate(['/', 'posts', createdPost.id]);
   }
 
   handleCoverUpload(coverUrl: File) {

@@ -2,12 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Post } from '../../models/post.model';
 import { CommonModule } from '@angular/common';
 import { MatCard } from '@angular/material/card';
-import { MatChipListbox, MatChipOption } from '@angular/material/chips';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { Department } from '../../models/department.model';
 import { QueryPostTags } from '../../models/query-post-tags.model';
-import { EmitorStatusPipe } from '../../pipes/emitor-status/emitor-status.pipe';
 import { OrganizationMiniaturesComponent } from '../organization-miniatures/organization-miniatures.component';
+import { PostChipListComponent } from '../post-chip-list/post-chip-list.component';
 
 @Component({
   selector: 'app-post-card',
@@ -17,10 +15,8 @@ import { OrganizationMiniaturesComponent } from '../organization-miniatures/orga
   imports: [
     CommonModule,
     MatCard,
-    MatChipListbox,
-    MatChipOption,
-    EmitorStatusPipe,
     OrganizationMiniaturesComponent,
+    PostChipListComponent,
   ]
 })
 export class PostCardComponent {
@@ -36,24 +32,8 @@ export class PostCardComponent {
     this.postClick.emit(this.post.id);
   }
 
-  handleEmitorStatusClick(emitorStatus: string, event: MouseEvent) {
-    event.stopPropagation();
-    this.tagClick.emit(new QueryPostTags({
-      emitorStatus: emitorStatus,
-    }));
+  handleTagClick(query: QueryPostTags) {
+    this.tagClick.emit(query);
   }
 
-  handleDepartmentClick(department: Department, event: MouseEvent) {
-    event.stopPropagation();
-    this.tagClick.emit(new QueryPostTags({
-      departmentId: department.id,
-    }));
-  }
-
-  handleTagClick(tag: string, event: MouseEvent) {
-    event.stopPropagation();
-    this.tagClick.emit(new QueryPostTags({
-      tags: [tag],
-    }));
-  }
 }
