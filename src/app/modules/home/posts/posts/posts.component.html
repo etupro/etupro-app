@@ -24,6 +24,14 @@
             </button>
           </mat-chip>
         }
+        @if (query.lifecycle) {
+          <mat-chip (removed)="handleLifecycleRemoveClick()" [removable]="true">
+            {{ query.lifecycle | postLifecycle }}
+            <button matChipRemove aria-label="Remove">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        }
         @for (tag of query.tags; track tag) {
           <mat-chip (removed)="handleTagRemoveClick(tag)" [removable]="true">
             {{ tag }}

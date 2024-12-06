@@ -1,0 +1,23 @@
+<mat-chip-listbox aria-label="Post tags" class="post-infos-tags">
+  @if (post.lifecycle) {
+    <mat-chip-option [selectable]="false"
+                     class="lifecycle-chip"
+                     (click)="handleLifecycleClick(post.lifecycle, $event)">{{ post.lifecycle | postLifecycle }}
+    </mat-chip-option>
+  }
+  @if (post.emitor_status) {
+    <mat-chip-option [selectable]="false"
+                     class="emitor-chip"
+                     (click)="handleEmitorStatusClick(post.emitor_status, $event)">{{ post.emitor_status | emitorStatus }}
+    </mat-chip-option>
+  }
+  @if (post.departments) {
+    <mat-chip-option [selectable]="false"
+                     class="department-chip"
+                     (click)="handleDepartmentClick(post.departments, $event)">{{ post.departments.number + ' - ' + post.departments.name }}
+    </mat-chip-option>
+  }
+  @for (tag of post.tags; track tag) {
+    <mat-chip-option [selectable]="false" (click)="handleTagClick(tag, $event)">{{ tag }}</mat-chip-option>
+  }
+</mat-chip-listbox>

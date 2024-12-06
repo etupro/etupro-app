@@ -25,6 +25,10 @@ export class PostsService {
       query = query.eq('emitor_status', queryPostTags.emitorStatus);
     }
 
+    if (queryPostTags.lifecycle) {
+      query = query.eq('lifecycle', queryPostTags.lifecycle);
+    }
+
     if (queryPostTags.tags && queryPostTags.tags.length > 0) {
       query = query.contains('tags', queryPostTags.tags);
     }

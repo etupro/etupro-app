@@ -177,6 +177,7 @@ export type Database = {
           department_id: number | null
           emitor_status: string | null
           id: number
+          lifecycle: Database['public']['Enums']['post_lifecycle']
           tags: string[]
           title: string
           updated_at: string
@@ -190,6 +191,7 @@ export type Database = {
           department_id?: number | null
           emitor_status?: string | null
           id?: number
+          lifecycle?: Database['public']['Enums']['post_lifecycle']
           tags: string[]
           title: string
           updated_at?: string
@@ -203,6 +205,7 @@ export type Database = {
           department_id?: number | null
           emitor_status?: string | null
           id?: number
+          lifecycle?: Database['public']['Enums']['post_lifecycle']
           tags?: string[]
           title?: string
           updated_at?: string
@@ -308,6 +311,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      post_lifecycle: 'OPEN' | 'ONGOING' | 'FINISHED'
       roles: "SUPER_ADMIN" | "ADMIN" | "USER"
     }
     CompositeTypes: {

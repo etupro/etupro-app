@@ -31,6 +31,9 @@
         <app-emitor-status-select-input [required]="true"
                                         [valueControl]="postForm.controls.emitorStatus"></app-emitor-status-select-input>
 
+        <app-post-lifecycle-select-input [required]="true"
+                                         [valueControl]="postForm.controls.lifecycle"></app-post-lifecycle-select-input>
+
         <app-organizations-autocomplete-chips-input
           [valuesControl]="postForm.controls.organizations"></app-organizations-autocomplete-chips-input>
 
@@ -40,7 +43,7 @@
     </mat-card-content>
 
     <mat-card-footer>
-      <button (click)="updatePost()" color="primary" mat-raised-button>Sauvegarder</button>
+      <button (click)="saveForm()" color="primary" mat-raised-button>Sauvegarder</button>
     </mat-card-footer>
   </mat-card>
 

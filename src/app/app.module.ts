@@ -10,6 +10,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideMarkdown } from 'ngx-markdown';
 import { EmitorStatusPipe } from './shared/pipes/emitor-status/emitor-status.pipe';
 import { RolePipe } from './shared/pipes/role/role.pipe';
+import { PostLifecyclePipe } from './shared/pipes/post-lifecycle/post-lifecycle.pipe';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RolePipe } from './shared/pipes/role/role.pipe';
     provideAnimationsAsync(),
     provideMarkdown(),
     EmitorStatusPipe,
-    RolePipe
+    RolePipe,
+    PostLifecyclePipe,
   ],
   bootstrap: [AppComponent]
 })

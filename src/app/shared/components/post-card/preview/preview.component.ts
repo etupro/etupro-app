@@ -29,6 +29,7 @@ export class PostCardPreviewComponent implements OnChanges {
     author_name: null,
     emitor_status: null,
     user_profile_id: 0,
+    lifecycle: 'OPEN',
     author: null,
     created_at: '',
     updated_at: '',
@@ -63,6 +64,7 @@ export class PostCardPreviewComponent implements OnChanges {
         title: this.post?.title ?? 'Titre',
         content: this.post?.content ?? 'Contenu',
         tags: this.post?.tags ?? ['tag1', 'tag2'],
+        lifecycle: this.post?.lifecycle ?? 'OPEN',
         emitor_status: this.post?.emitor_status ?? null,
       };
     }
