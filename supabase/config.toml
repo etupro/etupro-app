@@ -74,9 +74,9 @@ enabled = true
 enabled = true
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
 # in emails.
-site_url = "http://localhost:4200"
+site_url = "https://app.etupro.fr"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
-additional_redirect_urls = ["http://localhost:4200", "http://localhost:4200/auth/password-change"]
+additional_redirect_urls = ["http://localhost:4200", "http://localhost:4200/auth/password-change", "https://app.etupro.fr/auth/password-change"]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
 # If disabled, the refresh token will never expire.
@@ -113,7 +113,7 @@ enable_signup = true
 # If enabled, users need to confirm their phone number before signing in.
 enable_confirmations = false
 # Template for sending OTP to users
-template = "Your code is {{ .Code }} ."
+template = "Votre code est {{ .Code }} ."
 # Controls the minimum amount of time that must pass before sending another sms otp.
 max_frequency = "5s"
 
