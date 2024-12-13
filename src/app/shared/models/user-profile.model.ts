@@ -2,6 +2,7 @@ import { Tables, TablesInsert, TablesUpdate } from './database.types';
 import { User } from '@supabase/supabase-js';
 import { Role } from './enum/role.enum';
 import { Organization } from './organiazation.model';
+import { StudentInformations } from './student-informations';
 
 export class UserProfile implements Tables<'user_profiles'> {
   id: number;
@@ -12,6 +13,7 @@ export class UserProfile implements Tables<'user_profiles'> {
   updated_at: string;
 
   user?: User;
+  studentInformations?: StudentInformations;
   organizations?: Organization[];
 }
 

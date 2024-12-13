@@ -228,6 +228,50 @@ export type Database = {
           },
         ]
       }
+      student_informations: {
+        Row: {
+          created_at: string
+          description: string | null
+          phone_number: string | null
+          picture_path: string | null
+          skills: string[]
+          study_institute: string
+          study_label: string
+          study_level: string
+          user_id: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          phone_number?: string | null
+          picture_path?: string | null
+          skills?: string[]
+          study_institute: string
+          study_label: string
+          study_level: string
+          user_id?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          phone_number?: string | null
+          picture_path?: string | null
+          skills?: string[]
+          study_institute?: string
+          study_label?: string
+          study_level?: string
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'student_informations_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: true
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       tags: {
         Row: {
           created_at: string
