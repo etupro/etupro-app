@@ -21,12 +21,12 @@ export class AuthService {
   constructor(private supabaseService: SupabaseService,
               private userProfileService: UserProfileService,
               private snackbarService: SnackbarService) {
-    this.supabaseService.client.auth.getUser().then(({data}) => {
-      this._user$.next(data.user);
+    this.supabaseService.client.auth.getSession().then(({data: {session}}) => {
+      this._user$.next(session?.user ?? null);
+    });
 
-      this.supabaseService.client.auth.onAuthStateChange((event, session) => {
-        this._user$.next(session?.user ?? null);
-      });
+    this.supabaseService.client.auth.onAuthStateChange((event, session) => {
+      this._user$.next(session?.user ?? null);
     });
 
     this.user$.subscribe(async user => {
@@ -64,9 +64,7 @@ export class AuthService {
     let userProfile: UserProfile | null | undefined;
     if (this._user) {
       userProfile = await this.userProfileService.getByUserId(this._user.id);
-    }
-
-    if (this._user === null) {
+    } else {
       userProfile = null;
     }
 

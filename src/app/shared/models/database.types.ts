@@ -231,35 +231,29 @@ export type Database = {
       student_informations: {
         Row: {
           created_at: string
-          description: string | null
-          phone_number: string | null
-          picture_path: string | null
           skills: string[]
           study_institute: string
           study_label: string
           study_level: string
+          updated_at: string
           user_id: number
         }
         Insert: {
           created_at?: string
-          description?: string | null
-          phone_number?: string | null
-          picture_path?: string | null
           skills?: string[]
           study_institute: string
           study_label: string
           study_level: string
+          updated_at?: string
           user_id?: number
         }
         Update: {
           created_at?: string
-          description?: string | null
-          phone_number?: string | null
-          picture_path?: string | null
           skills?: string[]
           study_institute?: string
           study_label?: string
           study_level?: string
+          updated_at?: string
           user_id?: number
         }
         Relationships: [
@@ -323,24 +317,33 @@ export type Database = {
       user_profiles: {
         Row: {
           created_at: string
+          description: string | null
           display_name: string
           id: number
+          phone_number: string | null
+          picture_path: string | null
           role: Database["public"]["Enums"]["roles"]
           updated_at: string
           user_id: string
         }
         Insert: {
           created_at?: string
+          description?: string | null
           display_name: string
           id?: number
+          phone_number?: string | null
+          picture_path?: string | null
           role?: Database["public"]["Enums"]["roles"]
           updated_at?: string
           user_id: string
         }
         Update: {
           created_at?: string
+          description?: string | null
           display_name?: string
           id?: number
+          phone_number?: string | null
+          picture_path?: string | null
           role?: Database["public"]["Enums"]["roles"]
           updated_at?: string
           user_id?: string
