@@ -1,0 +1,50 @@
+<form [formGroup]="form">
+  <mat-form-field class="full-width">
+    <mat-label>Institut d'Étude</mat-label>
+    <input [formControl]="form.controls.study_institute" matInput placeholder="Enter your institute of study">
+    @if (form.controls.study_institute.hasError('required')) {
+      <mat-error>Le nom de l'institut est requis</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Niveau d'Étude</mat-label>
+    <input [formControl]="form.controls.study_level" matInput placeholder="Enter your study level">
+    @if (form.controls.study_level.hasError('required')) {
+      <mat-error>Le niveau d'étude est requis</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Filière</mat-label>
+    <input [formControl]="form.controls.study_label" matInput placeholder="Enter your field of study">
+    @if (form.controls.study_label.hasError('required')) {
+      <mat-error>La filière est requise</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Compétences</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Sélection des valeurs">
+      @for (skill of form.controls.skills.value; track skill) {
+        <mat-chip-row [removable]="true" (removed)="removeSkill(skill)">
+          {{ skill }}
+          <button [attr.aria-label]="'Supprimer ' + skill" matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+    </mat-chip-grid>
+
+    <input
+      (matChipInputTokenEnd)="addSkill($event)"
+      [formControl]="newSkill"
+      [matChipInputFor]="chipGrid"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      matInput
+      placeholder="Enter a skill and press Enter">
+    @if (form.controls.skills.hasError('required')) {
+      <mat-error>Les compétences sont requises</mat-error>
+    }
+  </mat-form-field>
+</form>
