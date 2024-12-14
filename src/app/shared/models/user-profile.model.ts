@@ -9,6 +9,9 @@ export class UserProfile implements Tables<'user_profiles'> {
   user_id: string;
   display_name: string;
   role: Role;
+  description: string | null;
+  phone_number: string | null;
+  picture_path: string | null;
   created_at: string;
   updated_at: string;
 

@@ -1,0 +1,33 @@
+<form [formGroup]="form">
+  <app-single-picture-input
+    (fileSaved)="handlePictureUpload($event)"
+    [withFormat]="false"></app-single-picture-input>
+
+  <mat-form-field class="full-width">
+    <mat-label>Pseudonyme</mat-label>
+    <input [formControl]="form.controls.display_name" matInput placeholder="Enter your display name">
+    @if (form.controls['display_name'].hasError('required')) {
+      <mat-error>Pseudonyme est requis</mat-error>
+    }
+    @if (form.controls['display_name'].hasError('min')) {
+      <mat-error>Le pseudonyme doit contenir au moins 5 caractères</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Description</mat-label>
+    <textarea [formControl]="form.controls.description" matInput placeholder="Enter a short description"></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Téléphone</mat-label>
+    <input [formControl]="form.controls.phone_number" matInput placeholder="Enter your phone number" type="tel">
+    @if (form.controls['phone_number'].hasError('pattern')) {
+      <mat-error>Veuillez renseigner un numéro valide</mat-error>
+    }
+    @if (form.controls['phone_number'].hasError('required')) {
+      <mat-error>Le téléphone est requis</mat-error>
+    }
+  </mat-form-field>
+
+</form>

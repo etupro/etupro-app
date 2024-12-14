@@ -154,7 +154,6 @@ export class UserComponent implements OnInit, OnDestroy {
     await this.userProfileService.update(this.userProfile.id, {display_name: displayName});
     await this.userOrganizationsService.update(this.userProfile.id, organizations);
     await this.authService.updateUserProfile();
-    console.log('user');
     this.snackbarService.openSnackBar('Sauvegardé !');
     this.readonly = true;
   }
