@@ -1,11 +1,13 @@
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { UserProfileFormModel } from '../models/user-profile-form.model';
-import { Subscription } from 'rxjs';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { SinglePictureInputComponent } from '../../../../../shared/components/single-picture-input/single-picture-input.component';
+import {Component, Input, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
+import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {UserProfileFormModel} from '../models/user-profile-form.model';
+import {Subscription} from 'rxjs';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {
+    SinglePictureInputComponent
+} from '../../../../../shared/components/single-picture-input/single-picture-input.component';
 
 @Component({
   selector: 'app-profile-form',
