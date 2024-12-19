@@ -2,11 +2,12 @@ import { Tables, TablesInsert, TablesUpdate } from './database.types';
 import { User } from '@supabase/supabase-js';
 import { Role } from './enum/role.enum';
 import { Organization } from './organiazation.model';
-import { StudentInformations } from './student-informations';
+import { StudentInformation } from './student-information';
 
 export class UserProfile implements Tables<'user_profiles'> {
   id: number;
   user_id: string;
+  student_information_id: number | null;
   display_name: string;
   role: Role;
   description: string | null;
@@ -16,7 +17,7 @@ export class UserProfile implements Tables<'user_profiles'> {
   updated_at: string;
 
   user?: User;
-  studentInformations?: StudentInformations;
+  studentInformation?: StudentInformation | null;
   organizations?: Organization[];
 }
 

@@ -74,6 +74,7 @@ export class StorageService {
 
 export namespace StorageService {
   export enum BucketName {
+    PROFILE_PICTURE = 'profile_pictures',
     POST_COVERS = "post_covers",
     ORGANIZATION_IMAGES = "organization_images"
   }

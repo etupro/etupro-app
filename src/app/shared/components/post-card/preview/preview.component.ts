@@ -25,7 +25,7 @@ export class PostCardPreviewComponent implements OnChanges {
     content: 'Contenu',
     cover: null,
     tags: ['tag1', 'tag2'],
-    department_id: null,
+    department_code: null,
     author_name: null,
     emitor_status: null,
     user_profile_id: 0,
@@ -41,8 +41,8 @@ export class PostCardPreviewComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['post']) {
-      if (this.post?.department_id) {
-        this.departmentsService.getById(this.post.department_id).then(department => {
+      if (this.post?.department_code) {
+        this.departmentsService.getByCode(this.post.department_code).then(department => {
           this.postPreview = {
             ...this.postPreview,
             departments: department,

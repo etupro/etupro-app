@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { Router } from "@angular/router";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { AuthService } from "../../../shared/services/auth.service";
-import { CommonModule } from "@angular/common";
-import { MatCard, MatCardContent, MatCardTitle } from "@angular/material/card";
-import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
-import { MatButton, MatIconButton } from "@angular/material/button";
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../../shared/services/auth.service';
+import { CommonModule } from '@angular/common';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatAnchor, MatButton, MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
@@ -24,13 +24,14 @@ import { MatButton, MatIconButton } from "@angular/material/button";
     MatIconButton,
     MatButton,
     MatLabel,
-    MatError
+    MatError,
+    MatAnchor
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  redirect = ['/'];
+  redirect: string | null = null; // Store redirectTo value
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -41,7 +42,13 @@ export class LoginComponent {
 
   hide = true;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute // Inject ActivatedRoute to access query params
+  ) {
+    // Read query parameter on initialization
+    this.redirect = this.route.snapshot.queryParamMap.get('redirectTo');
   }
 
   async login() {
@@ -53,6 +60,13 @@ export class LoginComponent {
     const password = this.loginForm.value.password ?? '';
 
     await this.authService.login(email, password);
-    this.router.navigate(this.redirect);
+
+    // Redirect to `redirectTo` if present, else default route
+    this.router.navigateByUrl(this.redirect || '/');
+  }
+
+  // Preserve `redirectTo` when navigating to registration
+  navigateToRegister() {
+    this.router.navigate(['/auth/register'], {queryParams: {redirectTo: this.redirect ?? undefined}});
   }
 }

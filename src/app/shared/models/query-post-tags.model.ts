@@ -2,13 +2,13 @@ import { Params } from '@angular/router';
 
 export class QueryPostTags {
   tags: string[] | undefined;
-  departmentId: number | undefined;
+  departmentCode: string | undefined;
   emitorStatus: string | undefined;
   lifecycle: string | undefined;
 
   constructor(builder?: QueryPostTags.Builder) {
     this.tags = builder?.tags;
-    this.departmentId = builder?.departmentId;
+    this.departmentCode = builder?.departmentCode;
     this.emitorStatus = builder?.emitorStatus;
     this.lifecycle = builder?.lifecycle;
   }
@@ -17,13 +17,13 @@ export class QueryPostTags {
     if (!queryParams) return new QueryPostTags();
 
     const tags = queryParams['tags']?.split(',') || [];
-    const departmentId = queryParams['departmentId'] ? parseInt(queryParams['departmentId'], 10) : undefined;
+    const departmentCode = queryParams['departmentCode'];
     const emitorStatus = queryParams['emitorStatus'];
     const lifecycle = queryParams['lifecycle'];
 
     return new QueryPostTags({
       tags,
-      departmentId,
+      departmentCode: departmentCode,
       emitorStatus,
       lifecycle,
     });
@@ -32,21 +32,21 @@ export class QueryPostTags {
   toQueryParams(): Params {
     return {
       'tags': this.tags?.length ? this.tags.join(',') : undefined,
-      'departmentId': this.departmentId ? this.departmentId.toString() : undefined,
+      'departmentCode': this.departmentCode ? this.departmentCode.toString() : undefined,
       'emitorStatus': this.emitorStatus,
       'lifecycle': this.lifecycle,
     };
   }
 
   filterCount(): number {
-    return (this.tags?.length ?? 0) + (this.departmentId ? 1 : 0) + (this.emitorStatus ? 1 : 0) + (this.lifecycle ? 1 : 0);
+    return (this.tags?.length ?? 0) + (this.departmentCode ? 1 : 0) + (this.emitorStatus ? 1 : 0) + (this.lifecycle ? 1 : 0);
   }
 }
 
 export namespace QueryPostTags {
   export interface Builder {
     tags?: string[];
-    departmentId?: number;
+    departmentCode?: string;
     emitorStatus?: string;
     lifecycle?: string;
   }

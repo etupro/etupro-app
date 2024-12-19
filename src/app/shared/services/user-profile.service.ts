@@ -26,7 +26,7 @@ export class UserProfileService {
   async getById(id: number): Promise<UserProfile | null> {
     const response = await this.supabaseService.client
       .from('user_profiles')
-      .select('*, organizations!user_organizations(*)')
+      .select('*, organizations!user_organizations(*), studentInformation:student_informations(*)')
       .eq('id', id)
       .single();
 
@@ -40,7 +40,7 @@ export class UserProfileService {
   async getByUserId(id: string): Promise<UserProfile | null> {
     const response = await this.supabaseService.client
       .from('user_profiles')
-      .select('*, organizations!user_organizations(*)')
+      .select('*, organizations!user_organizations(*), studentInformation:student_informations(*)')
       .eq('user_id', id)
       .single();
 

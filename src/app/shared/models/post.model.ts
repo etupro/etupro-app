@@ -14,9 +14,10 @@ export class Post implements Tables<'posts'> {
   author_name: string | null;
   emitor_status: string | null;
   lifecycle: PostLifecycle;
-  department_id: number | null;
+  department_code: string | null;
   created_at: string;
   updated_at: string;
+
 
   author?: UserProfile | null;
   organizations?: Organization[];

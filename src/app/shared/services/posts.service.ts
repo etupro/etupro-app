@@ -17,8 +17,8 @@ export class PostsService {
       .from('posts')
       .select('*, organizations!post_organizations(*), author:user_profiles(*), departments(*)');
 
-    if (queryPostTags.departmentId) {
-      query = query.eq('department_id', queryPostTags.departmentId);
+    if (queryPostTags.departmentCode) {
+      query = query.eq('department_code', queryPostTags.departmentCode);
     }
 
     if (queryPostTags.emitorStatus) {
