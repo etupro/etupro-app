@@ -34,7 +34,7 @@ import { PostLifecycleSelectInputComponent } from '../../../../shared/components
 export class SearchPostsComponent implements OnInit, OnDestroy {
 
   searchForm = new FormGroup({
-    departmentId: new FormControl<number | null>(null),
+    departmentCode: new FormControl<string | null>(null),
     emitorStatus: new FormControl<string | null>(null),
     lifecycle: new FormControl<string | null>(null),
     tags: new FormControl<string[]>([], {nonNullable: true})
@@ -57,7 +57,7 @@ export class SearchPostsComponent implements OnInit, OnDestroy {
       this.previousQuery = QueryPostTags.fromQueryParams(params);
 
       this.searchForm.setValue({
-        departmentId: this.previousQuery.departmentId ?? null,
+        departmentCode: this.previousQuery.departmentCode ?? null,
         emitorStatus: this.previousQuery.emitorStatus ?? null,
         lifecycle: this.previousQuery.lifecycle ?? null,
         tags: this.previousQuery.tags ?? [],
@@ -79,7 +79,7 @@ export class SearchPostsComponent implements OnInit, OnDestroy {
 
   handleSubmit() {
     const query: QueryPostTags = new QueryPostTags({
-      departmentId: this.searchForm.value.departmentId ?? undefined,
+      departmentCode: this.searchForm.value.departmentCode ?? undefined,
       emitorStatus: this.searchForm.value.emitorStatus ?? undefined,
       lifecycle: this.searchForm.value.lifecycle ?? undefined,
       tags: this.searchForm.value.tags ?? undefined,

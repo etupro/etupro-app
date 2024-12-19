@@ -76,32 +76,72 @@ export type Database = {
           },
         ]
       }
+      communes: {
+        Row: {
+          code: string
+          code_department: string
+          created_at: string
+          name: string
+          updated_at: string
+          zip_code: string
+        }
+        Insert: {
+          code: string
+          code_department: string
+          created_at?: string
+          name: string
+          updated_at?: string
+          zip_code: string
+        }
+        Update: {
+          code?: string
+          code_department?: string
+          created_at?: string
+          name?: string
+          updated_at?: string
+          zip_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'communes_code_department_fkey'
+            columns: ['code_department']
+            isOneToOne: false
+            referencedRelation: 'departments'
+            referencedColumns: ['code']
+          },
+        ]
+      }
       departments: {
         Row: {
+          code: string
+          code_region: string | null
           created_at: string
-          id: number
           name: string
-          number: string
-          region: string
           updated_at: string
         }
         Insert: {
+          code: string
+          code_region?: string | null
           created_at?: string
-          id?: number
           name: string
-          number: string
-          region: string
           updated_at?: string
         }
         Update: {
+          code?: string
+          code_region?: string | null
           created_at?: string
-          id?: number
           name?: string
-          number?: string
-          region?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: 'departments_code_region_fkey'
+            columns: ['code_region']
+            isOneToOne: false
+            referencedRelation: 'regions'
+            referencedColumns: ['code']
+          },
+        ]
       }
       organizations: {
         Row: {
@@ -174,7 +214,7 @@ export type Database = {
           content: string
           cover: string | null
           created_at: string
-          department_id: number | null
+          department_code: string | null
           emitor_status: string | null
           id: number
           lifecycle: Database['public']['Enums']['post_lifecycle']
@@ -188,7 +228,7 @@ export type Database = {
           content: string
           cover?: string | null
           created_at?: string
-          department_id?: number | null
+          department_code?: string | null
           emitor_status?: string | null
           id?: number
           lifecycle?: Database['public']['Enums']['post_lifecycle']
@@ -202,7 +242,7 @@ export type Database = {
           content?: string
           cover?: string | null
           created_at?: string
-          department_id?: number | null
+          department_code?: string | null
           emitor_status?: string | null
           id?: number
           lifecycle?: Database['public']['Enums']['post_lifecycle']
@@ -213,11 +253,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "posts_department_id_fkey"
-            columns: ["department_id"]
+            foreignKeyName: 'posts_department_code_fkey'
+            columns: ['department_code']
             isOneToOne: false
             referencedRelation: "departments"
-            referencedColumns: ["id"]
+            referencedColumns: ['code']
           },
           {
             foreignKeyName: "posts_user_profile_id_fkey"
@@ -228,43 +268,56 @@ export type Database = {
           },
         ]
       }
+      regions: {
+        Row: {
+          code: string
+          created_at: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       student_informations: {
         Row: {
           created_at: string
+          id: number
           skills: string[]
           study_institute: string
           study_label: string
           study_level: string
           updated_at: string
-          user_id: number
         }
         Insert: {
           created_at?: string
+          id?: number
           skills?: string[]
           study_institute: string
           study_label: string
           study_level: string
           updated_at?: string
-          user_id?: number
         }
         Update: {
           created_at?: string
+          id?: number
           skills?: string[]
           study_institute?: string
           study_label?: string
           study_level?: string
           updated_at?: string
-          user_id?: number
         }
-        Relationships: [
-          {
-            foreignKeyName: 'student_informations_user_id_fkey'
-            columns: ['user_id']
-            isOneToOne: true
-            referencedRelation: 'user_profiles'
-            referencedColumns: ['id']
-          },
-        ]
+        Relationships: []
       }
       tags: {
         Row: {
@@ -323,6 +376,7 @@ export type Database = {
           phone_number: string | null
           picture_path: string | null
           role: Database["public"]["Enums"]["roles"]
+          student_information_id: number | null
           updated_at: string
           user_id: string
         }
@@ -334,6 +388,7 @@ export type Database = {
           phone_number?: string | null
           picture_path?: string | null
           role?: Database["public"]["Enums"]["roles"]
+          student_information_id?: number | null
           updated_at?: string
           user_id: string
         }
@@ -345,10 +400,19 @@ export type Database = {
           phone_number?: string | null
           picture_path?: string | null
           role?: Database["public"]["Enums"]["roles"]
+          student_information_id?: number | null
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: 'user_profiles_student_information_id_fkey'
+            columns: ['student_information_id']
+            isOneToOne: true
+            referencedRelation: 'student_informations'
+            referencedColumns: ['id']
+          },
+        ]
       }
     }
     Views: {

@@ -108,7 +108,12 @@ export class AuthService {
   }
 
   async logout(): Promise<void> {
-    await this.supabaseService.client.auth.signOut();
+    const result = await this.supabaseService.client.auth.signOut();
+
+    if (result.error) {
+      await this.supabaseService.client.auth.refreshSession();
+      throw new Error(result.error.message);
+    }
   }
 
   async resetPassword(email: string): Promise<void> {

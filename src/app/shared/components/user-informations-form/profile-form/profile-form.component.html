@@ -1,7 +1,14 @@
-<form [formGroup]="form">
-  <app-single-picture-input
-    (fileSaved)="handlePictureUpload($event)"
-    [withFormat]="false"></app-single-picture-input>
+<form [formGroup]="form" class="user-profile-form">
+  <div class="profile-picture-container">
+    @if (coverUrl) {
+      <img class="profile-picture" [src]="coverUrl" alt="profile picture image"/>
+    }
+    <app-single-picture-input
+      (fileSaved)="handlePictureUpload($event)"
+      [withFormat]="false"
+      class="profile-picture-drop"></app-single-picture-input>
+  </div>
+
 
   <mat-form-field class="full-width">
     <mat-label>Pseudonyme</mat-label>

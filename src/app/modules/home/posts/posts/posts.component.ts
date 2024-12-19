@@ -89,8 +89,8 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   searchDepartment() {
-    if (this.query.departmentId) {
-      this.departmentsService.getById(this.query.departmentId).then(department => {
+    if (this.query.departmentCode) {
+      this.departmentsService.getByCode(this.query.departmentCode).then(department => {
         this.department = department;
       });
     } else {
@@ -125,7 +125,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   handleDepartmentRemoveClick() {
-    this.query.departmentId = undefined;
+    this.query.departmentCode = undefined;
 
     this.queryNavigation(this.query);
   }

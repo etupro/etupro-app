@@ -63,7 +63,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     cover: new FormControl<File | undefined>(undefined),
     author: new FormControl<number>(0, {nonNullable: true, validators: [Validators.required]}),
     emitorStatus: new FormControl<string>('STUDENT', {nonNullable: true, validators: [Validators.required]}),
-    departmentId: new FormControl<number>(1, {nonNullable: true, validators: [Validators.required]}),
+    departmentCode: new FormControl<string>('1', {nonNullable: true, validators: [Validators.required]}),
     organizations: new FormControl<number[]>([], {nonNullable: true}),
     lifecycle: new FormControl<PostLifecycle>('OPEN', {nonNullable: true, validators: [Validators.required]}),
     tags: new FormControl<string[]>([], {nonNullable: true}),
@@ -84,7 +84,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
               private postOrganizationService: PostOrganizationsService,
               private tagsService: TagsService,
               private storageService: StorageService,
-              private readonly dom: DomSanitizer) {
+              private dom: DomSanitizer) {
   }
 
   ngOnInit() {
@@ -108,7 +108,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
               cover: null,
               author: post.user_profile_id,
               emitorStatus: post.emitor_status ?? 'STUDENT',
-              departmentId: post.department_id ?? 1,
+              departmentCode: post.department_code ?? '1',
               tags: post.tags,
               lifecycle: post.lifecycle,
               organizations: post.organizations ? post.organizations.map(o => o.id) : [],
@@ -127,7 +127,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
         title: value.title && value.title !== '' ? value.title : undefined,
         content: value.content && value.content !== '' ? value.content : undefined,
         tags: value.tags && value.tags.length !== 0 ? value.tags : undefined,
-        department_id: value.departmentId ? value.departmentId : undefined,
+        department_code: value.departmentCode ? value.departmentCode : undefined,
         user_profile_id: value.author && value.author !== 0 ? value.author : undefined,
         emitor_status: value.emitorStatus && value.emitorStatus !== '' ? value.emitorStatus : undefined,
         lifecycle: value.lifecycle ? value.lifecycle : 'OPEN',
@@ -172,7 +172,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     const cover = this.postForm.value.cover ?? '';
     const author = this.postForm.value.author;
     const emitorStatus = this.postForm.value.emitorStatus ?? null;
-    const departmentId = this.postForm.value.departmentId ?? null;
+    const departmentCode = this.postForm.value.departmentCode ?? null;
     const organizations = this.postForm.value.organizations ?? [];
     const tags = this.postForm.value.tags ?? [];
     const lifecycle = this.postForm.value.lifecycle ?? 'OPEN';
@@ -192,7 +192,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
       cover: uploadPath,
       user_profile_id: author,
       emitor_status: emitorStatus,
-      department_id: departmentId,
+      department_code: departmentCode,
       tags,
       lifecycle,
     };
@@ -227,7 +227,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     const content = this.postForm.value.content ?? '';
     const cover = this.postForm.value.cover ?? '';
     const author = this.postForm.value.author;
-    const departmentId = this.postForm.value.departmentId ?? null;
+    const departmentCode = this.postForm.value.departmentCode ?? null;
     const emitorStatus = this.postForm.value.emitorStatus ?? null;
     const organizations = this.postForm.value.organizations ?? [];
     const tags = this.postForm.value.tags ?? [];
@@ -246,7 +246,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
       content,
       cover: uploadPath,
       user_profile_id: author,
-      department_id: departmentId,
+      department_code: departmentCode,
       emitor_status: emitorStatus,
       tags,
     };

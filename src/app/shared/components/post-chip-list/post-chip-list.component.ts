@@ -41,7 +41,7 @@ export class PostChipListComponent {
   handleDepartmentClick(department: Department, event: MouseEvent) {
     event.stopPropagation();
     this.tagClick.emit(new QueryPostTags({
-      departmentId: department.id,
+      departmentCode: department.code,
     }));
   }
 
