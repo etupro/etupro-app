@@ -1,7 +1,7 @@
 <form [formGroup]="form">
   <mat-form-field class="full-width">
     <mat-label>Institut d'Étude</mat-label>
-    <input [formControl]="form.controls.study_institute" matInput placeholder="Enter your institute of study">
+    <input [formControl]="form.controls.study_institute" matInput placeholder="Université Paul Valéry">
     @if (form.controls.study_institute.hasError('required')) {
       <mat-error>Le nom de l'institut est requis</mat-error>
     }
@@ -9,7 +9,7 @@
 
   <mat-form-field class="full-width">
     <mat-label>Niveau d'Étude</mat-label>
-    <input [formControl]="form.controls.study_level" matInput placeholder="Enter your study level">
+    <input [formControl]="form.controls.study_level" matInput placeholder="Bac+3">
     @if (form.controls.study_level.hasError('required')) {
       <mat-error>Le niveau d'étude est requis</mat-error>
     }
@@ -17,7 +17,7 @@
 
   <mat-form-field class="full-width">
     <mat-label>Filière</mat-label>
-    <input [formControl]="form.controls.study_label" matInput placeholder="Enter your field of study">
+    <input [formControl]="form.controls.study_label" matInput placeholder="Sociologie">
     @if (form.controls.study_label.hasError('required')) {
       <mat-error>La filière est requise</mat-error>
     }
@@ -42,7 +42,7 @@
       [matChipInputFor]="chipGrid"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       matInput
-      placeholder="Enter a skill and press Enter">
+      placeholder="Sondages">
     @if (form.controls.skills.hasError('required')) {
       <mat-error>Les compétences sont requises</mat-error>
     }

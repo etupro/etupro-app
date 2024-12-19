@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -6,6 +6,7 @@ import { StudentInformationsFormModel } from '../models/student-informations-for
 import { MatChipGrid, MatChipInput, MatChipInputEvent, MatChipRemove, MatChipRow } from '@angular/material/chips';
 import { ENTER } from '@angular/cdk/keycodes';
 import { MatIcon } from '@angular/material/icon';
+import { StudentInformation } from '../../../models/student-information';
 
 @Component({
   selector: 'app-student-form',
@@ -25,14 +26,28 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './student-form.component.html',
   styleUrl: './student-form.component.scss'
 })
-export class StudentFormComponent {
+export class StudentFormComponent implements OnChanges {
 
+  @Input() studentInformations: StudentInformation | null = null;
   @Input() form!: FormGroup<StudentInformationsFormModel>;
 
-  readonly separatorKeysCodes = [ENTER] as const; // Define Enter and Comma as separators
-  newSkill = new FormControl(''); // Temporary input for adding a new skill
+  readonly separatorKeysCodes = [ENTER] as const;
+  newSkill = new FormControl('');
 
-  // Add a new skill to the form control's value
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['studentInformations']) {
+      if (this.studentInformations) {
+        this.form.setValue({
+          study_institute: this.studentInformations.study_institute,
+          study_level: this.studentInformations.study_level,
+          study_label: this.studentInformations.study_label,
+          skills: this.studentInformations.skills,
+        });
+      }
+
+    }
+  }
+
   addSkill(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value) {
@@ -41,12 +56,10 @@ export class StudentFormComponent {
       this.form.controls.skills.markAsDirty();
     }
 
-    // Clear the input field
     event.chipInput!.clear();
     this.newSkill.reset();
   }
 
-  // Removes a skill from the list
   removeSkill(skill: string): void {
     const skills = this.form.controls.skills.value || [];
     const index = skills.indexOf(skill);

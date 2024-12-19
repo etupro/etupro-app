@@ -1,0 +1,101 @@
+<mat-stepper #stepper [orientation]="(stepperOrientation | async)!" linear>
+  <mat-step>
+    <ng-template matStepLabel>Step 1</ng-template>
+    <ng-template matStepContent>
+      <div class="app-page-container">
+        <mat-card class="app-page-card">
+          <mat-card-content>
+            <p>
+              Sapristi invite les étudiants qui le souhaitent à proposer des ateliers artistiques et culturels à
+              réaliser au
+              domicile des personnes en situation d’isolement.<br/>
+              Les ateliers durent d’une à deux heures et sont facturés 30,00€ par atelier (soit environ 22,00€ après
+              déclaration).<br/>
+              Pour en bénéficier vous devez suivre une formation gratuite et valorisable sur le CV de Service À la
+              Personne
+              (SAP). La formation dure deux demi-journées en distanciel.<br/>
+              À l’issue de la formation, vous êtes invité à proposer un atelier qui sera évalué par la dirigeante de
+              Sapristi. <br/>
+              Elle vous donnera alors la possibilité de proposer vos ateliers sur le catalogue.<br/>
+              Etupro vous accompagne administrativement tout au long de la démarche pour s’assurer que vous soyez
+              correctement rémunéré.<br/>
+              Pour bénéficier du partenariat avec Sapristi, vous devez renseigner des informations supplémentaires liées
+              aux
+              spécificités du SAP.
+            </p>
+            <div>
+              <button mat-button matStepperNext>Suivant</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-template>
+  </mat-step>
+  <mat-step [stepControl]="profileForm">
+    <ng-template matStepLabel>Compte</ng-template>
+    <ng-template matStepContent>
+      <div class="app-page-container">
+        <mat-card class="app-page-card">
+          <mat-card-content>
+            <app-profile-form [form]="profileForm"
+                              [userProfile]="userProfile"></app-profile-form>
+            <div>
+              <button mat-button matStepperPrevious>Précédent</button>
+              <button (click)="saveUserProfile()" mat-button>Suivant</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-template>
+  </mat-step>
+  <mat-step [stepControl]="studentForm">
+    <ng-template matStepLabel>Étudiant</ng-template>
+    <ng-template matStepContent>
+      <div class="app-page-container">
+        <mat-card class="app-page-card">
+          <mat-card-content>
+            <app-student-form [form]="studentForm"
+                              [studentInformations]="userProfile?.studentInformation ?? null"></app-student-form>
+            <div>
+              <button mat-button matStepperPrevious>Précédent</button>
+              <button (click)="saveStudentInformation()" mat-button>Suivant</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-template>
+  </mat-step>
+  <mat-step [stepControl]="sapristiForm">
+    <ng-template matStepLabel>Sapristi</ng-template>
+    <ng-template matStepContent>
+      <div class="app-page-container">
+        <mat-card class="app-page-card">
+          <mat-card-content>
+            <app-sapristi-form [form]="sapristiForm"></app-sapristi-form>
+            <div>
+              <button mat-button matStepperPrevious>Précédent</button>
+              <button (click)="saveSapristi()" mat-button>Suivant</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-template>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Tutoriel</ng-template>
+    <ng-template matStepContent>
+      <div class="app-page-container">
+        <mat-card class="app-page-card">
+          <mat-card-content>
+            <p>
+              Et maintenant on vous explique comment qu'on fait une micro-entreprise
+            </p>
+            <div>
+              <button mat-button matStepperPrevious>Précédent</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-template>
+  </mat-step>
+</mat-stepper>

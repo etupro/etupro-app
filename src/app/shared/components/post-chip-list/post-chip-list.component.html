@@ -14,7 +14,7 @@
   @if (post.departments) {
     <mat-chip-option [selectable]="false"
                      class="department-chip"
-                     (click)="handleDepartmentClick(post.departments, $event)">{{ post.departments.number + ' - ' + post.departments.name }}
+                     (click)="handleDepartmentClick(post.departments, $event)">{{ post.departments.code + ' - ' + post.departments.name }}
     </mat-chip-option>
   }
   @for (tag of post.tags; track tag) {

@@ -28,9 +28,10 @@
           }
         </mat-form-field>
         <button color="primary" mat-raised-button type="submit">Connexion</button>
+
         <div class="bottom-form-links">
-          <a href="/auth/password-reset">Mot de passe oublié</a>
-          <a href="/auth/register">Inscription</a>
+          <a href="/auth/password-reset" mat-button>Mot de passe oublié</a>
+          <button (click)="navigateToRegister()" mat-button>Inscription</button>
         </div>
       </form>
     </mat-card-content>

@@ -1,0 +1,80 @@
+<form [formGroup]="form">
+  <div class="sapristi-form-block">
+    <h3>Intervention à l'extérieur</h3>
+    <p>
+      🌳 En plus des activités à domicile, seriez-vous intéressé·e pour <b>accompagner</b> la personne chez
+      qui vous intervenez à l'<b>extérieur</b> de chez elle ? Pour par exemple <b>aller à une exposition</b>, à un <b>spectacle</b>,
+      mais aussi faire du shopping, aller boire un café, se
+      balader, etc.
+    </p>
+    <div class="sapristi-form-radio-outside">
+      <p>Pas du tout</p>
+      <mat-radio-group [formControl]="form.controls.external_activity" aria-label="Volonté d'activité en extérieur">
+        <mat-radio-button [value]="1">1</mat-radio-button>
+        <mat-radio-button [value]="2">2</mat-radio-button>
+        <mat-radio-button [value]="3">3</mat-radio-button>
+        <mat-radio-button [value]="4">4</mat-radio-button>
+        <mat-radio-button [value]="5">5</mat-radio-button>
+      </mat-radio-group>
+      <p>Ce serait idéal</p>
+    </div>
+  </div>
+
+  <div class="sapristi-form-block">
+    <h3>Aide ménagère</h3>
+    <p>
+      🧹Seriez vous également intéressé·e pour réaliser des heures <b>d'accompagnement au quotidien</b> pour
+      la personne chez qui vous intervenez ? <b>(aide aux courses, aide au ménage,...)</b>
+    </p>
+    <mat-radio-group [formControl]="form.controls.external_activity" aria-label="Volonté d'aide ménagère">
+      <mat-radio-button [value]="true">Oui</mat-radio-button>
+      <mat-radio-button [value]="false">Non</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <div class="sapristi-form-block">
+    <h3>Vos possibilités, vos limites</h3>
+    <h4>Cette partie a pour but d'identifier clairement vos limites.</h4>
+    <p>
+      🤫Les informations recueillies ici sont strictement confidentielles et ne seront pas diffusés au delà de l'équipe
+      de SAPristi&compagnie.
+      <br/><br/>
+      <b>Sentez vous libre de répondre franchement. Les interventions ne doivent pas vous mettre mal à l'aise ou en
+        difficulté.</b> Chacun a sa sensibilité, il faut savoir la respecter.
+      <br/><br/>
+      Les rencontres ou les lieux pourront parfois vous toucher, c'est pourquoi des espaces de parole individuels et
+      collectifs vous seront proposés.
+      <br/><br/>
+      <b>Avant toute première intervention</b> un <b>module de préparation</b> à l'intervention à
+      domicile vous serez proposé afin que vous puissiez vous rendre le plus sereinement possible sur vos interventions.
+      <br/><br/>
+      Les réponses données ici ne sont qu'à <b>titre indicatif</b>. Vous pourrez par la suite les modifier
+      lors de votre expérience de terrain.
+    </p>
+  </div>
+
+  <div class="sapristi-form-block">
+    <h3>Lieux</h3>
+    <p>
+      Y a-t-il des lieux où vous ne souhaitez <b>PAS</b> intervenir ? (EHPAD, résidence sénior, certains services
+      hospitaliers, etc.)
+      <em>Si oui lesquels ?</em>
+    </p>
+    <mat-form-field class="full-width">
+      <mat-label>Lieux</mat-label>
+      <textarea [formControl]="form.controls.banned_places" matInput placeholder="Votre réponse"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="sapristi-form-block">
+    <h3>Pathologies</h3>
+    <p>
+      Y a-t-il des pathologies ou handicaps auprès desquels (a priori) vous ne souhaitez <b>PAS</b> intervenir ?
+      <em>Si oui lesquels ?</em>
+    </p>
+    <mat-form-field class="full-width">
+      <mat-label>Pathologies</mat-label>
+      <textarea [formControl]="form.controls.banned_illnesses" matInput placeholder="Votre réponse"></textarea>
+    </mat-form-field>
+  </div>
+</form>

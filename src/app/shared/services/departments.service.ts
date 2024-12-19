@@ -10,11 +10,11 @@ export class DepartmentsService {
   constructor(private supabaseService: SupabaseService) {
   }
 
-  async getById(id: number): Promise<Department | null> {
+  async getByCode(code: string): Promise<Department | null> {
     const response = await this.supabaseService.client
       .from('departments')
       .select('*')
-      .eq('id', id)
+      .eq('code', code)
       .maybeSingle();
 
     if (response.error) {
@@ -28,7 +28,7 @@ export class DepartmentsService {
     const response = await this.supabaseService.client
       .from('departments')
       .select('*')
-      .order('id', {ascending: true});
+      .order('code', {ascending: true});
 
     if (response.error) {
       throw new Error('Erreur lors de la récupération des départements', {cause: response.error});

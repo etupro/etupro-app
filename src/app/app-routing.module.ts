@@ -5,6 +5,11 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
+  {
+    path: 'home',
     loadChildren: () => import('./modules/home/home-routing.module').then(m => m.HomeRoutingModule),
   },
   {
@@ -14,6 +19,10 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./modules/admin/admin-routing.module').then(m => m.AdminRoutingModule),
+  },
+  {
+    path: 'sapristi',
+    loadChildren: () => import('./modules/sapristi/sapristi-routing.module').then(m => m.SapristiRoutingModule),
   },
 ];
 

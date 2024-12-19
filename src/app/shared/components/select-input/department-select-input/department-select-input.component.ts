@@ -17,10 +17,10 @@ import { SelectInputComponent } from '../select-input.component';
 })
 export class DepartmentSelectInputComponent implements OnInit {
 
-  @Input() valueControl = new FormControl<number | null>(null);
+  @Input() valueControl = new FormControl<string | null>(null);
   @Input() required = false;
 
-  allDepartments: SelectElement<number>[] = [];
+  allDepartments: SelectElement<string>[] = [];
 
   constructor(private departmentsService: DepartmentsService) {
   }
@@ -29,8 +29,8 @@ export class DepartmentSelectInputComponent implements OnInit {
     this.departmentsService.getAll().then(departments => {
       this.allDepartments = departments.map(d => {
         return {
-          value: d.id,
-          label: d.number + ' - ' + d.name
+          value: d.code,
+          label: d.code + ' - ' + d.name
         };
       }) ?? [];
     });

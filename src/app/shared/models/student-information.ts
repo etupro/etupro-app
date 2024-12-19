@@ -1,7 +1,7 @@
 import { Tables, TablesInsert, TablesUpdate } from './database.types';
 
-export class StudentInformations implements Tables<'student_informations'> {
-  user_id: number;
+export class StudentInformation implements Tables<'student_informations'> {
+  id: number;
   study_institute: string;
   study_label: string;
   study_level: string;
@@ -10,7 +10,7 @@ export class StudentInformations implements Tables<'student_informations'> {
   updated_at: string;
 }
 
-export namespace StudentInformations {
+export namespace StudentInformation {
   export type Insert = TablesInsert<'student_informations'>;
   export type Update = TablesUpdate<'student_informations'>;
 }

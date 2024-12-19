@@ -18,7 +18,7 @@
         }
         @if (department) {
           <mat-chip (removed)="handleDepartmentRemoveClick()" [removable]="true">
-            {{ department.number + ' - ' + department.name }}
+            {{ department.code + ' - ' + department.name }}
             <button matChipRemove aria-label="Remove">
               <mat-icon>cancel</mat-icon>
             </button>
