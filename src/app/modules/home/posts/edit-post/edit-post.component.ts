@@ -100,7 +100,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
           this.post = post;
           if (post) {
             if (this.authService.userProfileRole !== 'SUPER_ADMIN' && post.user_profile_id !== this.authService.userProfileId) {
-              this.router.navigate(['/', 'posts', this.postId]);
+              this.router.navigate(['/', 'home', 'posts', this.postId]);
             }
             this.postForm.setValue({
               title: post.title,
@@ -209,7 +209,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
       await this.storageService.deleteFromBucket(StorageService.BucketName.POST_COVERS, this.post.cover);
     }
 
-    await this.router.navigate(['/', 'posts', updatedPost.id]);
+    await this.router.navigate(['/', 'home', 'posts', updatedPost.id]);
   }
 
   async createPost() {
@@ -258,7 +258,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
     const createdPost = await this.postsService.create(post);
     await this.postOrganizationService.update(createdPost.id, organizations);
-    await this.router.navigate(['/', 'posts', createdPost.id]);
+    await this.router.navigate(['/', 'home', 'posts', createdPost.id]);
   }
 
   handleCoverUpload(coverUrl: File) {
@@ -266,6 +266,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
   }
 
   cancel() {
-    this.router.navigate(['/', 'posts', this.postId]);
+    this.router.navigate(['/', 'home', 'posts', this.postId]);
   }
 }

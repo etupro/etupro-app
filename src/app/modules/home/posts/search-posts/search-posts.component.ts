@@ -96,6 +96,6 @@ export class SearchPostsComponent implements OnInit, OnDestroy {
     const navigationExtras: NavigationExtras = {
       queryParams: query.toQueryParams()
     };
-    this.router.navigate(['/posts'], navigationExtras);
+    this.router.navigate(['/', 'home', 'posts'], navigationExtras);
   }
 }

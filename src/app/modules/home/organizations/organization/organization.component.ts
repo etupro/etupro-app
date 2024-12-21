@@ -163,7 +163,7 @@ export class OrganizationComponent implements OnInit, OnDestroy {
       }
 
       this.snackbarService.openSnackBar('Sauvegardé !');
-      this.router.navigate(['/', 'organizations', newOrganization?.id]);
+      this.router.navigate(['/', 'home', 'organizations', newOrganization?.id]);
     }
   }
 

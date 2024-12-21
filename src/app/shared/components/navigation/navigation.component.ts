@@ -60,7 +60,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   async handlePosts() {
-    await this.router.navigate(['/', 'posts']);
+    await this.router.navigate(['/', 'home', 'posts']);
   }
 
   async handleRegister() {
@@ -68,6 +68,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   async handleProfile() {
-    await this.router.navigate(['/', 'users', this.currentUser?.id]);
+    await this.router.navigate(['/', 'home', 'users', this.currentUser?.id]);
   }
 }

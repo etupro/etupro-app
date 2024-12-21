@@ -4,9 +4,16 @@
     <mat-card-content>
       <form (ngSubmit)="register()" [formGroup]="registerForm" class="register-form-container">
         <mat-form-field>
-          <mat-label>Nom complet</mat-label>
-          <input [formControl]="registerForm.controls.displayName" matInput placeholder="Bob Razowski" required>
-          @if (registerForm.controls.displayName.errors?.['required']) {
+          <mat-label>Prénom</mat-label>
+          <input [formControl]="registerForm.controls.firstname" matInput placeholder="Bob" required>
+          @if (registerForm.controls.firstname.errors?.['required']) {
+            <mat-error>Ce champs est requis</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Nom</mat-label>
+          <input [formControl]="registerForm.controls.lastname" matInput placeholder="Razowski" required>
+          @if (registerForm.controls.lastname.errors?.['required']) {
             <mat-error>Ce champs est requis</mat-error>
           }
         </mat-form-field>

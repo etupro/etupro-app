@@ -371,8 +371,9 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
-          display_name: string
+          firstname: string
           id: number
+          lastname: string
           phone_number: string | null
           picture_path: string | null
           role: Database['public']['Enums']['roles']
@@ -383,8 +384,9 @@ export type Database = {
         Insert: {
           created_at?: string
           description?: string | null
-          display_name: string
+          firstname: string
           id?: number
+          lastname: string
           phone_number?: string | null
           picture_path?: string | null
           role?: Database['public']['Enums']['roles']
@@ -395,8 +397,9 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string | null
-          display_name?: string
+          firstname?: string
           id?: number
+          lastname?: string
           phone_number?: string | null
           picture_path?: string | null
           role?: Database['public']['Enums']['roles']

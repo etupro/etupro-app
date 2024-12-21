@@ -3,12 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from '../../../core/guard/auth.guard';
 import { UserComponent } from './user/user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { superAdminGuard } from '../../../core/guard/super-admin.guard';
 
 const routes: Routes = [
   {
     path: 'new',
     component: EditUserComponent,
-    canActivate: [authGuard],
+    canActivate: [superAdminGuard],
   },
   {
     path: ':id',

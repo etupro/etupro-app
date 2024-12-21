@@ -34,7 +34,8 @@ export class RegisterComponent {
   redirect: string | null = null; // Store redirectTo value
 
   registerForm = new FormGroup({
-    displayName: new FormControl('', [Validators.required]),
+    firstname: new FormControl('', [Validators.required]),
+    lastname: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -60,11 +61,12 @@ export class RegisterComponent {
       return;
     }
 
-    const displayName = this.registerForm.value.displayName ?? '';
+    const firstname = this.registerForm.value.firstname ?? '';
+    const lastname = this.registerForm.value.lastname ?? '';
     const email = this.registerForm.value.email ?? '';
     const password = this.registerForm.value.password ?? '';
 
-    await this.authService.register(displayName, email, password);
+    await this.authService.register(firstname, lastname, email, password);
 
     // Redirect to `redirectTo` if present, else default route
     this.router.navigateByUrl(this.redirect || '/');

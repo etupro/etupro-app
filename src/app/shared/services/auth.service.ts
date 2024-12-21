@@ -81,9 +81,11 @@ export class AuthService {
     if (response.data.weakPassword) {
       this.snackbarService.openSnackBar(response.data.weakPassword.message);
     }
+
+    this._user$.next(response.data.user);
   }
 
-  async register(displayName: string, email: string, password: string) {
+  async register(firstname: string, lastname: string, email: string, password: string) {
     const response = await this.supabaseService.client.auth.signUp({email, password});
 
     if (response.error || !response.data?.user) {
@@ -92,7 +94,8 @@ export class AuthService {
 
     const userProfile = await this.userProfileService.create({
       user_id: response.data.user.id,
-      display_name: displayName
+      firstname,
+      lastname
     });
     this._userProfile$.next(userProfile);
   }

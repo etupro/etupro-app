@@ -42,7 +42,8 @@ export class ProfileFormComponent implements OnChanges, OnDestroy {
     if (changes['userProfile']) {
       if (this.userProfile) {
         this.form.setValue({
-          display_name: this.userProfile.display_name,
+          firstname: this.userProfile.firstname,
+          lastname: this.userProfile.lastname,
           description: this.userProfile.description,
           phone_number: this.userProfile.phone_number,
           picture_path: null,

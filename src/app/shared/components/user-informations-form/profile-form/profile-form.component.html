@@ -11,13 +11,18 @@
 
 
   <mat-form-field class="full-width">
-    <mat-label>Pseudonyme</mat-label>
-    <input [formControl]="form.controls.display_name" matInput placeholder="Enter your display name">
-    @if (form.controls['display_name'].hasError('required')) {
-      <mat-error>Pseudonyme est requis</mat-error>
+    <mat-label>Prénom</mat-label>
+    <input [formControl]="form.controls.firstname" matInput placeholder="Renseigner votre prénom">
+    @if (form.controls.firstname.hasError('required')) {
+      <mat-error>Le prénom est requis</mat-error>
     }
-    @if (form.controls['display_name'].hasError('min')) {
-      <mat-error>Le pseudonyme doit contenir au moins 5 caractères</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Nom</mat-label>
+    <input [formControl]="form.controls.lastname" matInput placeholder="Renseigner votre nom">
+    @if (form.controls.lastname.hasError('required')) {
+      <mat-error>Le nom est requis</mat-error>
     }
   </mat-form-field>
 

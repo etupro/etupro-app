@@ -99,7 +99,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   }
 
   navigateToPostCreation() {
-    this.router.navigate(['/', 'posts', 'create']);
+    this.router.navigate(['/', 'home', 'posts', 'create']);
   }
 
   navigateToSearchPosts() {
@@ -107,15 +107,15 @@ export class PostsComponent implements OnInit, OnDestroy {
       queryParams: this.query.toQueryParams(),
     };
 
-    this.router.navigate(['/', 'posts', 'search'], navigationExtras);
+    this.router.navigate(['/', 'home', 'posts', 'search'], navigationExtras);
   }
 
   navigateToPost(postId: number) {
-    this.router.navigate(['/', 'posts', postId]);
+    this.router.navigate(['/', 'home', 'posts', postId]);
   }
 
   navigateToOrganization(organizationId: number) {
-    this.router.navigate(['/', 'organizations', organizationId]);
+    this.router.navigate(['/', 'home', 'organizations', organizationId]);
   }
 
   handleEmitorStatusRemoveClick() {
@@ -148,7 +148,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     const navigationExtras: NavigationExtras = {
       queryParams: query.toQueryParams()
     };
-    this.router.navigate(['/posts'], navigationExtras);
+    this.router.navigate(['/', 'home', 'posts'], navigationExtras);
   }
 
 }

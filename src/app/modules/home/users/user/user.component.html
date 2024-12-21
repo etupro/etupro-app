@@ -1,23 +1,26 @@
 <div class="app-page-container">
   <mat-card class="app-page-card">
     <mat-card-title>
-      <h1>Profil</h1>
+      <h1>{{ userProfile ? userProfile.firstname + ' ' + userProfile.lastname : 'Profil' }}</h1>
     </mat-card-title>
 
     <mat-card-content>
-      <form (submit)="editProfile()" [formGroup]="profileForm">
-        <mat-form-field class="full-width-form-field">
-          <mat-label>Nom complet</mat-label>
-          <input [formControl]="profileForm.controls.displayName"
-                 [readonly]="readonly"
-                 matInput
-                 placeholder="Bob Razowski"
-                 [required]="!readonly">
-          @if (readonly && profileForm.controls.displayName.errors?.['required']) {
-            <mat-error>Ce champs est requis</mat-error>
-          }
-        </mat-form-field>
+      <p><strong>Description:</strong> {{ userProfile?.description || 'Not Provided' }}</p>
+      <p><strong>Phone:</strong> {{ userProfile?.phone_number || 'Not Provided' }}</p>
 
+      @if (userProfile?.studentInformation) {
+        <h3>Student Information:</h3>
+        <p><strong>Institute:</strong> {{ userProfile?.studentInformation?.study_institute }}</p>
+        <p><strong>Study Label:</strong> {{ userProfile?.studentInformation?.study_label }}</p>
+        <p><strong>Study Level:</strong> {{ userProfile?.studentInformation?.study_level }}</p>
+        <p><strong>Skills:</strong> {{ userProfile?.studentInformation?.skills?.join(', ') }}</p>
+      }
+
+      <button (click)="navigateToEdit()" color="primary" mat-button>Edit Profile</button>
+      <button (click)="navigateToSapristi()" mat-button>Sapristi</button>
+
+      <mat-divider></mat-divider>
+      <form (submit)="editProfile()" [formGroup]="profileForm">
         @if (isOwner) {
           <mat-form-field class="full-width-form-field">
             <mat-label>Email</mat-label>

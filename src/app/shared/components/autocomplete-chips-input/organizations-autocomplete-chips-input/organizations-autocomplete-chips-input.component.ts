@@ -42,6 +42,6 @@ export class OrganizationsAutocompleteChipsInputComponent implements OnInit {
   }
 
   addOrganization() {
-    this.router.navigate(['/', 'organizations', 'new']);
+    this.router.navigate(['/', 'home', 'organizations', 'new']);
   }
 }

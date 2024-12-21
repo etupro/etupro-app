@@ -15,7 +15,7 @@
 
   <div class="post-infos-container">
     <div class="post-infos-title-container">
-      <h6 class="no-margin">{{ post.author_name ?? post.author?.display_name ?? 'Anonyme' }}</h6>
+      <h6 class="no-margin">{{ getPostAuthorName() }}</h6>
       <h2>{{ post.title }}</h2>
     </div>
 
