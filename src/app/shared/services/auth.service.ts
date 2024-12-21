@@ -14,7 +14,7 @@ import { environment } from '../../../environments/environment';
 export class AuthService {
   private _user$ = new BehaviorSubject<User | null | undefined>(undefined);
   private _userProfile$ = new BehaviorSubject<UserProfile | null | undefined>(undefined);
-  private user$ = this._user$.pipe(filter(_ => _ !== undefined)) as Observable<User | null>;
+  user$ = this._user$.pipe(filter(_ => _ !== undefined)) as Observable<User | null>;
   userProfile$ = this._userProfile$.pipe(filter(_ => _ !== undefined)) as Observable<UserProfile | null>;
   private _user: User | null | undefined;
 

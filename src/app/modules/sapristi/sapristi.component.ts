@@ -98,9 +98,11 @@ export class SapristiComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (!this.authService.isLoggedIn) {
-      this.router.navigate(['/', 'auth', 'login'], {queryParams: {redirectTo: '/sapristi'}});
-    }
+    this.authService.user$.subscribe(user => {
+      if (user === null) {
+        this.router.navigate(['/', 'auth', 'login'], {queryParams: {redirectTo: '/sapristi'}});
+      }
+    });
 
     this.stepperOrientation = this.breakpointObserver
       .observe('(min-width: 800px)')
