@@ -1,15 +1,19 @@
-<form [formGroup]="form">
+<form [formGroup]="form" class="sapristi-form">
   <div class="sapristi-form-block">
-    <h3>Intervention à l'extérieur</h3>
+    <h2>Intervention à l'extérieur</h2>
     <p>
       🌳 En plus des activités à domicile, seriez-vous intéressé·e pour <b>accompagner</b> la personne chez
       qui vous intervenez à l'<b>extérieur</b> de chez elle ? Pour par exemple <b>aller à une exposition</b>, à un <b>spectacle</b>,
       mais aussi faire du shopping, aller boire un café, se
       balader, etc.
     </p>
-    <div class="sapristi-form-radio-outside">
+    <div [ngClass]="{ 'vertical': isXs }"
+         class="sapristi-form-radio-outside-container">
       <p>Pas du tout</p>
-      <mat-radio-group [formControl]="form.controls.external_activity" aria-label="Volonté d'activité en extérieur">
+      <mat-radio-group [formControl]="form.controls.external_activity"
+                       [ngClass]="{ 'vertical': isXs }"
+                       aria-label="Volonté d'activité en extérieur"
+                       class="sapristi-form-radio-outside">
         <mat-radio-button [value]="1">1</mat-radio-button>
         <mat-radio-button [value]="2">2</mat-radio-button>
         <mat-radio-button [value]="3">3</mat-radio-button>
@@ -21,20 +25,20 @@
   </div>
 
   <div class="sapristi-form-block">
-    <h3>Aide ménagère</h3>
+    <h2>Aide ménagère</h2>
     <p>
       🧹Seriez vous également intéressé·e pour réaliser des heures <b>d'accompagnement au quotidien</b> pour
       la personne chez qui vous intervenez ? <b>(aide aux courses, aide au ménage,...)</b>
     </p>
-    <mat-radio-group [formControl]="form.controls.external_activity" aria-label="Volonté d'aide ménagère">
+    <mat-radio-group [formControl]="form.controls.cleaning_help" aria-label="Volonté d'aide ménagère">
       <mat-radio-button [value]="true">Oui</mat-radio-button>
       <mat-radio-button [value]="false">Non</mat-radio-button>
     </mat-radio-group>
   </div>
 
   <div class="sapristi-form-block">
-    <h3>Vos possibilités, vos limites</h3>
-    <h4>Cette partie a pour but d'identifier clairement vos limites.</h4>
+    <h2>Vos possibilités, vos limites</h2>
+    <h3>Cette partie a pour but d'identifier clairement vos limites.</h3>
     <p>
       🤫Les informations recueillies ici sont strictement confidentielles et ne seront pas diffusés au delà de l'équipe
       de SAPristi&compagnie.
@@ -54,25 +58,25 @@
   </div>
 
   <div class="sapristi-form-block">
-    <h3>Lieux</h3>
+    <h2>Lieux</h2>
     <p>
       Y a-t-il des lieux où vous ne souhaitez <b>PAS</b> intervenir ? (EHPAD, résidence sénior, certains services
       hospitaliers, etc.)
       <em>Si oui lesquels ?</em>
     </p>
-    <mat-form-field class="full-width">
+    <mat-form-field class="full-width-form-field">
       <mat-label>Lieux</mat-label>
       <textarea [formControl]="form.controls.banned_places" matInput placeholder="Votre réponse"></textarea>
     </mat-form-field>
   </div>
 
   <div class="sapristi-form-block">
-    <h3>Pathologies</h3>
+    <h2>Pathologies</h2>
     <p>
       Y a-t-il des pathologies ou handicaps auprès desquels (a priori) vous ne souhaitez <b>PAS</b> intervenir ?
       <em>Si oui lesquels ?</em>
     </p>
-    <mat-form-field class="full-width">
+    <mat-form-field class="full-width-form-field">
       <mat-label>Pathologies</mat-label>
       <textarea [formControl]="form.controls.banned_illnesses" matInput placeholder="Votre réponse"></textarea>
     </mat-form-field>

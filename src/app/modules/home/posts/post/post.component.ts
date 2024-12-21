@@ -107,7 +107,7 @@ export class PostComponent implements OnInit, OnDestroy {
 
   editPost() {
     if (this.postId) {
-      this.router.navigate(['/', 'posts', this.postId, 'edit']);
+      this.router.navigate(['/', 'home', 'posts', this.postId, 'edit']);
     }
   }
 
@@ -132,7 +132,7 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   handleOrganizationClick(organizationId: number) {
-    this.router.navigate(['/', 'organizations', organizationId]);
+    this.router.navigate(['/', 'home', 'organizations', organizationId]);
   }
 
 }

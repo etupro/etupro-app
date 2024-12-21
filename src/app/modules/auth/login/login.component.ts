@@ -47,7 +47,6 @@ export class LoginComponent {
     private router: Router,
     private route: ActivatedRoute // Inject ActivatedRoute to access query params
   ) {
-    // Read query parameter on initialization
     this.redirect = this.route.snapshot.queryParamMap.get('redirectTo');
   }
 

@@ -18,6 +18,7 @@ import { StudentInformation } from '../../shared/models/student-information';
 import { StudentInformationsService } from '../../shared/services/student-informations.service';
 import { SapristiFormComponent } from '../../shared/components/sapristi-form/sapristi-form.component';
 import { SapristiFormModel } from '../../shared/components/sapristi-form/sapristi-form.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sapristi',
@@ -47,9 +48,13 @@ export class SapristiComponent implements OnInit, OnDestroy {
   @ViewChild('stepper') stepper: MatStepper;
 
   profileForm = new FormGroup<UserProfileFormModel>({
-    display_name: new FormControl<string>('', {
+    firstname: new FormControl<string>('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.min(5)]
+      validators: [Validators.required]
+    }),
+    lastname: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required]
     }),
     description: new FormControl<string | null>(null),
     phone_number: new FormControl<string>('', {
@@ -73,8 +78,8 @@ export class SapristiComponent implements OnInit, OnDestroy {
   sapristiForm = new FormGroup<SapristiFormModel>({
     external_activity: new FormControl<number>(3, {nonNullable: true, validators: [Validators.required]}),
     cleaning_help: new FormControl<boolean>(false, {nonNullable: true, validators: [Validators.required]}),
-    banned_places: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
-    banned_illnesses: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
+    banned_places: new FormControl<string>('', {nonNullable: true, validators: []}),
+    banned_illnesses: new FormControl<string>('', {nonNullable: true, validators: []}),
   }, {
     updateOn: 'blur'
   });
@@ -88,10 +93,15 @@ export class SapristiComponent implements OnInit, OnDestroy {
               private userProfileService: UserProfileService,
               private studentInformationsService: StudentInformationsService,
               private storageService: StorageService,
-              private breakpointObserver: BreakpointObserver) {
+              private breakpointObserver: BreakpointObserver,
+              private router: Router) {
   }
 
   ngOnInit() {
+    if (!this.authService.isLoggedIn) {
+      this.router.navigate(['/', 'auth', 'login'], {queryParams: {redirectTo: '/sapristi'}});
+    }
+
     this.stepperOrientation = this.breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(

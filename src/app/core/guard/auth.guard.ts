@@ -10,8 +10,7 @@ export const authGuard: CanActivateFn = () => {
     map(userProfile => {
       if (userProfile) return true;
       else {
-        const currentUrl = router.url;
-        router.navigate(['/', 'auth', 'login'], {queryParams: {redirectTo: currentUrl}});
+        router.navigate(['/', 'auth', 'login']);
         return false;
       }
     })

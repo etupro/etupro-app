@@ -7,8 +7,9 @@ import { StudentInformation } from './student-information';
 export class UserProfile implements Tables<'user_profiles'> {
   id: number;
   user_id: string;
+  firstname: string;
+  lastname: string;
   student_information_id: number | null;
-  display_name: string;
   role: Role;
   description: string | null;
   phone_number: string | null;

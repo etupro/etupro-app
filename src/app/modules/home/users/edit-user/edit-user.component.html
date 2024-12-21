@@ -1,7 +1,7 @@
 <div class="app-page-container">
   <mat-card class="app-page-card">
     <mat-card-content>
-      <app-user-informations-form></app-user-informations-form>
+      <app-user-informations-form (saved)="handleSaved()" [userProfile]="userProfile"></app-user-informations-form>
     </mat-card-content>
   </mat-card>
 </div>

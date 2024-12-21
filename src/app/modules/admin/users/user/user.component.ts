@@ -36,7 +36,8 @@ import { MatToolbar } from '@angular/material/toolbar';
 export class UserComponent implements OnInit {
 
   userForm = new FormGroup({
-    displayName: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
+    firstname: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
+    lastname: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
     role: new FormControl<Role>('USER', {nonNullable: true, validators: [Validators.required]}),
     email: new FormControl('', {nonNullable: true, validators: [Validators.required, Validators.email]}),
   }, {
@@ -65,14 +66,16 @@ export class UserComponent implements OnInit {
     if (this.userId && this.userId !== 'new' && this.userId !== '') {
       this.userProfile = await this.adminService.getUserProfileByIdWithAuthUser(parseInt(this.userId));
       this.userForm.setValue({
-        displayName: this.userProfile?.display_name ?? '',
+        firstname: this.userProfile?.firstname ?? '',
+        lastname: this.userProfile?.lastname ?? '',
         role: this.userProfile?.role ?? 'USER',
         email: this.userProfile?.user?.email ?? '',
       }, {emitEvent: true});
       this.readonly = true;
     } else {
       this.userForm.setValue({
-        displayName: '',
+        firstname: '',
+        lastname: '',
         role: 'USER',
         email: '',
       });
@@ -93,16 +96,18 @@ export class UserComponent implements OnInit {
       return;
     }
 
-    const displayName = this.userForm.value.displayName;
+    const firstname = this.userForm.value.firstname;
+    const lastname = this.userForm.value.lastname;
     const role = this.userForm.value.role;
 
-    if (!displayName || !role) {
+    if (!firstname || !lastname || !role) {
       return;
     }
 
     const userProfileUpdate: UserProfile = {
       ...this.userProfile,
-      display_name: displayName,
+      firstname,
+      lastname,
       role,
       user: {
         ...this.userProfile.user,
@@ -112,7 +117,8 @@ export class UserComponent implements OnInit {
 
     this.userProfile = await this.adminService.updateUserProfileByIdWithAuthUser(parseInt(this.userId), userProfileUpdate);
     this.userForm.setValue({
-      displayName: this.userProfile?.display_name ?? '',
+      firstname: this.userProfile?.firstname ?? '',
+      lastname: this.userProfile?.lastname ?? '',
       role: this.userProfile?.role ?? 'USER',
       email: this.userProfile?.user?.email ?? '',
     });
@@ -120,17 +126,19 @@ export class UserComponent implements OnInit {
   }
 
   async createUser(): Promise<void> {
-    const displayName = this.userForm.value.displayName;
+    const firstname = this.userForm.value.firstname;
+    const lastname = this.userForm.value.lastname;
     const role = this.userForm.value.role;
     const email = this.userForm.value.email;
 
-    if (!displayName || !role || !email) {
+    if (!firstname || !lastname || !role || !email) {
       return;
     }
 
     const userProfileInsert: UserProfile.Insert = {
       ...this.userProfile,
-      display_name: displayName,
+      firstname,
+      lastname,
       role,
       user_id: '',
       user: {
@@ -148,7 +156,8 @@ export class UserComponent implements OnInit {
     }
 
     this.userForm.setValue({
-      displayName: this.userProfile.display_name,
+      firstname: this.userProfile.firstname,
+      lastname: this.userProfile.lastname,
       role: this.userProfile.role,
       email: this.userProfile.user?.email ?? '',
     }, {

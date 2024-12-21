@@ -2,23 +2,25 @@
   <mat-tab>
     <ng-template mat-tab-label>
       Informations
-      @if (profileForm.touched) {
+      @if (profileForm.touched && getErrorCount(profileForm) > 0) {
         <span matBadge="{{ getErrorCount(profileForm) }}" matBadgeOverlap="false"
               matBadgeColor="warn"></span>
       }
     </ng-template>
-    <app-profile-form [form]="profileForm"></app-profile-form>
+    <app-profile-form [form]="profileForm"
+                      [userProfile]="userProfile"></app-profile-form>
   </mat-tab>
 
   <mat-tab>
     <ng-template mat-tab-label>
       Étudiant
-      @if (studentForm.touched) {
+      @if (studentForm.touched && getErrorCount(studentForm) > 0) {
         <span matBadge="{{ getErrorCount(studentForm) }}" matBadgeOverlap="false"
               matBadgeColor="warn"></span>
       }
     </ng-template>
-    <app-student-form [form]="studentForm"></app-student-form>
+    <app-student-form [form]="studentForm"
+                      [studentInformations]="userProfile?.studentInformation ?? null"></app-student-form>
   </mat-tab>
 </mat-tab-group>
 

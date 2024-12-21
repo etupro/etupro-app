@@ -12,13 +12,24 @@
     <mat-card-content>
       <form (submit)="saveForm()" [formGroup]="userForm">
         <mat-form-field class="full-width-form-field">
-          <mat-label>Nom complet</mat-label>
-          <input [formControl]="userForm.controls.displayName"
+          <mat-label>Prénom</mat-label>
+          <input [formControl]="userForm.controls.firstname"
                  [readonly]="readonly"
                  [required]="!readonly"
                  matInput
-                 placeholder="Bob Razowski">
-          @if (!readonly && userForm.controls.displayName.errors?.['required']) {
+                 placeholder="Bob">
+          @if (!readonly && userForm.controls.firstname.errors?.['required']) {
+            <mat-error>Ce champs est requis</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="full-width-form-field">
+          <mat-label>Nom</mat-label>
+          <input [formControl]="userForm.controls.lastname"
+                 [readonly]="readonly"
+                 [required]="!readonly"
+                 matInput
+                 placeholder="Razowski">
+          @if (!readonly && userForm.controls.lastname.errors?.['required']) {
             <mat-error>Ce champs est requis</mat-error>
           }
         </mat-form-field>

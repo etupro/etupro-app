@@ -18,6 +18,7 @@ import { Map } from 'immutable';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { OrganizationsAutocompleteChipsInputComponent } from '../../../../shared/components/autocomplete-chips-input/organizations-autocomplete-chips-input/organizations-autocomplete-chips-input.component';
 import { UserOrganizationsService } from '../../../../shared/services/user-organizations.service';
+import { MatDivider } from '@angular/material/divider';
 
 @Component({
   selector: 'app-user',
@@ -34,7 +35,8 @@ import { UserOrganizationsService } from '../../../../shared/services/user-organ
     MatLabel,
     ReactiveFormsModule,
     PostCardComponent,
-    OrganizationsAutocompleteChipsInputComponent
+    OrganizationsAutocompleteChipsInputComponent,
+    MatDivider
   ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
@@ -46,7 +48,6 @@ export class UserComponent implements OnInit, OnDestroy {
   isOwner = false;
 
   profileForm = new FormGroup({
-    displayName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     organizations: new FormControl<number[]>([], {nonNullable: true}),
   }, {
@@ -114,7 +115,6 @@ export class UserComponent implements OnInit, OnDestroy {
 
     if (this.isOwner) {
       this.profileForm.setValue({
-        displayName: this.currentProfile.display_name,
         email: this.currentProfile.user?.email ?? null,
         organizations: this.currentProfile.organizations?.map(o => o.id) ?? [],
       }, {
@@ -122,7 +122,6 @@ export class UserComponent implements OnInit, OnDestroy {
       });
     } else {
       this.profileForm.setValue({
-        displayName: this.userProfile?.display_name,
         email: null,
         organizations: this.userProfile.organizations?.map(o => o.id) ?? [],
       }, {
@@ -146,12 +145,10 @@ export class UserComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const displayName = this.profileForm.value.displayName ?? '';
     const email = this.profileForm.value.email ?? '';
     const organizations = this.profileForm.value.organizations ?? [];
 
     await this.authService.updateUserEmail(email);
-    await this.userProfileService.update(this.userProfile.id, {display_name: displayName});
     await this.userOrganizationsService.update(this.userProfile.id, organizations);
     await this.authService.updateUserProfile();
     this.snackbarService.openSnackBar('Sauvegardé !');
@@ -159,6 +156,18 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   navigateToPost(postId: number) {
-    this.router.navigate(['/', 'posts', postId]);
+    this.router.navigate(['/', 'home', 'posts', postId]);
+  }
+
+  navigateToEdit() {
+    if (this.userProfile) {
+      this.router.navigate(['/', 'home', 'users', this.userProfile.id, 'edit']);
+    }
+  }
+
+  navigateToSapristi() {
+    if (this.userProfile) {
+      this.router.navigate(['/', 'sapristi']);
+    }
   }
 }

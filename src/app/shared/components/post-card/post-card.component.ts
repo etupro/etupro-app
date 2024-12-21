@@ -36,4 +36,7 @@ export class PostCardComponent {
     this.tagClick.emit(query);
   }
 
+  getPostAuthorName() {
+    return this.post.author ? this.post.author.firstname + ' ' + this.post.author.lastname : 'Anonyme';
+  }
 }

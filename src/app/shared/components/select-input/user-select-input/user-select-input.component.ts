@@ -40,7 +40,7 @@ export class UserSelectInputComponent implements OnInit, OnDestroy {
           this.allUsers = users.map(d => {
             return {
               value: d.id,
-              label: d.display_name
+              label: d.firstname + ' ' + d.lastname
             };
           }) ?? [];
           if (!this.required) {
@@ -48,7 +48,10 @@ export class UserSelectInputComponent implements OnInit, OnDestroy {
           }
         });
       } else {
-        this.allUsers = [ { value: userProfile?.id ?? 0, label: userProfile?.display_name ?? 'Anonyme' } ];
+        this.allUsers = [{
+          value: userProfile?.id ?? 0,
+          label: userProfile ? userProfile.firstname + ' ' + userProfile.lastname : 'Anonyme'
+        }];
       }
     }));
   }

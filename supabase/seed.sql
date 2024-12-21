@@ -20,6 +20,7 @@ VALUES (21, DEFAULT, 'sermalevxv'),
        (39, DEFAULT, 'clyohs'),
        (40, DEFAULT, 'pjghqa');
 SELECT setval('"public"."tags_id_seq"'::regclass, (SELECT MAX("id") FROM "public"."tags"));
+
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, invited_at,
                         confirmation_token, confirmation_sent_at, recovery_token, recovery_sent_at,
                         email_change_token_new, email_change, email_change_sent_at, last_sign_in_at, raw_app_meta_data,
@@ -157,17 +158,17 @@ VALUES ('7a323d04-6766-5859-b621-9bc4e99573ee', 'e4b1d357-403c-54da-bed9-9fed7ed
         }', 'f', '2020-04-12T04:06:56.000Z', '2020-07-03T18:32:16.000Z', DEFAULT,
         '2020-10-26T10:06:24.000Z', DEFAULT, DEFAULT, '2020-06-14T05:32:43.000Z', DEFAULT, DEFAULT,
         '2020-06-02T05:07:21.000Z', DEFAULT, '2020-08-20T19:24:27.000Z', DEFAULT, '2020-11-03T22:40:06.000Z', DEFAULT);
-INSERT INTO public.user_profiles (id, created_at, updated_at, display_name, user_id)
-VALUES (11, DEFAULT, DEFAULT, 'Mia Patel', 'e4b1d357-403c-54da-bed9-9fed7ed0839a'),
-       (12, DEFAULT, DEFAULT, 'Savannah Lee', 'f6f9a086-6ef3-5093-868c-2a588d447b92'),
-       (13, DEFAULT, DEFAULT, 'Michael Davis', '170931e6-1987-5e5f-967a-ee9b2300636c'),
-       (14, DEFAULT, DEFAULT, 'Sofia Lee', '18161b53-44bf-5c5e-b990-764822666468'),
-       (15, DEFAULT, DEFAULT, 'Olivia Kim', '132eb0a7-8d44-5839-b8f2-862031e624d8'),
-       (16, DEFAULT, DEFAULT, 'Olivia Kim', '617258c8-3b6d-5fef-9765-6977ab0051a1'),
-       (17, DEFAULT, DEFAULT, 'Savannah Lee', 'ed6946cc-d4aa-50bb-844f-739667f4367c'),
-       (18, DEFAULT, DEFAULT, 'Ethan Martin', 'b14deeef-8b95-55fa-ba3f-fed8ccd64531'),
-       (19, DEFAULT, DEFAULT, 'Axel Lee', '0f6c15ce-a0c9-54ab-9ef0-2d0d104c484e'),
-       (20, DEFAULT, DEFAULT, 'Gavin Kim', '5db27777-c023-548d-b68a-b2d1f8e1b232');
+INSERT INTO public.user_profiles (id, created_at, updated_at, firstname, lastname, user_id)
+VALUES (11, DEFAULT, DEFAULT, 'Mia', 'Patel', 'e4b1d357-403c-54da-bed9-9fed7ed0839a'),
+       (12, DEFAULT, DEFAULT, 'Savannah', 'Lee', 'f6f9a086-6ef3-5093-868c-2a588d447b92'),
+       (13, DEFAULT, DEFAULT, 'Michael', 'Davis', '170931e6-1987-5e5f-967a-ee9b2300636c'),
+       (14, DEFAULT, DEFAULT, 'Sofia', 'Lee', '18161b53-44bf-5c5e-b990-764822666468'),
+       (15, DEFAULT, DEFAULT, 'Olivia', 'Kim', '132eb0a7-8d44-5839-b8f2-862031e624d8'),
+       (16, DEFAULT, DEFAULT, 'Olivia', 'Kim', '617258c8-3b6d-5fef-9765-6977ab0051a1'),
+       (17, DEFAULT, DEFAULT, 'Savannah', 'Lee', 'ed6946cc-d4aa-50bb-844f-739667f4367c'),
+       (18, DEFAULT, DEFAULT, 'Ethan', 'Martin', 'b14deeef-8b95-55fa-ba3f-fed8ccd64531'),
+       (19, DEFAULT, DEFAULT, 'Axel', 'Lee', '0f6c15ce-a0c9-54ab-9ef0-2d0d104c484e'),
+       (20, DEFAULT, DEFAULT, 'Gavin', 'Kim', '5db27777-c023-548d-b68a-b2d1f8e1b232');
 INSERT INTO public.posts (id, created_at, updated_at, content, title, tags, user_profile_id)
 VALUES (11, DEFAULT, DEFAULT,
         'I''m so proud of myself for finally starting my own business! [link] #entrepreneur #newbusiness',
@@ -203,6 +204,19 @@ VALUES (11, DEFAULT, DEFAULT,
 SELECT setval('"public"."user_profiles_id_seq"'::regclass, (SELECT MAX("id") FROM "public"."user_profiles"));
 SELECT setval('"public"."posts_id_seq"'::regclass, (SELECT MAX("id") FROM "public"."posts"));
 
+-- insert several organizations
+INSERT INTO public.organizations (id, created_at, updated_at, name, owner)
+VALUES (1, DEFAULT, DEFAULT, 'Organization 1', 11),
+       (2, DEFAULT, DEFAULT, 'Organization 2', 12),
+       (3, DEFAULT, DEFAULT, 'Organization 3', 13),
+       (4, DEFAULT, DEFAULT, 'Organization 4', 14),
+       (5, DEFAULT, DEFAULT, 'Organization 5', 15),
+       (6, DEFAULT, DEFAULT, 'Organization 6', 16),
+       (7, DEFAULT, DEFAULT, 'Organization 7', 17),
+       (8, DEFAULT, DEFAULT, 'Organization 8', 18),
+       (9, DEFAULT, DEFAULT, 'Organization 9', 19),
+       (10, DEFAULT, DEFAULT, 'Organization 10', 20);
+
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, invited_at,
                         confirmation_token, confirmation_sent_at, recovery_token, recovery_sent_at,
                         email_change_token_new, email_change, email_change_sent_at, last_sign_in_at, raw_app_meta_data,
@@ -225,8 +239,8 @@ VALUES ('00000000-0000-0000-0000-000000000000', '92cecf8f-2bb3-41eb-86a4-680f749
     "phone_verified": false
   }', null, '2024-11-07 14:50:06.691705 +00:00', '2024-11-07 14:50:06.703652 +00:00', null, null, '', '', null, '', 0,
         null, '', null, false, null, false);
-INSERT INTO public.user_profiles (id, created_at, updated_at, display_name, user_id, role)
-VALUES (22, '2024-11-07 14:50:06.729835 +00:00', '2024-11-07 14:50:06.729835 +00:00', 'Lozach Maxime',
+INSERT INTO public.user_profiles (id, created_at, updated_at, firstname, lastname, user_id, role)
+VALUES (22, '2024-11-07 14:50:06.729835 +00:00', '2024-11-07 14:50:06.729835 +00:00', 'Maxime', 'Lozach',
         '92cecf8f-2bb3-41eb-86a4-680f7495d559', 'SUPER_ADMIN');
 
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, invited_at,
@@ -251,6 +265,22 @@ VALUES ('00000000-0000-0000-0000-000000000000', 'f5a609a3-e1a5-4b76-b190-08d36e9
     "phone_verified": false
   }', null, '2024-11-16 13:34:30.865130 +00:00', '2024-11-16 14:11:23.490802 +00:00', null, null, '', '', null, '', 0,
         null, '', null, false, null, false);
-INSERT INTO public.user_profiles (id, created_at, updated_at, display_name, user_id, role)
-VALUES (21, '2024-11-16 13:34:30.881687 +00:00', '2024-11-16 13:34:30.881687 +00:00', 'Test user',
+INSERT INTO public.user_profiles (id, created_at, updated_at, firstname, lastname, user_id, role)
+VALUES (21, '2024-11-16 13:34:30.881687 +00:00', '2024-11-16 13:34:30.881687 +00:00', 'Test', 'User',
         'f5a609a3-e1a5-4b76-b190-08d36e9f7d26', 'USER');
+
+insert into user_organizations (user_profile_id, organization_id)
+values (11, 1),
+       (12, 2),
+       (13, 3),
+       (21, 3),
+       (22, 3),
+       (14, 4),
+       (15, 5),
+       (16, 6),
+       (21, 6),
+       (17, 7),
+       (18, 8),
+       (22, 8),
+       (19, 9),
+       (20, 10);
