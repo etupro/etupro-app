@@ -26,7 +26,7 @@ export class UserProfileService {
   async getById(id: number): Promise<UserProfile | null> {
     const response = await this.supabaseService.client
       .from('user_profiles')
-      .select('*, organizations!user_organizations(*), studentInformation:student_informations(*)')
+      .select('*, organizations!user_organizations(*)')
       .eq('id', id)
       .single();
 
@@ -40,7 +40,7 @@ export class UserProfileService {
   async getByUserId(id: string): Promise<UserProfile | null> {
     const response = await this.supabaseService.client
       .from('user_profiles')
-      .select('*, organizations!user_organizations(*), studentInformation:student_informations(*)')
+      .select('*, organizations!user_organizations(*), studentInformation:student_informations(*), sapristiInformation:sapristi_informations(*)')
       .eq('user_id', id)
       .single();
 
@@ -55,7 +55,7 @@ export class UserProfileService {
     const response = await this.supabaseService.client
       .from('user_profiles')
       .insert(userProfile)
-      .select('*, organizations!user_organizations(*)')
+      .select('*, organizations!user_organizations(*), studentInformation:student_informations(*), sapristiInformation:sapristi_informations(*)')
       .single();
 
     if (response.error) {
@@ -74,7 +74,7 @@ export class UserProfileService {
         updated_at: DateTime.now().toISO()
       })
       .eq('id', id)
-      .select('*, organizations!user_organizations(*)')
+      .select('*, organizations!user_organizations(*), studentInformation:student_informations(*), sapristiInformation:sapristi_informations(*)')
       .single();
 
     if (response.error) {

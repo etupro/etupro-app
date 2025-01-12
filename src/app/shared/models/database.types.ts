@@ -289,35 +289,81 @@ export type Database = {
         }
         Relationships: []
       }
+      sapristi_informations: {
+        Row: {
+          banned_illnesses: string
+          banned_places: string
+          cleaning_help: boolean
+          created_at: string
+          external_activity: number
+          updated_at: string
+          user_profile_id: number
+        }
+        Insert: {
+          banned_illnesses: string
+          banned_places: string
+          cleaning_help: boolean
+          created_at?: string
+          external_activity: number
+          updated_at?: string
+          user_profile_id?: number
+        }
+        Update: {
+          banned_illnesses?: string
+          banned_places?: string
+          cleaning_help?: boolean
+          created_at?: string
+          external_activity?: number
+          updated_at?: string
+          user_profile_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'sapristi_informations_user_profile_id_fkey'
+            columns: ['user_profile_id']
+            isOneToOne: true
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       student_informations: {
         Row: {
           created_at: string
-          id: number
           skills: string[]
           study_institute: string
           study_label: string
           study_level: string
           updated_at: string
+          user_profile_id: number
         }
         Insert: {
           created_at?: string
-          id?: number
           skills?: string[]
           study_institute: string
           study_label: string
           study_level: string
           updated_at?: string
+          user_profile_id?: number
         }
         Update: {
           created_at?: string
-          id?: number
           skills?: string[]
           study_institute?: string
           study_label?: string
           study_level?: string
           updated_at?: string
+          user_profile_id?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: 'student_informations_user_profile_id_fkey'
+            columns: ['user_profile_id']
+            isOneToOne: true
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['id']
+          },
+        ]
       }
       tags: {
         Row: {
@@ -377,7 +423,6 @@ export type Database = {
           phone_number: string | null
           picture_path: string | null
           role: Database["public"]["Enums"]["roles"]
-          student_information_id: number | null
           updated_at: string
           user_id: string
         }
@@ -390,7 +435,6 @@ export type Database = {
           phone_number?: string | null
           picture_path?: string | null
           role?: Database["public"]["Enums"]["roles"]
-          student_information_id?: number | null
           updated_at?: string
           user_id: string
         }
@@ -403,19 +447,10 @@ export type Database = {
           phone_number?: string | null
           picture_path?: string | null
           role?: Database["public"]["Enums"]["roles"]
-          student_information_id?: number | null
           updated_at?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: 'user_profiles_student_information_id_fkey'
-            columns: ['student_information_id']
-            isOneToOne: true
-            referencedRelation: 'student_informations'
-            referencedColumns: ['id']
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {

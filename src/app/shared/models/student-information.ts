@@ -1,7 +1,7 @@
 import { Tables, TablesInsert, TablesUpdate } from './database.types';
 
 export class StudentInformation implements Tables<'student_informations'> {
-  id: number;
+  user_profile_id: number;
   study_institute: string;
   study_label: string;
   study_level: string;

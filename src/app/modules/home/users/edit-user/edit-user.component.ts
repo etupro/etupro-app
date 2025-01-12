@@ -36,7 +36,9 @@ export class EditUserComponent implements OnInit {
       this.userId = params['id'] === 'new' ? null : parseInt(params['id']);
       if (this.userId) {
         this.userProfile = await this.userProfileService.getById(this.userId);
-
+        if (this.userProfile) {
+          this.userProfile = await this.userProfileService.getByUserId(this.userProfile.user_id);
+        }
       }
     }));
   }

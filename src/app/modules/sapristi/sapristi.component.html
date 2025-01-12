@@ -71,7 +71,8 @@
       <div class="app-page-container">
         <mat-card class="app-page-card">
           <mat-card-content>
-            <app-sapristi-form [form]="sapristiForm"></app-sapristi-form>
+            <app-sapristi-form [form]="sapristiForm"
+                               [sapristiInformation]="userProfile?.sapristiInformation ?? null"></app-sapristi-form>
             <div>
               <button mat-button matStepperPrevious>Précédent</button>
               <button (click)="saveSapristi()" mat-button>Suivant</button>
