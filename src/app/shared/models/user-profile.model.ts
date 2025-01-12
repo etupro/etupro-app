@@ -3,13 +3,13 @@ import { User } from '@supabase/supabase-js';
 import { Role } from './enum/role.enum';
 import { Organization } from './organiazation.model';
 import { StudentInformation } from './student-information';
+import { SapristiInformation } from './sapristi-information';
 
 export class UserProfile implements Tables<'user_profiles'> {
   id: number;
   user_id: string;
   firstname: string;
   lastname: string;
-  student_information_id: number | null;
   role: Role;
   description: string | null;
   phone_number: string | null;
@@ -19,6 +19,7 @@ export class UserProfile implements Tables<'user_profiles'> {
 
   user?: User;
   studentInformation?: StudentInformation | null;
+  sapristiInformation?: SapristiInformation | null;
   organizations?: Organization[];
 }
 

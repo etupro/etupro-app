@@ -1,35 +1,35 @@
 import { Injectable } from '@angular/core';
 import { DateTime } from 'luxon';
-import { StudentInformation } from '../models/student-information';
 import { SupabaseService } from './supabase.service';
+import { SapristiInformation } from '../models/sapristi-information';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudentInformationsService {
+export class SapristiInformationsService {
 
   constructor(private supabaseService: SupabaseService) {
   }
 
-  async create(studentInformation: StudentInformation.Insert): Promise<StudentInformation> {
+  async create(sapristiInformation: SapristiInformation.Insert): Promise<SapristiInformation> {
     const response = await this.supabaseService.client
-      .from('student_informations')
-      .insert(studentInformation)
+      .from('sapristi_informations')
+      .insert(sapristiInformation)
       .select('*')
       .single();
 
     if (response.error) {
-      throw new Error('Erreur lors de la création des information étudiantes', {cause: response.error});
+      throw new Error('Erreur lors de la création des information sapristi', {cause: response.error});
     }
 
     return response.data;
   }
 
-  async update(id: number, studentInformation: StudentInformation.Update): Promise<StudentInformation> {
+  async update(id: number, sapristiInformation: SapristiInformation.Update): Promise<SapristiInformation> {
     const response = await this.supabaseService.client
-      .from('student_informations')
+      .from('sapristi_informations')
       .update({
-        ...studentInformation,
+        ...sapristiInformation,
         user_profile_id: id,
         updated_at: DateTime.now().toISO()
       })
@@ -38,7 +38,7 @@ export class StudentInformationsService {
       .single();
 
     if (response.error) {
-      throw new Error('Erreur lors de la mise à jour des information étudiantes', {cause: response.error});
+      throw new Error('Erreur lors de la mise à jour des information sapristi', {cause: response.error});
     }
 
     return response.data;

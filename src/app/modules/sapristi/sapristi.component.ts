@@ -19,6 +19,8 @@ import { StudentInformationsService } from '../../shared/services/student-inform
 import { SapristiFormComponent } from '../../shared/components/sapristi-form/sapristi-form.component';
 import { SapristiFormModel } from '../../shared/components/sapristi-form/sapristi-form.model';
 import { Router } from '@angular/router';
+import { SapristiInformation } from '../../shared/models/sapristi-information';
+import { SapristiInformationsService } from '../../shared/services/sapristi-informations.service';
 
 @Component({
   selector: 'app-sapristi',
@@ -70,7 +72,7 @@ export class SapristiComponent implements OnInit, OnDestroy {
     study_institute: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
     study_level: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
     study_label: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
-    skills: new FormControl<string[]>([], {nonNullable: true, validators: [Validators.required]}),
+    skills: new FormControl<string[]>([], {nonNullable: true, validators: []}),
   }, {
     updateOn: 'blur'
   });
@@ -92,6 +94,7 @@ export class SapristiComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService,
               private userProfileService: UserProfileService,
               private studentInformationsService: StudentInformationsService,
+              private sapristiInformationsService: SapristiInformationsService,
               private storageService: StorageService,
               private breakpointObserver: BreakpointObserver,
               private router: Router) {
@@ -149,17 +152,17 @@ export class SapristiComponent implements OnInit, OnDestroy {
           ...this.studentForm.value,
         };
 
-        await this.studentInformationsService.update(this.userProfile.studentInformation.id, studentInformationUpdate);
+        await this.studentInformationsService.update(this.userProfile.id, studentInformationUpdate);
       } else {
         const studentInformationInsert: StudentInformation.Insert = {
+          user_profile_id: this.userProfile.id,
           study_institute: this.studentForm.value.study_institute!,
           study_level: this.studentForm.value.study_level!,
           study_label: this.studentForm.value.study_label!,
-          skills: this.studentForm.value.skills!,
+          skills: this.studentForm.value.skills ?? [],
         };
 
-        const newStudentInformation = await this.studentInformationsService.create(studentInformationInsert);
-        this.userProfileService.update(this.userProfile.id, {student_information_id: newStudentInformation.id});
+        await this.studentInformationsService.create(studentInformationInsert);
       }
 
       await this.authService.updateUserProfile();
@@ -169,6 +172,30 @@ export class SapristiComponent implements OnInit, OnDestroy {
   }
 
   async saveSapristi() {
-    console.log(this.sapristiForm.value);
+    this.sapristiForm.markAllAsTouched();
+    if (this.sapristiForm.valid && this.userProfile) {
+
+      if (this.userProfile.sapristiInformation) {
+        const sapristiInformationUpdate: SapristiInformation.Update = {
+          ...this.sapristiForm.value,
+        };
+
+        await this.sapristiInformationsService.update(this.userProfile.id, sapristiInformationUpdate);
+      } else {
+        const sapristiInformationInsert: SapristiInformation.Insert = {
+          user_profile_id: this.userProfile.id,
+          external_activity: this.sapristiForm.value.external_activity ?? 3,
+          cleaning_help: this.sapristiForm.value.cleaning_help ?? false,
+          banned_places: this.sapristiForm.value.banned_places ?? '',
+          banned_illnesses: this.sapristiForm.value.banned_illnesses ?? '',
+        };
+
+        await this.sapristiInformationsService.create(sapristiInformationInsert);
+      }
+
+      await this.authService.updateUserProfile();
+
+      this.stepper.next();
+    }
   }
 }

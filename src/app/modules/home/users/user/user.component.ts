@@ -80,6 +80,9 @@ export class UserComponent implements OnInit, OnDestroy {
           if (userProfile) {
             this.userProfile = userProfile;
             this.isOwner = this.checkIfCurrentUser();
+            if (this.isOwner) {
+              this.userProfile = await this.userProfileService.getByUserId(userProfile.user_id);
+            }
             this.resetForm();
             this.posts = await this.postService.getAllByUserProfileId(userProfile.id);
             const covers = this.posts.map(post => post.cover).filter(Boolean) as string[];

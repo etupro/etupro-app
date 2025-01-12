@@ -51,15 +51,16 @@ export class UserInformationsFormComponent {
     }),
     picture_path: new FormControl<File | null>(null),
   }, {
-    updateOn: 'submit'
+    updateOn: 'blur'
   });
+
   studentForm = new FormGroup<StudentInformationsFormModel>({
     study_institute: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
     study_level: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
     study_label: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
-    skills: new FormControl<string[]>([], {nonNullable: true, validators: [Validators.required]}),
+    skills: new FormControl<string[]>([], {nonNullable: true, validators: []}),
   }, {
-    updateOn: 'submit'
+    updateOn: 'blur'
   });
 
   constructor(private storageService: StorageService,
@@ -84,9 +85,9 @@ export class UserInformationsFormComponent {
     if (this.profileForm.valid && this.studentForm.valid) {
       await this.saveUserProfile();
       await this.saveStudentInformation();
-    }
 
-    this.saved.emit();
+      this.saved.emit();
+    }
   }
 
   async saveUserProfile() {
@@ -105,24 +106,26 @@ export class UserInformationsFormComponent {
   }
 
   async saveStudentInformation() {
-    if (this.userProfile?.studentInformation) {
-      const studentInformationUpdate: StudentInformation.Update = {
-        ...this.studentForm.value,
-      };
+    if (this.userProfile) {
+      if (this.userProfile.studentInformation) {
+        const studentInformationUpdate: StudentInformation.Update = {
+          ...this.studentForm.value,
+        };
 
-      await this.studentInformationsService.update(this.userProfile.studentInformation.id, studentInformationUpdate);
-    } else {
-      const studentInformationInsert: StudentInformation.Insert = {
-        study_institute: this.studentForm.value.study_institute!,
-        study_level: this.studentForm.value.study_level!,
-        study_label: this.studentForm.value.study_label!,
-        skills: this.studentForm.value.skills!,
-      };
+        await this.studentInformationsService.update(this.userProfile.id, studentInformationUpdate);
+      } else {
+        const studentInformationInsert: StudentInformation.Insert = {
+          user_profile_id: this.userProfile.id,
+          study_institute: this.studentForm.value.study_institute!,
+          study_level: this.studentForm.value.study_level!,
+          study_label: this.studentForm.value.study_label!,
+          skills: this.studentForm.value.skills!,
+        };
 
-      const newStudentInformation = await this.studentInformationsService.create(studentInformationInsert);
-      this.userProfileService.update(this.userProfile!.id, {student_information_id: newStudentInformation.id});
+        await this.studentInformationsService.create(studentInformationInsert);
+      }
+
+      await this.authService.updateUserProfile();
     }
-
-    await this.authService.updateUserProfile();
   }
 }
