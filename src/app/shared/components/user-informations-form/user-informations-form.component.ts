@@ -51,15 +51,16 @@ export class UserInformationsFormComponent {
     }),
     picture_path: new FormControl<File | null>(null),
   }, {
-    updateOn: 'submit'
+    updateOn: 'blur'
   });
+
   studentForm = new FormGroup<StudentInformationsFormModel>({
     study_institute: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
     study_level: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
     study_label: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
-    skills: new FormControl<string[]>([], {nonNullable: true, validators: [Validators.required]}),
+    skills: new FormControl<string[]>([], {nonNullable: true, validators: []}),
   }, {
-    updateOn: 'submit'
+    updateOn: 'blur'
   });
 
   constructor(private storageService: StorageService,
@@ -84,9 +85,9 @@ export class UserInformationsFormComponent {
     if (this.profileForm.valid && this.studentForm.valid) {
       await this.saveUserProfile();
       await this.saveStudentInformation();
-    }
 
-    this.saved.emit();
+      this.saved.emit();
+    }
   }
 
   async saveUserProfile() {
